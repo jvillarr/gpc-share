@@ -10,7 +10,7 @@
 [width="100%", options="header"]
 |====
 | Name | title | Phone | E-mail
-| Chris yates | Service Delivery Manager | 843-670-2513
+| Chris Yates | Service Delivery Manager | 843-670-2513 | cyates@redhat.com
 | Russ Builta | Domain Architect | | rbuilta@redhat.com
 | Jose Simonelli | Domain Architect | | jose@redhat.com
 | James Villareal | On-site Consultant | | jvillarr@redhat.com
