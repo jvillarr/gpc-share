@@ -1,0 +1,28 @@
+*.gem
+*.rbc
+~*
+.~*
+.bundle
+.config
+.idea
+.idea/*
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+journal/images/icons/*
+journal/MCICOM.xml
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+
+# Emacs temporary files
+*#
+.#*

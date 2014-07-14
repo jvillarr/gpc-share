@@ -1,0 +1,892 @@
+---
+- MiqAlert:
+    guid: d59185a4-40bc-11de-bd12-005056a170fa
+    description: CPU Ready > 4000 ms for more than 10 min
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: realtime_performance
+      :options:
+        :operator: ! '>'
+        :perf_column: cpu_ready_delta_summation
+        :value_threshold: '4000'
+        :rt_time_threshold: 600
+    responds_to_events: vm_perf_complete
+    enabled: 
+- MiqAlert:
+    guid: 20d93374-fde1-11e1-a360-005056b25af6
+    description: CPU Usage > 50
+    options:
+      :notifications:
+        :delay_next_evaluation: 600
+        :evm_event: {}
+        :automate:
+          :event_name: alert_cpu
+    db: Vm
+    expression:
+      :eval_method: realtime_performance
+      :mode: internal
+      :options:
+        :perf_column: cpu_usage_rate_average
+        :operator: ! '>'
+        :value_threshold: '50'
+        :trend_direction: none
+        :trend_steepness: 
+        :debug_trace: 'false'
+        :rt_time_threshold: 60
+    responds_to_events: vm_perf_complete
+    enabled: true
+- MiqAlert:
+    guid: 5bfdef56-13d2-11e2-a735-005056b057a8
+    description: CPU Usage Exceeds 90% For More Than 1 Min
+    options:
+      :notifications:
+        :delay_next_evaluation: 600
+        :snmp:
+          :host:
+          - 192.168.255.26
+          :trap_id: 1.3.6.1.4.1.33482.3
+          :snmp_version: v2
+          :variables:
+          - :oid: description
+            :var_type: OctetString
+            :value: Virtual Machine
+          - :oid: category
+            :var_type: OctetString
+            :value: Perfomance
+          - :oid: Message
+            :var_type: OctetString
+            :value: ${cause.description}
+          - :oid: object
+            :var_type: OctetString
+            :value: Name:${object.name}
+          - :oid: location
+            :var_type: OctetString
+            :value: Datastore:${object.path}
+          - :oid: platform
+            :var_type: OctetString
+            :value: OS:${object.platform}
+          - :oid: url
+            :var_type: OctetString
+            :value: http://10.10.1.200/VM/${object.id}
+          - :oid: source
+            :var_type: OctetString
+            :value: EVM:${object.ems}
+          - :oid: custom1
+            :var_type: OctetString
+            :value: Created:${object.created_on} Retires:${retires_on}
+          - :oid: custom2
+            :var_type: OctetString
+            :value: ! 'Cluster:${object.ems_cluster_name} Host: ${object.host_name}'
+    db: Vm
+    expression:
+      :eval_method: realtime_performance
+      :mode: internal
+      :options:
+        :value_threshold: '90'
+        :perf_column: v_pct_cpu_used_delta_summation
+        :trend_steepness: 
+        :rt_time_threshold: 60
+        :trend_direction: none
+        :operator: ! '>'
+        :debug_trace: 'false'
+    responds_to_events: vm_perf_complete
+    enabled: true
+- MiqAlert:
+    guid: 59174666-cfed-11e2-a54c-000c2980bea6
+    description: CloudFLEX
+    options:
+      :notifications:
+        :delay_next_evaluation: 120
+        :evm_event: {}
+        :automate:
+          :event_name: CloudFLEX_EVENT
+    db: Vm
+    expression:
+      :eval_method: realtime_performance
+      :mode: !binary |-
+        aW50ZXJuYWw=
+      :options:
+        :perf_column: v_pct_cpu_used_delta_summation
+        :operator: !binary |-
+          Pg==
+        :value_threshold: '50'
+        :trend_direction: !binary |-
+          bm9uZQ==
+        :trend_steepness: 
+        :debug_trace: !binary |-
+          ZmFsc2U=
+        :rt_time_threshold: 120
+    responds_to_events: vm_perf_complete
+    enabled: true
+- MiqAlert:
+    guid: eb88f942-c23e-11de-a3be-000c290de4f9
+    description: Cluster DRS not enabled
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: EmsCluster
+    expression: !ruby/object:MiqExpression
+      exp:
+        =:
+          value: 'false'
+          field: EmsCluster-drs_enabled
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 196868de-c23f-11de-a3be-000c290de4f9
+    description: Cluster HA not enabled
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: EmsCluster
+    expression: !ruby/object:MiqExpression
+      exp:
+        =:
+          value: 'false'
+          field: EmsCluster-ha_enabled
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 82f853b0-bf36-11de-b3b4-000c290de4f9
+    description: Datacenter VMs > 10
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Storage
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '>':
+          value: 10
+          field: Storage-v_total_vms
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 655cccda-6ae5-11e0-bdef-005056a461b8
+    description: Datastore Free Space <= 10%
+    options:
+      :notifications:
+        :snmp:
+          :variables:
+          - :value: ! 'MIQ Datatstore Alert: DEMO'
+            :oid: category
+            :var_type: OctetString
+          - :value: Datastore Free Space <= 10%
+            :oid: message
+            :var_type: OctetString
+          :host:
+          - 204.130.60.75
+          :trap_id: critical
+          :snmp_version: v2
+        :delay_next_evaluation: 86400
+        :email:
+          :from: ''
+          :to:
+          - cloud_ops@miq.net
+        :evm_event: {}
+    db: Storage
+    expression: !ruby/object:MiqExpression
+      exp:
+        <=:
+          value: '10'
+          field: Storage-v_free_space_percent_of_total
+      context_type: 
+    responds_to_events: _hourly_timer_
+    enabled: true
+- MiqAlert:
+    guid: f0782622-fa6c-11e0-98ad-005056be005b
+    description: EVM Server High App Disk Usage
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: MiqServer
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: evm_server_app_disk_high_usage
+    enabled: true
+- MiqAlert:
+    guid: 50b6ae6e-fa6d-11e0-a117-005056be005b
+    description: EVM Server High DB Disk Usage
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: MiqServer
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: evm_server_db_disk_high_usage
+    enabled: true
+- MiqAlert:
+    guid: 6f0f695a-fa6d-11e0-a117-005056be005b
+    description: EVM Server High Log Disk Usage
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: MiqServer
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: evm_server_log_disk_high_usage
+    enabled: true
+- MiqAlert:
+    guid: 8ef83828-fa6d-11e0-98ad-005056be005b
+    description: EVM Server High System Disk Usage
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: MiqServer
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: evm_server_system_disk_high_usage
+    enabled: true
+- MiqAlert:
+    guid: 3bfdde58-fa6c-11e0-a117-005056be005b
+    description: EVM Server Not Responding
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: MiqServer
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: evm_server_not_responding
+    enabled: true
+- MiqAlert:
+    guid: cdf91470-fa6d-11e0-a117-005056be005b
+    description: EVM Server Started
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: MiqServer
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: evm_server_start
+    enabled: true
+- MiqAlert:
+    guid: fc2ae066-44b8-11de-900a-005056a170fa
+    description: Host  Event Log Error - Failed to validate VM IP address
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Host
+    expression:
+      :mode: internal
+      :eval_method: hostd_log_threshold
+      :options:
+        :event_log_message_filter_type: INCLUDES
+        :event_log_source: VmMisc
+        :freq_threshold: '2'
+        :event_log_message_filter_value: Failed to validate VM IP address
+        :time_threshold: 86400
+    responds_to_events: host_scan_complete
+    enabled: 
+- MiqAlert:
+    guid: 0bd6ac74-fa70-11e0-a117-005056be005b
+    description: Host Credentials Authentication Error
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: Host
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: host_auth_error
+    enabled: true
+- MiqAlert:
+    guid: 3599fa6e-f9d7-11e0-a117-005056be005b
+    description: Host Credentials are Invalid
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: Host
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: host_auth_invalid
+    enabled: true
+- MiqAlert:
+    guid: 9bc0d572-40bd-11de-bd12-005056a170fa
+    description: Host Datastore < 5% of Free Space
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Host
+    expression: !ruby/object:MiqExpression
+      exp:
+        FIND:
+          checkany:
+            ! '>':
+              value: 95
+              field: Host.storages-v_used_space_percent_of_total
+          search:
+            IS NOT NULL:
+              field: Host.storages-name
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 8a6d32a8-44b8-11de-900a-005056a170fa
+    description: ! 'Host Event Log Error - Memory Exceed Soft Limit '
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Host
+    expression:
+      :mode: internal
+      :eval_method: hostd_log_threshold
+      :options:
+        :event_log_message_filter_type: INCLUDES
+        :event_log_source: Memory checker
+        :freq_threshold: '2'
+        :event_log_message_filter_value: exceeds soft limit
+        :event_log_level: warn
+        :time_threshold: 86400
+    responds_to_events: host_scan_complete
+    enabled: 
+- MiqAlert:
+    guid: 561d023c-bf36-11de-b3b4-000c290de4f9
+    description: Host VMs >10
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Host
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '>':
+          value: 10
+          field: Host-v_total_vms
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: a6c34cee-94f3-11df-92e9-0050569a006f
+    description: Max - Allocated RAM per VM
+    options:
+      :notifications:
+        :delay_next_evaluation: 3600
+        :evm_event: {}
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '>':
+          value: '255'
+          field: Vm-mem_cpu
+      context_type: 
+    responds_to_events: vm_discover
+    enabled: true
+- MiqAlert:
+    guid: ddfd7df4-950e-11df-b1e3-0050568a6293
+    description: Max - Hosts per Cluster
+    options:
+      :notifications:
+        :delay_next_evaluation: 3600
+        :evm_event: {}
+    db: EmsCluster
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '>':
+          count: EmsCluster.hosts
+          value: '32'
+      context_type: 
+    responds_to_events: host_connect
+    enabled: true
+- MiqAlert:
+    guid: 7129b8d8-978d-11df-8cd7-0050569a4433
+    description: Max - vCPU per Core >20
+    options:
+      :notifications:
+        :delay_next_evaluation: 3600
+        :evm_event: {}
+    db: Host
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '>':
+          value: '20'
+          field: Host.ems_cluster-v_cpu_vr_ratio
+      context_type: 
+    responds_to_events: host_connect
+    enabled: true
+- MiqAlert:
+    guid: 2f4e5e06-94f3-11df-92e9-0050569a006f
+    description: Max - vCpus per VM
+    options:
+      :notifications:
+        :delay_next_evaluation: 3600
+        :evm_event: {}
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '>':
+          value: '8'
+          field: Vm.hardware-numvcpus
+      context_type: 
+    responds_to_events: vm_discover
+    enabled: true
+- MiqAlert:
+    guid: dab5b816-f789-11e1-9144-005056b25af6
+    description: Test - VM Analysis Complete
+    options:
+      :notifications:
+        :delay_next_evaluation: 300
+        :email:
+          :to:
+          - scottfisher1@gmail.com
+        :evm_event: {}
+    db: Vm
+    expression:
+      :eval_method: nothing
+      :mode: internal
+      :options: {}
+    responds_to_events: vm_scan_complete
+    enabled: true
+- MiqAlert:
+    guid: 391d87fc-fa70-11e0-98ad-005056be005b
+    description: VC Authentication Error
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: ExtManagementSystem
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: ems_auth_error
+    enabled: true
+- MiqAlert:
+    guid: 576aabca-f9d7-11e0-a117-005056be005b
+    description: VC Credentials are Invalid
+    options:
+      :notifications:
+        :delay_next_evaluation: 14400
+        :evm_event: {}
+    db: ExtManagementSystem
+    expression:
+      :mode: internal
+      :eval_method: nothing
+      :options: {}
+    responds_to_events: ems_auth_invalid
+    enabled: true
+- MiqAlert:
+    guid: 58e8a372-bff9-11de-b3b4-000c290de4f9
+    description: VM CD Drive or Floppy Connected
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        or:
+        - FIND:
+            checkall:
+              STARTS WITH:
+                value: 'true'
+                field: Vm.hardware.disks-start_connected
+            search:
+              INCLUDES:
+                value: cdrom
+                field: Vm.hardware.disks-device_type
+        - FIND:
+            checkall:
+              INCLUDES:
+                value: 'true'
+                field: Vm.hardware.disks-start_connected
+            search:
+              INCLUDES:
+                value: floppy
+                field: Vm.hardware.disks-device_type
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: ce2f8846-44a5-11de-b543-005056a170fa
+    description: VM CPU count was decreased
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: reconfigured_hardware_value
+      :options:
+        :operator: Decreased
+        :hdw_attr: :numvcpus
+    responds_to_events: vm_reconfigure
+    enabled: 
+- MiqAlert:
+    guid: c2fc477a-44a5-11de-b543-005056a170fa
+    description: VM CPU count was increased
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: reconfigured_hardware_value
+      :options:
+        :operator: Increased
+        :hdw_attr: :numvcpus
+    responds_to_events: vm_reconfigure
+    enabled: 
+- MiqAlert:
+    guid: 4077943a-c240-11de-a3be-000c290de4f9
+    description: VM Environment Tag <> Datastore Environment Tag
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        and:
+        - CONTAINS:
+            tag: Vm.managed-environment
+            value: prod
+        - not:
+            CONTAINS:
+              tag: Vm.storage.managed-environment
+              value: prod
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 89db0be8-c240-11de-a3be-000c290de4f9
+    description: VM Environment Tag <> Host Environment Tag
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        and:
+        - CONTAINS:
+            tag: Vm.managed-environment
+            value: prod
+        - not:
+            CONTAINS:
+              tag: Vm.host.managed-environment
+              value: prod
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 731da3b2-40bc-11de-bd12-005056a170fa
+    description: ! 'VM Guest C: Drive < 10% Free'
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        and:
+        - =:
+            value: windows
+            field: Vm-platform
+        - FIND:
+            checkall:
+              <:
+                value: 10
+                field: Vm.hardware.volumes-free_space_percent
+            search:
+              =:
+                value: ! 'C:'
+                field: Vm.hardware.volumes-name
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 1bb81254-44a6-11de-b543-005056a170fa
+    description: VM Guest Windows Event Log Error - NtpClient
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: event_log_threshold
+      :options:
+        :event_log_message_filter_type: INCLUDES
+        :freq_threshold: '1'
+        :event_log_message_filter_value: NtpClient
+        :event_log_level: error
+        :time_threshold: 86400
+    responds_to_events: vm_scan_complete
+    enabled: 
+- MiqAlert:
+    guid: f8b870d0-c23d-11de-a3be-000c290de4f9
+    description: VM Memory Balloon > 250 in last 10 min
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: realtime_performance
+      :options:
+        :operator: ! '>'
+        :perf_column: mem_vmmemctl_absolute_average
+        :value_threshold: '250'
+        :rt_time_threshold: 600
+    responds_to_events: vm_perf_complete
+    enabled: 
+- MiqAlert:
+    guid: fbe4b5ee-447e-11de-aaba-005056a170fa
+    description: VM Memory was decreased
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: reconfigured_hardware_value
+      :options:
+        :operator: Decreased
+        :hdw_attr: memory_cpu
+    responds_to_events: vm_reconfigure
+    enabled: 
+- MiqAlert:
+    guid: e750cdcc-447c-11de-aaba-005056a170fa
+    description: VM Memory was increased
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: reconfigured_hardware_value
+      :options:
+        :operator: Increased
+        :hdw_attr: memory_cpu
+    responds_to_events: vm_reconfigure
+    enabled: 
+- MiqAlert:
+    guid: 3cfbb5ce-40be-11de-bd12-005056a170fa
+    description: VM Migration > 1 in last 30 min
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: event_threshold
+      :options:
+        :event_types:
+        - RelocateVM_Task_Complete
+        :freq_threshold: '2'
+        :time_threshold: 1800
+    responds_to_events: ! '["RelocateVM_Task_Complete"]'
+    enabled: 
+- MiqAlert:
+    guid: fb73af80-40bd-11de-bd12-005056a170fa
+    description: VM Power On > 2 in last 15 min
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: event_threshold
+      :options:
+        :event_types:
+        - PowerOnVM_Task_Complete
+        :freq_threshold: '2'
+        :time_threshold: 900
+    responds_to_events: ! '["PowerOnVM_Task_Complete"]'
+    enabled: 
+- MiqAlert:
+    guid: fdee2784-bf2c-11de-b3b4-000c290de4f9
+    description: VM Silver and CPU > 1
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        and:
+        - CONTAINS:
+            tag: Vm.managed-service_level
+            value: silver
+        - ! '>':
+            value: 1
+            field: Vm.hardware-numvcpus
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 9b61fd9e-bf35-11de-b3b4-000c290de4f9
+    description: VM Silver and RAM > 2 GB
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        and:
+        - CONTAINS:
+            tag: Vm.managed-service_level
+            value: silver
+        - ! '>':
+            value: 2048
+            field: Vm.hardware-memory_cpu
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: 5cd2b880-be53-11de-8d65-000c290de4f9
+    description: VM Unregistered
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression: !ruby/object:MiqExpression
+      exp:
+        and:
+        - IS EMPTY:
+            value: ''
+            field: Vm.host-name
+        - IS NOT EMPTY:
+            field: Vm.storage-name
+    responds_to_events: 
+    enabled: 
+- MiqAlert:
+    guid: a9532172-44a5-11de-b543-005056a170fa
+    description: VM VMotion > 1 in last 30 min
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: event_threshold
+      :options:
+        :event_types:
+        - MigrateVM_Task
+        :freq_threshold: '1'
+        :time_threshold: 1800
+    responds_to_events: ! '["MigrateVM_Task"]'
+    enabled: 
+- MiqAlert:
+    guid: 5709f346-05a5-11e1-9288-005056880000
+    description: VM with CPU Ready > 2% for 2mins
+    options:
+      :notifications:
+        :delay_next_evaluation: 600
+        :automate:
+          :event_name: VM_Alert_CPU_Ready
+        :evm_event: {}
+    db: Vm
+    expression:
+      :mode: internal
+      :eval_method: realtime_performance
+      :options:
+        :trend_direction: none
+        :operator: ! '>'
+        :value_threshold: '2'
+        :perf_column: v_pct_cpu_ready_delta_summation
+        :debug_trace: 'false'
+        :trend_steepness: 
+        :rt_time_threshold: 120
+    responds_to_events: vm_perf_complete
+    enabled: true
+- MiqAlert:
+    guid: 8261bf0a-be54-11de-8d65-000c290de4f9
+    description: VMs on local storage
+    options:
+      :notifications:
+        :email:
+          :from: ''
+          :to:
+          - alert@manageiq.com
+    db: Storage
+    expression: !ruby/object:MiqExpression
+      exp:
+        ! '!=':
+          value: 1
+          field: Storage-v_total_hosts
+    responds_to_events: 
+    enabled: 

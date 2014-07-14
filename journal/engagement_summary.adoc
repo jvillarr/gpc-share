@@ -1,0 +1,56 @@
+ifdef::env-github[]
+++++
+<a name="scope_ordered"></a>
+++++
+endif::env-github[]
+
+=== Scope
+==== Project Scope:
+* [ ] Assist the Customer review and modification of the design and modification of the cloud management implementation, as applicable;
+** [ ] Confirm appliance architecture & sizing
+** [ ] Make adjustments to database cache for optimal performance
+** [ ] General tuning and config (ie. excluding EMS event storm data)
+** [ ] Determine and define database backup strategy
+** [ ] Discuss and define load balancing plan for WebUI's (make appropriate changes to cache settings)
+** [ ] Define and Implement tagging taxonomy
+** [ ] Integrate with Active Directory
+** [ ] Define and configure RBAC
+** [ ] Identify additional point of integration
+* [ ] Assist the Customer with the configuration and updates to the current implementation of Red Hat CloudForms per the architectural review as well as the below:
+** [ ] 2 node with HA to serve the dashboard functions
+** [ ] 2 node with HA to serve the snapshot scanning portion
+** [ ] 2 node with HA to handle the provisioning, lifecycle, automation, etc.
+* [ ] Assist in the custom design, implementation, and integration of CloudForms with Netapp VSC plugin for enablement of rapid cloning;
+** [ ] Perform the customer implementation to have CloudForms automate and control the Netapp rapid cloning process;
+** [ ] Assist in defining and mentoring on best practices setting up dashboards
+* [ ] Assist in the design and setup of Reporting and Dashboards that support the ability to do disk and registry scans/reports;
+* [ ] Assist the Customer with the STIG of the CloudForms product
+
+==== Proposed Schedule
+
+* Duration
+** 6 weeks, Jul 14 – Aug 22
+* Start Date
+** July 14, 2014 @ noon
+* Travel Schedule
+** Week 1 (7/14 - 7/18)
+*** On-site support with 2 consultants and 2 DAs
+** Week 2-6 (7/21 - 8/22)
+*** On-site support with 2 consultants (1 DA available as needed)
+
+
+=== Logistics
+* Place of Performance
+** 2306 E. Bannister Road, Kansas City, MO 64131-3088
+* On-Site Customer Contact
+** Massimo Perreca: 816.394.7588
+* Security Requirements
+** JPAS or background check
+* Parking
+** [TBD]
+
+
+=== Contact Information
+
+include::engagement_contactinfo.adoc[]
+

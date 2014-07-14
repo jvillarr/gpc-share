@@ -1,0 +1,23 @@
+:data-uri:
+:icons: font
+:numbered:
+:toc:
+:customer: MCICOM
+:project_title: Cloudforms
+:consultant1: Jose Simonelli
+:consultant1_email: jose@redhat.com
+:newline: \n
+:revisionhistory:
+
+= {customer} - {project_title}
+
+== Document Information
+include::engagement_header.adoc[]
+
+== Project Approach
+include::engagement_summary.adoc[]
+
+== Cloudforms POC
+include::cloudforms_journal.adoc[]
+
+== Issues Encountered

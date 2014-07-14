@@ -1,0 +1,202 @@
+==== Environment
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| dev | Development
+| preprod         | PreProd
+| prod | Production
+| qa    | QA
+| test | Test
+|======================
+
+==== Locations
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| kansas_city | Kansas City
+|======================
+
+==== Owners
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| developers  | Developers
+| engineer    | Engineer
+| unixteam  | Unix Team
+| windowsteam  | Windows Team
+|======================
+
+==== Provisioning Scope
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| all | All
+|======================
+
+NOTE: Additional Provisioning Scopes to be added at a later time
+
+==== Storage Types
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| tier1 | Tier 1
+| tier2 | Tier 2
+| tier3 | Tier 3
+|======================
+
+==== Cost Center
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| database_team | Database Team
+| department_a | Department A
+| department_b | Department B
+| department_c | Department C
+| engineering | Engineering
+| finance | Financial Services
+| hr | Human Resources
+| infrastructure | Infrastructure
+| marketing | Marketing
+| network_team | Network Team
+| unix_team | Unix Team
+| windows_team | Windows Team
+|======================
+
+NOTE: Additional Cost Center to be added at a later time
+
+==== Department
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| database_team | Database Team
+| department_a | Department A
+| department_b | Department B
+| department_c | Department C
+| engineering | Engineering
+| finance | Financial Services
+| hr | Human Resources
+| infrastructure | Infrastructure
+| marketing | Marketing
+| network_team | Network Team
+| unix_team | Unix Team
+| windows_team | Windows Team
+|======================
+
+NOTE: Additional Departments to be added at a later time
+
+==== Workload
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| active_directory | Active Directory Server
+| application_servers | Application Servers
+| cognos | Cognos
+| database | Database
+| db2_server | IBM DB2
+| desktop | Desktop
+| dhcp | DHCP Server
+| evm_appliance | EVM Appliance
+| hadoop | Hadoop
+| infrastructure | Virtual Infrastructure Management
+| jboss_server | JBOSS Server
+| messaging | Messaging
+| oracle_server | Oracle Database
+| proxy_server | Proxy Server
+| security | Security
+| web_server | Web Server
+| websphere_server | Websphere
+|======================
+
+NOTE: Additional Cost Center to be added at a later time
+
+==== Service Level
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| gold | Gold
+| platinum | Platinum
+| silver | Silver
+|======================
+
+==== Auto Approve - Max CPU
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 1 | 1
+| 2 | 2
+| 3 | 3
+| 4 | 4
+| 5 | 5
+|======================
+
+==== Auto Approve - Max Memory
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 1024 | 1GB
+| 2048 | 2GB
+| 4096 | 4GB
+| 8192 | 8GB
+|======================
+
+==== Auto Approve - Retirement Days
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 30 | 30
+| 60 | 60
+| 90 | 90
+| 180 | 180
+|======================
+
+==== Auto Approve - Max VM
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 1 | 1
+| 2 | 2
+| 3 | 3
+| 4 | 4
+| 5 | 5
+|======================
+
+==== Quota - Max Memory
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 1024 | 1GB
+| 2048 | 2GB
+| 4096 | 4GB
+| 8192 | 8GB
+| 10240 | 10GB
+| 16384 | 16GB
+|======================
+
+==== Quota - Max Storage
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 10 | 10GB
+| 20 | 20GB
+| 40 | 40GB
+| 80 | 80GB
+| 100 | 100GB
+| 200 | 200GB
+| 400 | 400GB
+| 1000 | 1TB
+|======================
+
+==== Quota - Max CPU
+[width="40%",frame="topbot",options="header"]
+|======================
+| Name                        |   Display
+| 1 | 1
+| 2 | 2
+| 3 | 3
+| 4 | 4
+| 5 | 5
+| 10 | 10
+| 20 | 20
+| 30 | 30
+|======================
+

@@ -1,0 +1,14 @@
+- Need Bind User for Cloudforms to authenticate with AD
+
+- Create a Project in Openstack and create a service account for cloudforms to connect to.
+Example:
+### CODE ####
+source /root/keystonerc_admin
+PROJECT_NAME="project_a"
+CFME_USER="${PROJECT_NAME}_svcuser"
+CFME_PASS='9213e9128e912e12'
+TENANT_ID=`keystone tenant-list | grep -i ${PROJECT_NAME} | awk '{print $2}'`
+keystone user-create --name=${CFME_USER} --pass=${CFME_PASS} --tenant_id=${TENANT_ID} --email="${i}@premierinc.com"
+keystone user-role-add --role Member --user ${CFME_USER} --tenant-id ${TENANT_ID}
+keystone user-role-add --role admin --user ${CFME_USER} --tenant-id ${TENANT_ID}
+### CODE ####
