@@ -176,7 +176,8 @@ image:../cloudforms/EVMrelationship/image2.png[]
 [width="80%",options="header"]
 |======
 | Label |  value
-| Servers | 10.32.198.77
+| Servers | 10..1.100.130
+| Servers | 10..1.100.131
 |======
 
 * Click on Save
