@@ -40,7 +40,16 @@ NOTE: To increase performance, increase the default 4 vCPUs/6GB RAM appliance co
 [width="100%",options="header"]
 |======================
 | Host      |   IP Address | Netmask | Gateway | DNS Server | Notes
-| c3pucfme1 | 10.32.1.228 |  255.255.254.0 | 10.32.0.1 | 10.32.2.53, 10.75.200.141 | CFME POC Appliance
+| zp11000.mcip.usmc.mil | 10.1.101.10 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME UI Appliance
+| zp11001.mcip.usmc.mil | 10.1.101.11 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME UI Appliance
+| zp11002.mcip.usmc.mil | 10.1.101.12 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11003.mcip.usmc.mil | 10.1.101.13 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11004.mcip.usmc.mil | 10.1.101.14 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11005.mcip.usmc.mil | 10.1.101.15 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11006.mcip.usmc.mil | 10.1.101.16 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11007.mcip.usmc.mil | 10.1.101.17 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11008.mcip.usmc.mil | 10.1.101.18 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11009.mcip.usmc.mil | 10.1.101.19 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME DB Appliance
 |======================
 
 ==== Hostname Configuration
