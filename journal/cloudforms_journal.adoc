@@ -80,6 +80,20 @@ NOTE: The database uses LVM and storage can be extended at a later time
 
 image:../cloudforms/ServerRoles/poc_server_roles.png[]
 
+
+=== Database Backups
+
+Database backups are scheduled to occur daily at 2AM CST. Backups are saved to an NFS volume.
+
+|=========================================================
+| NFS Volume Location | nfs://10.1.130.3:/vol/cf_nfs_data1
+| Frequency | Daily
+| Time | 02:00 CST
+|=========================================================
+
+image:images/screenshots/db_backup_schedule.png[] // placeholder
+
+
 === Access URL
 [width="100%",options="header"]
 |======================
