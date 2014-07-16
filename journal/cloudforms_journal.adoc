@@ -74,6 +74,11 @@ NOTE: The database uses LVM and storage can be extended at a later time
 | DBRegion | 99     | Optional: When MCICOM decides to scale to have DB Replication
 |======================
 
+Non-DB appliances configure an external database, using the DB appliance.
+
+// TODO External DB Configuration Details
+
+
 === Setup POC Cloudforms Appliance Roles
 * Log in to the Cloudforms Web interface and go to Configure > Configuration > Select EVM Appliance > Server Tab
 * Check the server roles using the following image as a guide
