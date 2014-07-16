@@ -244,18 +244,18 @@ image:../cloudforms/LDAP/ldap_0.png[]
 [width="80%", cols="3,7"]
 |======
 | Session Timeout: |  [ 1 ]h [ 0 ]m
-| Mode: | LDAP
+| Mode: | LDAPS
 |======
 
-image:../cloudforms/LDAP/ldap_1.png[]
+image:../cloudforms/LDAP/ldap_2.png[]
 
 * Set the LDAP Settings
 [width="80%",cols="3,7"]
 |======
-| LDAP Host Names: |  c3picorpdc5.corp.premierinc.com
-| LDAP Port: | 389
-| User Type: | E-Mail Address
-| User Suffix: <user>@ | <leave blank>
+| LDAP Host Names: |  10.1.100.130 10.1.100.131
+| LDAP Port: | 636
+| User Type: | User Principle Name
+| User Suffix: <user>@ | mcip.usmc.mil
 |======
 image:../cloudforms/LDAP/ldap_2.png[]
 
@@ -265,8 +265,8 @@ image:../cloudforms/LDAP/ldap_2.png[]
 | Get User Groups from LDAP |  <Checked>
 | Get Roles from Home Forest | <Checked>
 | Follow Referrals | <Checked>
-| Base DN: | DC=corp,DC=premierinc,DC=com
-| Bind DN: | CN=cloudforms,OU=Privileged Accounts,OU=CITS,OU=Corporate Services,DC=corp,DC=premierinc,DC=com
+| Base DN: | DC=mcip,DC=usmc,DC=mil
+| Bind DN: | cf.cloud.svc@mcip.usmc.mil
 | Bind Password: | <See Premier's Password for this user>
 |======
 image:../cloudforms/LDAP/ldap_3.png[]
