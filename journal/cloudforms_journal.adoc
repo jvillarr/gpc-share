@@ -37,6 +37,7 @@ NOTE: To increase performance, increase the default 4 vCPUs/6GB RAM appliance co
 * Once started, the appliances need to be configured with basic network settings using the virtual serial console in the VMware client. Login as *admin / smartvm* and press Enter to go to the Advanced Settings menu.  Set Static Network Configuration, Set Hostname, Set Timezone, Date, and Time. When done entering the settings, select Summary Information to review.
 * Host & IP Allocations
 
+.Primary Interface Configuration
 [width="100%",options="header"]
 |======================
 | Host      |   IP Address | Netmask | Gateway | DNS Server | Notes
@@ -50,6 +51,22 @@ NOTE: To increase performance, increase the default 4 vCPUs/6GB RAM appliance co
 | zp11007.mcip.usmc.mil | 10.1.101.17 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
 | zp11008.mcip.usmc.mil | 10.1.101.18 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
 | zp11009.mcip.usmc.mil | 10.1.101.19 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME DB Appliance
+|======================
+
+.Storage Interface Configuration
+[width="100%",options="header"]
+|======================
+| Host | IP Address | Netmask | Gateway | DNS Server
+| zp11000.mcip.usmc.mil | 10.1.130.0 |  255.255.252.0 | none | none
+| zp11001.mcip.usmc.mil | 10.1.130.1 |  255.255.252.0 | none | none
+| zp11002.mcip.usmc.mil | 10.1.130.2 |  255.255.252.0 | none | none
+| zp11003.mcip.usmc.mil | 10.1.130.3 |  255.255.252.0 | none | none
+| zp11004.mcip.usmc.mil | 10.1.130.4 |  255.255.252.0 | none | none
+| zp11005.mcip.usmc.mil | 10.1.130.5 |  255.255.252.0 | none | none
+| zp11006.mcip.usmc.mil | 10.1.130.6 |  255.255.252.0 | none | none
+| zp11007.mcip.usmc.mil | 10.1.130.7 |  255.255.252.0 | none | none
+| zp11008.mcip.usmc.mil | 10.1.130.8 |  255.255.252.0 | none | none
+| zp11009.mcip.usmc.mil | 10.1.130.9 |  255.255.252.0 | none | none
 |======================
 
 ==== Hostname Configuration
@@ -78,13 +95,11 @@ Non-DB appliances configure an external database, using the DB appliance.
 
 // TODO External DB Configuration Details
 
-
 === Setup POC Cloudforms Appliance Roles
 * Log in to the Cloudforms Web interface and go to Configure > Configuration > Select EVM Appliance > Server Tab
 * Check the server roles using the following image as a guide
 
 image:../cloudforms/ServerRoles/poc_server_roles.png[]
-
 
 === Database Backups
 
