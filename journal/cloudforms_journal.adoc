@@ -17,12 +17,12 @@ NOTE: Reference link:https://access.redhat.com/documentation/en-US/CloudForms/3.
 === Cloudforms Appliance Allocations
 ==== CFME Appliance System Requirements
 * POC CFME Appliance:
-** 1x CFME Appliance:
-*** 2 vCPU
-*** 8 GB of RAM
+** 10x CFME Appliance:
+*** 4 vCPU
+*** 6 GB of RAM
 *** 1x 40 Root Vol Disk
-*** 1x 100GB DB Disk
-*** 1x Network Interface
+*** 1x 160GB DB Disk
+*** 2x Network Interface
 
 NOTE: link:../docs/Simplified-CFME-VMDB-Region-Zone-Global-Size-Estimator.ods[Simplified-CFME-VMDB-Region-Zone-Global-Size-Estimator]
 
@@ -70,8 +70,8 @@ NOTE: The database uses LVM and storage can be extended at a later time
 [width="100%",options="header"]
 |======================
 | Region Name  |   Region #  | Notes
-| Charlotte | 10     | POC to Production
-| DBRegion | 99     | Optional: When Premier decides to scale to have DB Replication
+| Region | 10     | POC to Production
+| DBRegion | 10     | Optional: When Premier decides to scale to have DB Replication
 |======================
 
 === Setup POC Cloudformas Appliance Roles
@@ -84,7 +84,7 @@ image:../cloudforms/ServerRoles/poc_server_roles.png[]
 [width="100%",options="header"]
 |======================
 | UI URL
-| https://c3pucfme1.premierinc.com
+| https://zp11000.mcip.usmc.mil
 |======================
 
 === Configure Zones
@@ -95,8 +95,8 @@ image:../cloudforms/ServerRoles/poc_server_roles.png[]
 [width="100%",options="header"]
 |======================
 | Region Name  |   Region #  | Notes
-| Charlotte | 10     | POC to Production
-| DBRegion | 99     | Optional: When Premier decides to scale to have DB Replication
+| Region | 10     | POC to Production
+| DBRegion | 10     | Optional: When Premier decides to scale to have DB Replication
 |======================
 
 === VMware Service Account
