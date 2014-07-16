@@ -95,6 +95,14 @@ Non-DB appliances configure an external database, using the DB appliance.
 
 // TODO External DB Configuration Details
 
+=== SMTP Configuration
+
+// TODO
+|==================================
+| SMTP Server | 205.110.86.80
+| email | mcicomcloud@mcip.usmc.mil
+|==================================
+
 === Setup POC Cloudforms Appliance Roles
 * Log in to the Cloudforms Web interface and go to Configure > Configuration > Select EVM Appliance > Server Tab
 * Check the server roles using the following image as a guide
