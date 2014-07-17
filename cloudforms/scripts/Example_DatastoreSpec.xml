@@ -1,0 +1,72 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Body>
+    <ns2:getVmFilesResponse xmlns:ns2="http://server.kamino.netapp.com/">
+      <return>
+        <destDatastoreSpec>
+          <mor>Datastore:datastore-66</mor>
+          <numDatastores>0</numDatastores>
+          <storageService>false</storageService>
+          <thinProvision>false</thinProvision>
+          <volAutoGrow>false</volAutoGrow>
+          <wrapperVol>false</wrapperVol>
+        </destDatastoreSpec>
+        <sourcePath>Configuration File</sourcePath>
+      </return>
+      <return>
+        <destDatastoreSpec>
+          <mor>Datastore:datastore-66</mor>
+          <numDatastores>0</numDatastores>
+          <storageService>false</storageService>
+          <thinProvision>false</thinProvision>
+          <volAutoGrow>false</volAutoGrow>
+          <wrapperVol>false</wrapperVol>
+        </destDatastoreSpec>
+        <sourcePath>[cage2_nfs_data2] w2k8-jump-template-20140506/w2k8-jump-template-20140506.vmdk</sourcePath>
+      </return>
+      <return>
+        <destDatastoreSpec>
+          <mor>Datastore:datastore-66</mor>
+          <numDatastores>0</numDatastores>
+          <storageService>false</storageService>
+          <thinProvision>false</thinProvision>
+          <volAutoGrow>false</volAutoGrow>
+          <wrapperVol>false</wrapperVol>
+        </destDatastoreSpec>
+        <sourcePath>[cage2_nfs_data2] w2k8-jump-template-20140506/w2k8-jump-template-20140506_1.vmdk</sourcePath>
+      </return>
+      <return>
+        <destDatastoreSpec>
+          <mor>Datastore:datastore-66</mor>
+          <numDatastores>0</numDatastores>
+          <storageService>false</storageService>
+          <thinProvision>false</thinProvision>
+          <volAutoGrow>false</volAutoGrow>
+          <wrapperVol>false</wrapperVol>
+        </destDatastoreSpec>
+        <sourcePath>[cage2_nfs_data2] w2k8-jump-template-20140506/w2k8-jump-template-20140506_2.vmdk</sourcePath>
+      </return>
+      <return>
+        <destDatastoreSpec>
+          <mor>Datastore:datastore-66</mor>
+          <numDatastores>0</numDatastores>
+          <storageService>false</storageService>
+          <thinProvision>false</thinProvision>
+          <volAutoGrow>false</volAutoGrow>
+          <wrapperVol>false</wrapperVol>
+        </destDatastoreSpec>
+        <sourcePath>[cage2_nfs_data2] w2k8-jump-template-20140506/w2k8-jump-template-20140506_3.vmdk</sourcePath>
+      </return>
+      <return>
+        <destDatastoreSpec>
+          <mor>Datastore:datastore-66</mor>
+          <numDatastores>0</numDatastores>
+          <storageService>false</storageService>
+          <thinProvision>false</thinProvision>
+          <volAutoGrow>false</volAutoGrow>
+          <wrapperVol>false</wrapperVol>
+        </destDatastoreSpec>
+        <sourcePath>[cage2_nfs_data2] w2k8-jump-template-20140506/w2k8-jump-template-20140506_4.vmdk</sourcePath>
+      </return>
+    </ns2:getVmFilesResponse>
+  </S:Body>
+</S:Envelope>

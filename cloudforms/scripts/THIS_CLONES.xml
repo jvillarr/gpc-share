@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns2:createClonesResponse xmlns:ns2="http://server.kamino.netapp.com/">
+         <return>Task:task-63432</return>
+      </ns2:createClonesResponse>
+   </S:Body>
+</S:Envelope>

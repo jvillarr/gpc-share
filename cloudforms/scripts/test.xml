@@ -1,0 +1,35 @@
+      <ser:createClones>
+<arg0>
+  <cloneSpec>
+    <clones>
+      <entry>
+        <key>cfme-test-api1</key>
+        <value>
+          <powerOn>false</powerOn>
+        </value>
+      </entry>
+    </clones>
+    <containerMoref>Datacenter:datacenter-2</containerMoref>
+    <files>
+      <destDatastoreSpec>
+        <controller>
+          <ipAddress>10.2.100.19</ipAddress>
+          <password>1wdv!WDV4esz$ESZ</password>
+          <ssl>false</ssl>
+          <username>vsc.netapp.svc</username>
+        </controller>
+        <mor>Datastore:datastore-66</mor>
+        <numDatastores>0</numDatastores>
+        <thinProvision>false</thinProvision>
+        <volAutoGrow>false</volAutoGrow>
+      </destDatastoreSpec>
+      <sourcePath>[cage2_nfs_data2]w2k8-jump-template-20140506/w2k8-jump-template-20140506.vmx</sourcePath>
+    </files>
+    <templateMoref>VirtualMachine:vm-14761</templateMoref>
+  </cloneSpec>
+  <serviceUrl>https://mcimgmt1.mcis.usmc.mil/sdk</serviceUrl>
+  <vcPassword>Password1234!@#$</vcPassword>
+  <vcUser>MCIS\jose</vcUser>
+</arg0>
+
+  </ser:createClones>

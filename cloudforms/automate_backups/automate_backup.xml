@@ -4781,6 +4781,50 @@ ${#dialog_name_prefix}-user      </MiqAeField>
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
+    <MiqAeInstance name="cloudAdmins">
+      <MiqAeField name="placement">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="where">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="where_availability_zone">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="where_cluster">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="domains">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="networks">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="vmname">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="pre_dialog_name">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="get_dialog_name">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="vm_dialog_name_prefix">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="dialog_name">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="auto_approval_state_machine">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="quota_state_machine">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="state_machine">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
   </MiqAeClass>
   <MiqAeClass name="service" namespace="EVMApplications/Provisioning/Profile" display_name="Service Provision Group">
     <MiqAeSchema>
@@ -6990,41 +7034,39 @@ host_and_storage_least_utilized      </MiqAeField>
   <MiqAeClass name="Service" namespace="Factory" description="Service" display_name="Service">
     <MiqAeMethod name="CatalogBundleInitialization" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
-# EVM Automate Method: POC_CatalogBundleInitialization
+# EVM Automate Method: CatalogBundleInitialization
 #
 # Notes: This method Performs the following functions:
-# 1. Look for all Service Dialog Options in the service_template_provision_task.dialog_options
+# 1. Look for all Service Dialog Options in the service_template_provision_task.dialog_options 
 #    (i.e. Options that come from a Service Dialog)
-# 2. Any Service dialog option keys that match the regular expression /^tag_0_(.*)/i will be used to
+# 2. Any Service dialog option keys that match the regular expression /^tag_0_(.*)/i will be used to 
 #    tag the destination Service
-# 3. Service dialog option keys that match the regular expression /^(option|tag)_(\d*)_(.*)/
-#    (I.e. <option_type>_<sequence_id>_variable,  option_0_vm_memory, tag_1_environment) are sorted
-#    by sequence_id into an options_hash[sequence_id] and then distributed to the appropriate
-#    child catalog items. For example, a sequence_id of 0 means that all catalog items will inhereit
-#    these variables. A sequence_id of 1 means that the variable is only intended for a catalog item
+# 3. Service dialog option keys that match the regular expression /^(option|tag)_(\d*)_(.*)/ 
+#    (I.e. <option_type>_<sequence_id>_variable,  option_0_vm_memory, tag_1_environment) are sorted 
+#    by sequence_id into an options_hash[sequence_id] and then distributed to the appropriate 
+#    child catalog items. For example, a sequence_id of 0 means that all catalog items will inhereit 
+#    these variables. A sequence_id of 1 means that the variable is only intended for a catalog item 
 #    with a group index of 1.
-# 4. Service dialog option keys that do NOT match the regular expression are then inserted into the
+# 4. Service dialog option keys that do NOT match the regular expression are then inserted into the 
 #    options_hash[0] for all catalog items.
 #
 # Inputs: $evm.root['service_template_provision_task'].dialog_options
 #
 ###################################
 begin
-  # Method for logging
-  def log(level, message)
-    @method = 'POC_CatalogBundleInitialization'
-    $evm.log(level, "#{@method} - #{message}")
-  end
+  @method = 'CatalogBundleInitialization'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
 
-  # dump_root
-  def dump_root()
-    log(:info, "Root:<$evm.root> Begin $evm.root.attributes")
-    $evm.root.attributes.sort.each { |k, v| log(:info, "Root:<$evm.root> Attribute - #{k}: #{v}")}
-    log(:info, "Root:<$evm.root> End $evm.root.attributes")
-    log(:info, "")
-  end
+  # Turn of verbose logging
+  @debug = true
 
-  # get_options_hash
+
+  #########################
+  #
+  # Method: get_options_hash
+  # Description: Look for service dialog variables in the root object that start with "dialog_option_[0-9]",
+  #
+  ##########################
   def get_options_hash(dialog_options)
     # Setup regular expression for service dialog tags
     options_regex = /^(dialog_option|dialog_tag)_(\d*)_(.*)/i
@@ -7032,12 +7074,13 @@ begin
 
     # Loop through all of the options and build an options_hash from them
     dialog_options.each do |k,v|
+
       option_key = k.downcase.to_sym
       if options_regex =~ k
         sequence_id = $2.to_i
 
         unless v.blank?
-          log(:info, "Adding sequence_id:<#{sequence_id}> option_key:<#{option_key.inspect}> v:<#{v.inspect}> to options_hash")
+          $evm.log("info", "#{@method} - Adding sequence_id:<#{sequence_id}> option_key:<#{option_key.inspect}> v:<#{v.inspect}> to options_hash") if @debug
           if options_hash.has_key?(sequence_id)
             options_hash[sequence_id][option_key] = v
           else
@@ -7048,7 +7091,7 @@ begin
         # If options_regex does not match then stuff dialog options into options_hash[0]
         sequence_id = 0
         unless v.nil?
-          log(:info, "Adding sequence_id:<#{sequence_id}> option_key:<#{option_key.inspect}> v:<#{v.inspect}> to options_hash")
+          $evm.log("info", "#{@method} - Adding sequence_id:<#{sequence_id}> option_key:<#{option_key.inspect}> v:<#{v.inspect}> to options_hash") if @debug
           if options_hash.has_key?(sequence_id)
             options_hash[sequence_id][option_key] = v
           else
@@ -7057,68 +7100,60 @@ begin
         end
       end # if options_regex =~ k
     end # dialog_options.each do
-    log(:info, "Inspecting options_hash:<#{options_hash.inspect}>")
+    $evm.log("info", "#{@method} - Inspecting options_hash:<#{options_hash.inspect}>") if @debug
     return options_hash
   end
 
-  # name_service - name the service to avoid duplicate names
-  def name_service(service, new_service_name=nil)
-    unless new_service_name.blank?
-      log(:info, "Changing Service name:<#{service.name}> to <#{new_service_name}>")
-    else
-      new_service_name = "#{service.name}-#{Time.now.strftime('%Y%m%d-%H%M%S')}"
-      log(:info, "Changing Service name:<#{service.name}> to <#{new_service_name}>")
-    end
-    service.name = new_service_name
-  end
 
-  # tag_parent_service
+  #########################
+  #
+  # Method: tag_parent_service
+  # Description: Look for tags with a sequence_id of 0 and tag the parent service
+  #
+  ##########################
   def tag_parent_service(service, options_hash)
+
     # Setup regular expression for service dialog tags
     tags_regex = /^dialog_tag_0_(.*)/i
     tags_hash = {}
 
     # Look for tags with a sequence_id of 0 to tag the destination Service
     options_hash[0].each do |k,v|
-      log(:info, "Processing Tag Key:<#{k.inspect}> Value:<#{v.inspect}>")
+      $evm.log("info", "#{@method} - Processing Tag Key:<#{k.inspect}> Value:<#{v.inspect}>") if @debug
       if tags_regex =~ k
         # Convert key to symbol
         tag_category = $1
         tag_value = v.downcase
         unless tag_value.blank?
-          log(:info, "Adding tag_category:<#{tag_category.inspect}> value:<#{tag_value.inspect}> to Service:<#{service.name}>")
+          $evm.log("info", "#{@method} - Adding tag_category:<#{tag_category.inspect}> value:<#{tag_value.inspect}> to Service:<#{service.name}>") if @debug
           service.tag_assign("#{tag_category}/#{tag_value}")
         end
       end # if tags_regex
     end # options_hash[0].each
   end
 
-  log(:info, "CFME Automate Method Started")
-
-  # dump all root attributes to the log
-  dump_root
 
   # Get the task object from root
   service_template_provision_task = $evm.root['service_template_provision_task']
 
   # List Service Task Attributes
-  #service_template_provision_task.attributes.sort.each { |k, v| log(:info, "Task:<#{service_template_provision_task}> Attributes - #{k}: #{v}")}
+  #service_template_provision_task.attributes.sort.each { |k, v| $evm.log("info", "#{@method} - Task:<#{service_template_provision_task}> Attributes - #{k}: #{v}")} if @debug
 
   # Get destination service object
   service = service_template_provision_task.destination
-  log(:info, "Detected Service:<#{service.name}> Id:<#{service.id}> Tasks:<#{service_template_provision_task.miq_request_tasks.count}>")
+  $evm.log("info","#{@method} - Detected Service:<#{service.name}> Id:<#{service.id}>") if @debug
 
   # Get dialog options from options hash
+  # I.e. {:dialog=>{"option_0_myvar"=>"myprefix", "option_1_vservice_workers"=>"2", "tag_0_environment"=>"test", "tag_0_location"=>"paris",
+  # "option_2_vm_memory"=>"2048", "option_0_vlan"=>"Internal", "option_1_cores_per_socket"=>"1"}}
   dialog_options = service_template_provision_task.dialog_options
+  $evm.log("info","#{@method} - Inspecting Dialog Options:<#{dialog_options.inspect}>") if @debug
 
   # Get options_hash
   options_hash = get_options_hash(dialog_options)
 
   # Tag Parent Service
   tag_parent_service(service, options_hash)
-
-  # Name Service
-  name_service(service, (dialog_options ||= {}).fetch('dialog_service_name', nil))
 
   # Process Child Services
   service_template_provision_task.miq_request_tasks.each do |t|
@@ -7129,7 +7164,7 @@ begin
 
     # Increment the provision_index number since the child resource starts with a zero
     group_idx = child_service_resource.provision_index + 1
-    log(:info, "Child service name:<#{child_service.name}> group_idx:<#{group_idx}>")
+    $evm.log("info","#{@method} - Child service name:<#{child_service.name}> group_idx:<#{group_idx}>") if @debug
 
     # Create dialog options hash variable
     dialog_options_hash = {}
@@ -7150,91 +7185,86 @@ begin
 
     # Pass down dialog options to catalog items
     dialog_options_hash.each do |k,v|
-      log(:info, "Adding Dialog Option:<{#{k.inspect} => #{v.inspect}}> to Child Service:<#{child_service.name}>")
+      $evm.log("info","#{@method} - Adding Dialog Option:<{#{k.inspect} => #{v.inspect}}> to Child Service:<#{child_service.name}>") if @debug
       t.set_dialog_option(k, v)
     end
-    log(:info, "Inspecting Child Service:<#{child_service.name}> Dialog Options:<#{t.dialog_options.inspect}>")
+    $evm.log("info","#{@method} - Inspecting Child Service:<#{child_service.name}> Dialog Options:<#{t.dialog_options.inspect}>") if @debug
   end
 
+  #
   # Exit method
-  log(:info, "CFME Automate Method Ended")
+  #
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
   exit MIQ_OK
 
-    # Set Ruby rescue behavior
+  #
+  # Set Ruby rescue behavior
+  #
 rescue => err
-  log(:error, "[#{err}]\n#{err.backtrace.join("\n")}")
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
   exit MIQ_ABORT
 end]]>    </MiqAeMethod>
     <MiqAeMethod name="CatalogItemInitialization" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
-# CFME Automate Method: POC_CatalogItemInitialization
-#
-# by Keivn Morey
+# EVM Automate Method: CatalogItemInitialization
 #
 # Notes: This method Performs the following functions:
-# 1. Append a datetime stamp to the end of the service name
-# 2. Get all Service Dialog Options in service_template_provision_task.dialog_options
-#    (I.e. Dialog options that came from a Catalog Item/Service Dialog)
-# 3. Service dialog option keys that match the regular expression /^dialog_tag_\d*_(.*)/i (I.e. <dialog>_<tag>_<group_idx>_variable)
-#    - Tags with <group_idx> of 0-9 will be used to tag the service and all subordinate miq_provision tasks (dialog_tag_0_environment).
-# 4. Service dialog option key that equals dialog_options['dialog_service_size'] will determine the mapping to small, medium, large or xlarge.
-# 5. Service dialog option keys that match the regular expression /^dialog_option_\d*_(.*)/i (I.e. <dialog>_<option>_<group_idx>_variable)
-#    - Options keys with <group_idx> of 0-9 will be used to apply this option to all subordinate miq_provision task (dialog_option_1_vm_memory).
-#    I.e. dialog_option_0_vm_memory => 2048, dialog_option_1_vm_target_name => 'vm123'
-# 6. Update subordinate miq_provision tasks with :vm_target_hostname from nil to the value of :vm_target_name because by the time this method
-#    runs vmname has already been run and if you are deploying rhel on vmware with a customization specification the name must be set or provisioning can fail.
+# 1. Look for all Service Dialog Options in the service_template_provision_task.dialog_options 
+#    (i.e. Dialog options that came from either a Catalog Bundle Service or a Service Dialog)
+# 2. Service dialog option keys that match the regular expression /^tag_\d*_(.*)/i 
+#    (I.e. <tag>_<sequence_id>_variable,  tag_0_function, tag_1_environment) will be used to 
+#    tag the destination Catalog Item Service and any subordinate miq_provision tasks
+# 3. The remaining Service Dialog Option keys are simply passed into the subordinate 
+#    miq_provision object. I.e. option_0_vm_memory => 2048
 #
 # Inputs: $evm.root['service_template_provision_task'].dialog_options
 #
 ###################################
 begin
-  # Method for logging
-  def log(level, message)
-    @method = 'POC_CatalogItemInitialization'
-    $evm.log(level, "#{@method}: #{message}")
-  end
+  @method = 'CatalogItemInitialization'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
 
-  # dump_root
-  def dump_root()
-    log(:info, "Root:<$evm.root> Begin $evm.root.attributes")
-    $evm.root.attributes.sort.each { |k, v| log(:info, "Root:<$evm.root> Attribute - #{k}: #{v}")}
-    log(:info, "Root:<$evm.root> End $evm.root.attributes")
-    log(:info, "")
-  end
+  # Turn of verbose logging
+  @debug = true
 
-  # get_tags_hash - Look for service dialog variables in the dialog options hash that start with "dialog_tag_[0-9]"
+
+  #########################
+  #
+  # Method: get_tags_hash
+  # Description: Look for service dialog variables in the dialog options hash that start with "tag_[0-9]",
+  #
+  ##########################
   def get_tags_hash(dialog_options)
     # Setup regular expression for service dialog tags
     tags_regex = /^dialog_tag_\d*_(.*)/
+
     tags_hash = {}
 
     # Loop through all of the tags and build an options_hash from them
     dialog_options.each do |k,v|
       if tags_regex =~ k
-        #log(:info, "Processing Tag Key:<#{k.inspect}> Value:<#{v.inspect}>")
+        #$evm.log("info", "#{@method} - Processing Tag Key:<#{k.inspect}> Value:<#{v.inspect}>") if @debug
         # Convert key to symbol
         tag_category = $1.to_sym
         tag_value = v.downcase
 
         unless tag_value.blank?
-          log(:info, "Adding category:<#{tag_category.inspect}> tag:<#{tag_value.inspect}> to tags_hash")
+          $evm.log("info", "#{@method} - Adding category:<#{tag_category.inspect}> tag:<#{tag_value.inspect}> to tags_hash") if @debug
           tags_hash[tag_category] = tag_value
         end
       end
     end
-
-    # Dump tags_hash to the log
-    log(:info, "Inspecting tags_hash:<#{tags_hash.inspect}>")
-
-    # Dynamically create categories and tags based on tags_hash
-    tags_hash.each do |category, tag|
-      process_tags(category, true, tag)
-    end
-
+    $evm.log("info", "#{@method} - Inspecting tags_hash:<#{tags_hash.inspect}>") if @debug
     return tags_hash
   end
 
-  # get_options_hash - Look for service dialog variables in the dialog options hash that start with "dialog_option_[0-9]"
+
+  #########################
+  #
+  # Method: get_options_hash
+  # Description: Look for service dialog variables in the dialog options hash that start with "option_[0-9]",
+  #
+  ##########################
   def get_options_hash(dialog_options)
     # Setup regular expression for service dialog tags
     options_regex = /^dialog_option_\d*_(.*)/
@@ -7247,122 +7277,59 @@ begin
         option_value = v
 
         unless option_value.blank?
-          log(:info, "Adding option_key:<#{option_key.inspect}> option_value:<#{option_value.inspect}> to options_hash")
+          $evm.log("info", "#{@method} - Adding option_key:<#{option_key.inspect}> option_value:<#{option_value.inspect}> to options_hash") if @debug
           options_hash[option_key] = option_value
+        end
+      else
+        unless v.nil?
+          $evm.log("info", "#{@method} - Adding option:<#{k.to_sym.inspect}> value:<#{v.inspect}> to options_hash") if @debug
+          options_hash[k.to_sym] = v
         end
       end
     end
-    log(:info, "Inspecting options_hash:<#{options_hash.inspect}>")
+    $evm.log("info", "#{@method} - Inspecting options_hash:<#{options_hash.inspect}>") if @debug
     return options_hash
   end
 
-  # get_service_type
-  def get_service_type(service, dialog_options)
-    log(:info, "Detected service:<#{service.name}> service_size:<#{dialog_options['dialog_service_size']}>")
 
-    case dialog_options['dialog_service_size'].downcase
-      when "medium"
-        # 2 X 2
-        dialog_options['dialog_option_1_vm_memory'] = 2048
-        dialog_options['dialog_option_1_cores_per_socket'] = 2
-      when "large"
-        # 4 X 4
-        dialog_options['dialog_option_1_vm_memory'] = 4096
-        dialog_options['dialog_option_1_cores_per_socket'] = 4
-      when "xlarge"
-        # 8 X 8
-        dialog_options['dialog_option_1_vm_memory'] = 8192
-        dialog_options['dialog_option_1_cores_per_socket'] = 8
-      else
-        # 1 X 1
-        dialog_options['dialog_option_1_vm_memory'] = 1024
-        dialog_options['dialog_option_1_cores_per_socket'] = 1
-    end
-    log(:info, "Updated service:<#{service.name}> service_size:<#{dialog_options['dialog_service_size']}> cores_per_socket:<#{dialog_options['dialog_option_1_cores_per_socket']}> vm_memory:<#{dialog_options['dialog_option_1_vm_memory']}>")
-  end
-
-  # tag_service - tag the parent service with tags
+  #########################
+  #
+  # Method: tag_service
+  # Description: Look in tags_hash for tags and tag the service
+  #
+  ##########################
   def tag_service(service, tags_hash)
+    # Look for tags with a sequence_id of 0 to tag the destination Service
     unless tags_hash.nil?
       tags_hash.each do |k,v|
-        log(:info, "Adding Tag:<#{k.inspect}/#{v.inspect}> to Service:<#{service.name}>")
+        $evm.log("info","#{@method} - Adding Tag:<#{k.inspect}/#{v.inspect}> to Service:<#{service.name}>") if @debug
         service.tag_assign("#{k}/#{v}")
       end
     end
   end
 
-  # name_service - name the service to avoid duplicate names
-  def name_service(service, new_service_name=nil)
-    unless new_service_name.blank?
-      log(:info, "Changing Service name:<#{service.name}> to <#{new_service_name}>")
-    else
-      new_service_name = "#{service.name}-#{Time.now.strftime('%Y%m%d-%H%M%S')}"
-      log(:info, "Changing Service name:<#{service.name}> to <#{new_service_name}>")
-    end
-    service.name = new_service_name
-  end
-
-  # set_service_retirement - default the service retirement to 3 days warning 1 day
-  def set_service_retirement(service, dialog_options)
-    service_retirement = dialog_options.fetch('dialog_service_retirement', 3)
-    service_retirement_warning = dialog_options.fetch('dialog_service_retirement_warning', 1)
-    new_service_retirement = (DateTime.now + service_retirement.to_i).strftime("%Y-%m-%d")
-    log(:info, "Changing Service:<#{service.name}> retires_on:<#{new_service_retirement}> retirement_warn:<#{service_retirement_warning}>")
-    service.retires_on = new_service_retirement.to_date
-    service.retirement_warn = service_retirement_warning.to_i
-  end
-
-  # process_tags - Dynamically create categories and tags
-  def process_tags( category, single_value, tag )
-    # Convert to lower case and replace all non-word characters with underscores
-    category_name = category.to_s.downcase.gsub(/\W/, '_')
-    tag_name = tag.to_s.downcase.gsub(/\W/, '_')
-    log(:info, "Converted category name:<#{category_name}> Converted tag name: <#{tag_name}>")
-    # if the category exists else create it
-    unless $evm.execute('category_exists?', category_name)
-      log(:info, "Category <#{category_name}> doesn't exist, creating category")
-      $evm.execute('category_create', :name => category_name, :single_value => single_value, :description => "#{category}")
-    end
-    # if the tag exists else create it
-    unless $evm.execute('tag_exists?', category_name, tag_name)
-      log(:info, "Adding new tag <#{tag_name}> in Category <#{category_name}>")
-      $evm.execute('tag_create', category_name, :name => tag_name, :description => "#{tag}")
-    end
-  end
-
-  log(:info, "CFME Automate Method Started")
-
-  # dump all root attributes to the log
-  dump_root()
 
   # Get the task object from root
   service_template_provision_task = $evm.root['service_template_provision_task']
 
+  # List Service Task Attributes
+  #service_template_provision_task.attributes.sort.each { |k, v| $evm.log("info", "#{@method} - Task:<#{service_template_provision_task}> Attributes - #{k}: #{v}")} if @debug
+
   # Get destination service object
   service = service_template_provision_task.destination
-  log(:info, "Detected Service:<#{service.name}> Id:<#{service.id}> Tasks:<#{service_template_provision_task.miq_request_tasks.count}>")
+  $evm.log("info","#{@method} - Detected Service:<#{service.name}> Id:<#{service.id}>") if @debug
 
-  # Get dialog options from task
+  # Get dialog options from options hash
+  # {:dialog=>{"option_0_myvar"=>"myprefix", "option_1_vservice_workers"=>"2", "tag_0_environment"=>"test", "tag_0_location"=>"paris",
+  # "option_2_vm_memory"=>"2048", "option_0_vlan"=>"Internal", "option_1_cores_per_socket"=>"1"}}
   dialog_options = service_template_provision_task.dialog_options
-  log(:info, "Inspecting Dialog Options:<#{dialog_options.inspect}>")
+  $evm.log("info","#{@method} - Inspecting Dialog Options:<#{dialog_options.inspect}>") if @debug
 
   # Get tags_hash
   tags_hash = get_tags_hash(dialog_options)
 
   # Tag Service
   tag_service(service, tags_hash)
-
-  # Name Service
-#  dialog_service_name = dialog_options.fetch('dialog_service_name', nil)
-  dialog_service_name = dialog_options.fetch('dialog_option_1_vm_target_name', nil)
-  name_service(service, dialog_service_name)
-
-  # Set Service Retirement
-  set_service_retirement(service, dialog_options)
-
-  # get_service_type
-  dialog_service_size = dialog_options.fetch('dialog_service_size', nil)
-  get_service_type(service, dialog_options) unless dialog_service_size.blank?
 
   # Get options_hash
   options_hash = get_options_hash(dialog_options)
@@ -7371,52 +7338,48 @@ begin
   service_template_provision_task.miq_request_tasks.each do |t|
     # Child Service
     child_service = t.destination
-    log(:info, "Child Service:<#{child_service.name}>")
 
     # Process grandchildren service options
     unless t.miq_request_tasks.nil?
       grandchild_tasks = t.miq_request_tasks
-      #log(:info,"#{@method} - Inspecting Grandchild Tasks:<#{grandchild_tasks.inspect}>")
+      #$evm.log("info","#{@method} - Inspecting Grandchild Tasks:<#{grandchild_tasks.inspect}>") if @debug
 
-      # Loop through each child provisioning object and applya tags and options
       grandchild_tasks.each do |gc|
-        log(:info, "Detected Grandchild Task ID:<#{gc.id}> Description:<#{gc.description}> source type:<#{gc.source_type}>")
+        $evm.log("info","#{@method} -  Detected Grandchild Task ID:<#{gc.id}> Description:<#{gc.description}> source type:<#{gc.source_type}>") if @debug
 
         # If child task is provisioning then apply tags and options
         if gc.source_type == "template"
           unless tags_hash.nil?
             tags_hash.each do |k,v|
-              log(:info, "Adding Tag:<#{k.inspect}/#{v.inspect}> to Provisioning ID:<#{gc.id}>")
+              $evm.log("info","#{@method} - Adding Tag:<#{k.inspect}/#{v.inspect}> to Provisioning ID:<#{gc.id}>") if @debug
               gc.add_tag(k, v)
             end
           end
           unless options_hash.nil?
             options_hash.each do |k,v|
-              log(:info, "Adding Option:<{#{k.inspect} => #{v.inspect}}> to Provisioning ID:<#{gc.id}>")
+              $evm.log("info","#{@method} - Adding Option:<{#{k.inspect} => #{v.inspect}}> to Provisioning ID:<#{gc.id}>") if @debug
               gc.set_option(k,v)
             end
-            # Dump all provisioning options to the log
-            #gc.options.each { |k,v| log(:info,"Provisioning Option Key:<#{k.inspect}> Value:<#{v.inspect}>") }
-
-            # Update :vm_target_hostname from :vm_target_name since vmname method has already been run
-            gc.set_option(:vm_target_hostname, gc.get_option(:vm_target_name))
-            log(:info, "Adding Option prov.set_option(:vm_target_hostname, #{gc.get_option(:vm_target_hostname)}) to Provisioning ID:<#{gc.id}>")
           end
-
         else
-          log(:info, "Invalid Source Type:<#{gc.source_type}>. Skipping task ID:<#{gc.id}>")
+          $evm.log("info","#{@method} - Invalid Source Type:<#{gc.source_type}>. Skipping task ID:<#{gc.id}>") if @debug
         end # if gc.source_type
       end # grandchild_tasks.each do
     end # unless t.miq_request_tasks.nil?
   end # service_template_provision_task.miq_request_tasks.each do
 
+
+  #
   # Exit method
-  log(:info, "CFME Automate Method Ended")
+  #
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
   exit MIQ_OK
 
-    # Ruby rescue
+  #
+  # Set Ruby rescue behavior
+  #
 rescue => err
-  log(:error, "[#{err}]\n#{err.backtrace.join("\n")}")
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
   exit MIQ_ABORT
 end]]>    </MiqAeMethod>
     <MiqAeMethod name="ConfigureChildDialog" language="ruby" scope="instance" location="inline"><![CDATA[#
@@ -8965,6 +8928,27 @@ end]]>    </MiqAeMethod>
       </MiqAeField>
     </MiqAeSchema>
     <MiqAeInstance name="Default" display_name="Default">
+      <MiqAeField name="max_owner_cpu">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="max_owner_memory">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="max_owner_storage">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="max_group_cpu">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="max_group_memory">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="max_group_storage">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="ValidateQuotas">
+        <![CDATA[]]>
+      </MiqAeField>
     </MiqAeInstance>
   </MiqAeClass>
   <MiqAeClass name="ServiceProvisionRequestApproval" namespace="Factory/StateMachines" display_name="Service Provision Request Approval">
@@ -9700,13 +9684,11 @@ end]]>      <MiqAeField name="status_state" substitute="true" priority="1" messa
 /Factory/VM/Provision      </MiqAeField>
       <MiqAeField name="CheckProvisioned" substitute="true" aetype="state" datatype="string" priority="5" message="create" on_exit="update_provision_status(status =&gt; 'Cloning VM',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; '${/#ae_reason}',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/CheckProvisioned      </MiqAeField>
-      <MiqAeField name="Infoblox_Host_Record" substitute="true" aetype="state" datatype="string" priority="6" message="create" on_entry="update_provision_status(status =&gt; 'Add DNS Record to Infoblox',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Add DNS Record to Infoblox',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'Add DNS Record to Infoblox',status_state =&gt; 'on_error)" max_retries="10">
-/PremierHealthcare/Integration/Infoblox_Host_Record/Infoblox_Instance_Provision      </MiqAeField>
-      <MiqAeField name="PostProvision" substitute="true" aetype="state" datatype="string" priority="7" message="create" on_entry="update_provision_status(status =&gt; 'Applying PostProvision Customizations',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Applied PostProvision Customizations',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Applying PostProvision Customizations',status_state =&gt; 'on_error')">
+      <MiqAeField name="PostProvision" substitute="true" aetype="state" datatype="string" priority="6" message="create" on_entry="update_provision_status(status =&gt; 'Applying PostProvision Customizations',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Applied PostProvision Customizations',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Applying PostProvision Customizations',status_state =&gt; 'on_error')">
       </MiqAeField>
-      <MiqAeField name="ActivateCMDB" substitute="true" aetype="state" datatype="string" priority="8" message="create" on_entry="update_provision_status(status =&gt; 'Activating CMDB',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Activated CMDB',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Activating CMDB',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="ActivateCMDB" substitute="true" aetype="state" datatype="string" priority="7" message="create" on_entry="update_provision_status(status =&gt; 'Activating CMDB',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Activated CMDB',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Activating CMDB',status_state =&gt; 'on_error')" max_retries="100">
       </MiqAeField>
-      <MiqAeField name="EmailOwner" substitute="true" aetype="state" datatype="string" priority="9" message="create" on_entry="update_provision_status(status =&gt; 'Emailing Owner',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'provision_complete',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Emailing Owner',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="EmailOwner" substitute="true" aetype="state" datatype="string" priority="8" message="create" on_entry="update_provision_status(status =&gt; 'Emailing Owner',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'provision_complete',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Emailing Owner',status_state =&gt; 'on_error')" max_retries="100">
 /Alert/EmailNotifications/MiqProvision_complete?event=template_provisioned      </MiqAeField>
     </MiqAeSchema>
     <MiqAeInstance name="clone_to_template" display_name="Clone VM to Template">
@@ -9934,17 +9916,15 @@ end]]>      <MiqAeField name="status_state" substitute="true" priority="1" messa
 /Factory/VM/CheckProvisioned      </MiqAeField>
       <MiqAeField name="PostProvision" substitute="true" aetype="state" datatype="string" priority="10" message="create" on_entry="update_provision_status(status =&gt; 'Applying PostProvision Customizations',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Applied PostProvision Customizations',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Applying PostProvision Customizations',status_state =&gt; 'on_error')">
 /Factory/VM/PostProvision      </MiqAeField>
-      <MiqAeField name="Infoblox_Host_Record" substitute="true" aetype="state" datatype="string" priority="11" message="create" on_entry="update_provision_status(status =&gt; 'Infoblox Host Record',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Infoblox Host Record',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'Infoblox Host Record',status_state =&gt; 'on_error')" max_retries="100">
-/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_Instance_Provision      </MiqAeField>
-      <MiqAeField name="RegisterDHCP" substitute="true" aetype="state" datatype="string" priority="12" message="create" on_entry="update_provision_status(status =&gt; 'Registering DHCP',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Registered DHCP',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Registering DHCP',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="RegisterDHCP" substitute="true" aetype="state" datatype="string" priority="11" message="create" on_entry="update_provision_status(status =&gt; 'Registering DHCP',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Registered DHCP',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Registering DHCP',status_state =&gt; 'on_error')" max_retries="100">
       </MiqAeField>
-      <MiqAeField name="ActivateCMDB" substitute="true" aetype="state" datatype="string" priority="13" message="create" on_entry="update_provision_status(status =&gt; 'Activating CMDB',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Activated CMDB',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Activating CMDB',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="ActivateCMDB" substitute="true" aetype="state" datatype="string" priority="12" message="create" on_entry="update_provision_status(status =&gt; 'Activating CMDB',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'Activated CMDB',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Activating CMDB',status_state =&gt; 'on_error')" max_retries="100">
       </MiqAeField>
-      <MiqAeField name="VDIWaitForHostname" substitute="true" aetype="state" datatype="string" priority="14" message="create" on_entry="update_provision_status(status =&gt; 'VDI: Waiting for Hostname',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'VDI: Retrieved Hostname',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in VDI: Wait for hostname',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="VDIWaitForHostname" substitute="true" aetype="state" datatype="string" priority="13" message="create" on_entry="update_provision_status(status =&gt; 'VDI: Waiting for Hostname',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'VDI: Retrieved Hostname',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in VDI: Wait for hostname',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/VdiWaitForHostname      </MiqAeField>
-      <MiqAeField name="VDIAddVmToDesktopPool" substitute="true" aetype="state" datatype="string" priority="15" message="create" on_entry="update_provision_status(status =&gt; 'VDI: Adding VM to Desktop Pool',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'VDI: VM Added to Desktop Pool',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in VDI: Adding VM to Desktop Pool',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="VDIAddVmToDesktopPool" substitute="true" aetype="state" datatype="string" priority="14" message="create" on_entry="update_provision_status(status =&gt; 'VDI: Adding VM to Desktop Pool',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'VDI: VM Added to Desktop Pool',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in VDI: Adding VM to Desktop Pool',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/VdiAddVmToDesktopPool      </MiqAeField>
-      <MiqAeField name="EmailOwner" substitute="true" aetype="state" datatype="string" priority="16" message="create" on_entry="update_provision_status(status =&gt; 'Emailing Owner',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'provision_complete',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Emailing Owner',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="EmailOwner" substitute="true" aetype="state" datatype="string" priority="15" message="create" on_entry="update_provision_status(status =&gt; 'Emailing Owner',status_state =&gt; 'on_entry')" on_exit="update_provision_status(status =&gt; 'provision_complete',status_state =&gt; 'on_exit')" on_error="update_provision_status(status =&gt; 'error in Emailing Owner',status_state =&gt; 'on_error')" max_retries="100">
 /Alert/EmailNotifications/MiqProvision_Complete?event=vm_provisioned      </MiqAeField>
     </MiqAeSchema>
     <MiqAeInstance name="clone_to_vm" display_name="Clone VM">
@@ -10127,21 +10107,19 @@ end]]>      <MiqAeField name="status_state" substitute="true" priority="1" messa
 #/Integration/IPAM/ReleaseMACAddress      </MiqAeField>
       <MiqAeField name="ReleaseIPAddress" substitute="true" aetype="state" datatype="string" priority="7" message="create" on_entry="update_retirement_status(status =&gt; 'Releasing IP Address',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Released IP Address',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Releasing IP Address',status_state =&gt; 'on_error')" max_retries="100">
 #/Integration/IPAM/ReleaseIPAddress      </MiqAeField>
-      <MiqAeField name="Infoblox_Host_Record" substitute="true" aetype="state" datatype="string" priority="8" message="create" on_entry="update_retirement_status(status =&gt; 'Infoblox Host Record',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Infoblox Host Record',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Infoblox Host Record',status_state =&gt; 'on_error')" max_retries="10">
-/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_Instance_Retire      </MiqAeField>
-      <MiqAeField name="PreDeleteEmailOwner" substitute="true" aetype="state" datatype="string" priority="9" message="create" on_entry="update_retirement_status(status =&gt; 'Notifying VM Owner',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Notified VM Owner',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Notifying VM Owner',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="PreDeleteEmailOwner" substitute="true" aetype="state" datatype="string" priority="8" message="create" on_entry="update_retirement_status(status =&gt; 'Notifying VM Owner',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Notified VM Owner',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Notifying VM Owner',status_state =&gt; 'on_error')" max_retries="100">
 #/Alert/EmailNotifications/vm_retirement_emails?event=vm_entered_retirement      </MiqAeField>
-      <MiqAeField name="UnregisterFromVC" substitute="true" aetype="state" datatype="string" priority="10" message="create" on_entry="update_retirement_status(status =&gt; 'Unregistering from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Unregistered from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Unregistering from VC',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="UnregisterFromVC" substitute="true" aetype="state" datatype="string" priority="9" message="create" on_entry="update_retirement_status(status =&gt; 'Unregistering from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Unregistered from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Unregistering from VC',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/UnregisterFromVC      </MiqAeField>
-      <MiqAeField name="PreDeleteFromVC" substitute="true" aetype="state" datatype="string" priority="11" message="create" on_entry="update_retirement_status(status =&gt; 'Executing PreDelete from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Executed PreDelete from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Executing PreDelete from VC',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="PreDeleteFromVC" substitute="true" aetype="state" datatype="string" priority="10" message="create" on_entry="update_retirement_status(status =&gt; 'Executing PreDelete from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Executed PreDelete from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Executing PreDelete from VC',status_state =&gt; 'on_error')" max_retries="100">
 #/Factory/VM/PreDeleteFromVC      </MiqAeField>
-      <MiqAeField name="DeleteFromVC" substitute="true" aetype="state" datatype="string" priority="12" message="create" on_entry="update_retirement_status(status =&gt; 'Deleting from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Deleted from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Deleting from VC',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="DeleteFromVC" substitute="true" aetype="state" datatype="string" priority="11" message="create" on_entry="update_retirement_status(status =&gt; 'Deleting from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Deleted from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Deleting from VC',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/DeleteFromVC      </MiqAeField>
-      <MiqAeField name="EmailOwner" substitute="true" aetype="state" datatype="string" priority="13" message="create" on_entry="update_retirement_status(status =&gt; 'Emailing VM Owner',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Emailed VM Owner',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Emailing VM Owner',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="EmailOwner" substitute="true" aetype="state" datatype="string" priority="12" message="create" on_entry="update_retirement_status(status =&gt; 'Emailing VM Owner',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Emailed VM Owner',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Emailing VM Owner',status_state =&gt; 'on_error')" max_retries="100">
 /Alert/EmailNotifications/vm_retirement_emails?event=vm_retired      </MiqAeField>
-      <MiqAeField name="CheckUnregisteredFromVC" substitute="true" aetype="state" datatype="string" priority="14" message="create" on_entry="update_retirement_status(status =&gt; 'Checking Unregistration from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Checked Unregistration from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Checking Unregistration from VC',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="CheckUnregisteredFromVC" substitute="true" aetype="state" datatype="string" priority="13" message="create" on_entry="update_retirement_status(status =&gt; 'Checking Unregistration from VC',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Checked Unregistration from VC',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Checking Unregistration from VC',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/CheckUnregisteredFromVC      </MiqAeField>
-      <MiqAeField name="DeleteFromVMDB" substitute="true" aetype="state" datatype="string" priority="15" message="create" on_entry="update_retirement_status(status =&gt; 'Removing from VMDB',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Removed from VMDB',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Removing from VMDB',status_state =&gt; 'on_error')" max_retries="100">
+      <MiqAeField name="DeleteFromVMDB" substitute="true" aetype="state" datatype="string" priority="14" message="create" on_entry="update_retirement_status(status =&gt; 'Removing from VMDB',status_state =&gt; 'on_entry')" on_exit="update_retirement_status(status =&gt; 'Removed from VMDB',status_state =&gt; 'on_exit')" on_error="update_retirement_status(status =&gt; 'Error in Removing from VMDB',status_state =&gt; 'on_error')" max_retries="100">
 /Factory/VM/DeleteFromVMDB      </MiqAeField>
     </MiqAeSchema>
     <MiqAeInstance name="Default" display_name="Default">
@@ -10166,9 +10144,6 @@ end]]>      <MiqAeField name="status_state" substitute="true" priority="1" messa
       <MiqAeField name="ReleaseIPAddress">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="Infoblox_Host_Record">
-        <![CDATA[]]>
-      </MiqAeField>
       <MiqAeField name="PreDeleteEmailOwner">
         <![CDATA[]]>
       </MiqAeField>
@@ -10185,7 +10160,7 @@ end]]>      <MiqAeField name="status_state" substitute="true" priority="1" messa
       <MiqAeField name="CheckUnregisteredFromVC">
 /Factory/VM/CheckUnregisteredFromVC      </MiqAeField>
       <MiqAeField name="DeleteFromVMDB">
-#/Factory/VM/DeleteFromVMDB      </MiqAeField>
+/Factory/VM/DeleteFromVMDB      </MiqAeField>
     </MiqAeInstance>
   </MiqAeClass>
   <MiqAeClass name="VM" namespace="Factory" display_name="Virtual Machine">
@@ -10451,7 +10426,8 @@ begin
 
   # Log all of the provisioning options to the automation.log
   #prov.options.each { |k,v| log(:info,"Provisioning Option Key:<#{k.inspect}> Value:<#{v.inspect}>") }
-
+  prov.options.each { |k,v| log(:info,"Provisioning Option Key:<#{k.inspect}> Value:<#{v.inspect}>") }
+  
   # Build case statement to determine which type of processing is required
   case prov.type
 
@@ -11162,7 +11138,6 @@ begin
       # If never then this VM is a template so exit the retirement state machine
       $evm.root['ae_result'] = 'error'
     else
-      vm.stop
       $evm.root['ae_result']         = 'retry'
       $evm.root['ae_retry_interval'] = '15.seconds'
     end
@@ -17466,635 +17441,637 @@ VMware_HotAdd_Disk      </MiqAeField>
 VMware_HotAdd_RAM      </MiqAeField>
     </MiqAeInstance>
   </MiqAeClass>
-  <MiqAeClass name="Infoblox_DNS_Entry" namespace="PremierHealthcare/Integration">
-    <MiqAeMethod name="Infoblox_DNS_Alias" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+  <MiqAeClass name="RapidClone" namespace="MCICOM/Integration">
+    <MiqAeMethod name="Dialog_Storage_Controller" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
-# EVM Automate Method: Infoblox_DNS_Alias
+# EVM Automate Method: Dialog_Storage_Controller
 #
-# Notes: EVM Automate method to add Host entry to Infoblox
+# Notes: Populate Dialog_Storage_Controller
 #
 ###################################
 begin
-  @method = 'Infoblox_DNS_Alias'
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> Started")
+  @method = 'Dialog_Storage_Controller'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
 
   # Turn of verbose logging
   @debug = true
 
-  require 'rest_client'
-  require 'json'
-  require 'nokogiri'
-  require 'ipaddr'
+  dialog_hash = { "netapp02a (Default)" => "10.2.100.19", "netapp02a" => "10.2.100.19", "netapp02b" => "10.2.100.20", "netapp03a" => "10.2.100.21" }
+  dialog_field = $evm.object
+  dialog_field["sort_by"] = "none"
+  dialog_field["data_type"] = "string"
+  dialog_field["required"] = "true"
+  dialog_field["values"] = dialog_hash
+  dialog_field["default_value"] = "netapp02a"
 
-  ##################################
-  # Dump Root Vars                 #
-  ##################################
-  def dump_root()
-    $evm.log("info", "Root:<$evm.root> Begin $evm.root.attributes")
-    $evm.root.attributes.sort.each { |k, v| $evm.log("info", "Root:<$evm.root> Attribute - #{k}: #{v}")}
-    $evm.log("info", "Root:<$evm.root> End $evm.root.attributes")
-    $evm.log("info", "")
-  end
-
-  ##################################
-  # Add DNS Alias                  #
-  ##################################
-  def addAlias(cname, canonical)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/record:cname'
-      content = "\{\"name\":\"#{cname}\",\"canonical\":\"#{canonical}\"\}"
-      dooie = RestClient.post url, content, :content_type => :json, :accept => :json
-      $evm.log("info", "===== EVM Automate Method: <#{@method}> Add Alias inspect: #{dooie.inspect}")
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
-
-  ###########################################
-  # Testing                                 #
-  ###########################################
-
-  # dump all root attributes to the log
-  dump_root
-
-  vm = $evm.root['vm']
-
-  username = nil
-  username ||= $evm.object['username']
-
-  password = nil
-  password ||= $evm.object.decrypt('password')
-
-  servername = nil
-  servername ||= $evm.object['servername']
-
-  dnsdomain = nil
-  dnsdomain ||= $evm.object['domain']
-
-  dialog_cname = $evm.root.attributes['dialog_cname'] || nil
-
-  @name =  "#{vm['name']}.#{dnsdomain}"
-
-  @connection = "#{username}:#{password}@#{servername}"
-
-  uooie = addAlias("#{dialog_cname}.#{dnsdomain}","#{@name}")
-  if uooie ==  true
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> Success: #{dialog_cname}.#{dnsdomain} to forward to #{@name}")
-  else
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> FAIL: to add DNS Alias of #{dialog_cname}.#{dnsdomain} to forward to #{@name}")
-    exit MIQ_ABORT
-  end
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{dialog_hash.inspect}")
 
   #
   # Exit method
   #
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> Ended")
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
   exit MIQ_OK
 
     #
     # Set Ruby rescue behavior
     #
 rescue => err
-  $evm.log("error", "<#{@method}>: [#{err}]\n#{err.backtrace.join("\n")}")
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
   exit MIQ_ABORT
 end]]>    </MiqAeMethod>
-    <MiqAeMethod name="Infoblox_Delete_Record" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+    <MiqAeMethod name="Dialog_VM_Sizing" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
-# EVM Automate Method: Infoblox_Delete_Record
+# EVM Automate Method: Dialog_VM_Sizing
 #
-# Notes: EVM Automate method to add Host entry to Infoblox
+# Notes: Populate Dialog_VM_Sizing CPU and Memory
 #
 ###################################
 begin
-  @method = 'Infoblox_Delete_Record'
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> Started")
+  @method = 'Dialog_VM_Sizing'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
 
   # Turn of verbose logging
   @debug = true
 
-  require 'rest_client'
-  require 'json'
-  require 'nokogiri'
-  require 'ipaddr'
-
-  ##################################
-  # Dump Root Vars                 #
-  ##################################
-  def dump_root()
-    $evm.log("info", "Root:<$evm.root> Begin $evm.root.attributes")
-    $evm.root.attributes.sort.each { |k, v| $evm.log("info", "Root:<$evm.root> Attribute - #{k}: #{v}")}
-    $evm.log("info", "Root:<$evm.root> End $evm.root.attributes")
-    $evm.log("info", "")
-  end
-
-  ##################################
-  # Fetch Host                     #
-  ##################################
-  def fetchHost(host)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/record:host?' + "name=#{host}"
-      $evm.log("info", "============== #{url.inspect}")
-      dooie = RestClient.get url
-      $evm.log("info", "============== #{dooie.inspect}")
-      doc = Nokogiri::XML(dooie)
-      root = doc.root
-      hosts = root.xpath("value/_ref/text()")
-      hosts.each do | a |
-        a = a.to_s
-        unless a.index(host).nil?
-          puts "Host Found - #{a}"
-          return a
-        end
-      end
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
-
-  ##################################
-  # Delete Host                    #
-  ##################################
-  def deleteHost(item)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/' + item
-      dooie = RestClient.delete url
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
-
-  ##################################
-  # Delete Alias                   #
-  ##################################
-  def deleteAlias(item)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/' + item
-      dooie = RestClient.delete url
-      $evm.log("info", "===== EVM Automate Method: <#{@method}> Deleting Alias for host - #{@name} Alias: #{item}")
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
-
-  ##################################
-  # DeleteAliases                   #
-  ##################################
-  def findAlias(host)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/record:cname?' + "canonical=#{host}"
-      dooie = RestClient.get url
-      doc = Nokogiri::XML(dooie)
-      root = doc.root
-      hosts = root.xpath("value/_ref/text()")
-      hosts.each do | a |
-        a = a.to_s
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> Found Aliases for host - #{@name} Alias: #{a}")
-        deleteAlias(a)
-      end
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
-
-  ###########################################
-  # Testing                                 #
-  ###########################################
-
-  # dump all root attributes to the log
-  dump_root
+  @action = nil
+  @action ||= $evm.object['action']
 
   vm = $evm.root['vm']
 
-  username = nil
-  username ||= $evm.object['username']
+  @vm_memory_cpu = vm.hardware['memory_cpu']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_memory_cpu: #{@vm_memory_cpu}")
 
-  password = nil
-  password ||= $evm.object.decrypt('password')
+  @vm_numvcpus = vm.hardware['numvcpus']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_numvcpus: #{@vm_numvcpus}")
 
-  servername = nil
-  servername ||= $evm.object['servername']
+  case @action
+    when "memory"
+      mem_val = 1024
+      vm_mem = @vm_memory_cpu.to_i / 1024
+      mem_array = []
+      default_val = [nil,nil]
+      mem_array << default_val
+      for n in 1..16
+        $evm.log("info", "===== EVM Automate Method: <#{@method}> mem_val: #{mem_val}, mem_array: #{mem_array}")
+        val = []
+        val << "#{n}"
+        val << mem_val.to_i
+        mem_array << val
+        mem_val = mem_val.to_i + 1024
+      end
+      list_values = {
+          'sort_by' => :none,
+          'data_type' => :string,
+          'required' => :true,
+          'values' => mem_array
+      }
 
-  dnsdomain = nil
-  dnsdomain ||= $evm.object['domain']
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+      list_values.each {|k,v| $evm.object[k] = v }
 
-  @name =  "#{vm['name']}.#{dnsdomain}"
+    when "cpu"
+      cpu_array = []
+      default_val = [nil,nil]
+      cpu_array << default_val
+      for n in 1..12
+        val = []
+        val << n
+        val << n
+        cpu_array << val
+      end
 
-  @connection = "#{username}:#{password}@#{servername}"
+      list_values = {
+          'sort_by' => :none,
+          'data_type' => :integer,
+          'required' => :true,
+          'values' => cpu_array
+      }
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+      list_values.each {|k,v| $evm.object[k] = v }
 
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> Fetching Host: #{@name}")
-  sooie = fetchHost("#{@name}.#{dnsdomain}")
-  if sooie ==  true
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> Host: #{@name} does NOT exist")
-  else
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> Fetching Aliases for host - #{@name}")
-    findAlias(@name)
 
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> Deleting Host - #{sooie}")
-    deleteHost(sooie)
   end
-
 
   #
   # Exit method
   #
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> Ended")
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
   exit MIQ_OK
 
     #
     # Set Ruby rescue behavior
     #
 rescue => err
-  $evm.log("error", "<#{@method}>: [#{err}]\n#{err.backtrace.join("\n")}")
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
   exit MIQ_ABORT
 end]]>    </MiqAeMethod>
-    <MiqAeMethod name="Infoblox_Dialog_List_Networks" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+    <MiqAeMethod name="Execute_Rapid_Clone" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
-# CFME Automate Method: Infoblox_Dialog_List_Networks
+# EVM Automate Method: Execute_Rapid_Clone
 #
-# Author: Kevin Morey
 #
-# Notes: This method is executed from a Dynamic Drop-down Service Dialog that will list all Infoblox networks and display them in the service dialog
-# - gem requirements 'rest_client', 'xmlsimple', 'json'
-# dialog_network_cidr
 #
 ###################################
 begin
-  # Method for logging
-  def log(level, message)
-    @method = 'Infoblox_Dialog_List_Networks'
-    $evm.log(level, "#{@method} - #{message}")
+  @method = 'Execute_Rapid_Clone'
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> Started")
+
+  #########################
+  #
+  # Method: dumpRoot
+  # Description: Dump Root information
+  #
+  ##########################
+  def dumpRoot
+    $evm.log("info", "#{@method} - Root:<$evm.root> Begin Attributes")
+    $evm.root.attributes.sort.each { |k, v| $evm.log("info", "#{@method} - Root:<$evm.root> Attributes - #{k}: #{v}")}
+    $evm.log("info", "#{@method} - Root:<$evm.root> End Attributes")
+    $evm.log("info", "")
   end
 
-  # dump_root
-  def dump_root()
-    log(:info, "Root:<$evm.root> Begin $evm.root.attributes")
-    $evm.root.attributes.sort.each { |k, v| log(:info, "Root:<$evm.root> Attribute - #{k}: #{v}")}
-    log(:info, "Root:<$evm.root> End $evm.root.attributes")
-    log(:info, "")
+  # dump root object attributes
+  dumpRoot
+
+  require 'savon'
+  require 'nokogiri'
+  require 'httpclient'
+  HTTPI.adapter = :httpclient
+
+  @servername = nil
+  @servername ||= $evm.object['servername']
+
+  @username = nil
+  @username ||= $evm.object['username']
+
+  @password = nil
+  @password ||= $evm.object.decrypt('password')
+
+  @netapp_url = "https://#{@servername.to_s}:8143/kamino/public/api?wsdl"
+
+  vm = $evm.root['vm']
+
+  @vm_name = vm.attributes['name']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_name: #{@vm_name}")
+
+  @vm_location = vm.attributes['location']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_location: #{@vm_location}")
+
+  @vm_vendor = vm.attributes['vendor']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_vendor: #{@vm_vendor}")
+
+  @vm_host_id = vm.attributes['host_id']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_host_id: #{@vm_host_id}")
+
+  @vm_ems_ref = vm.attributes['ems_ref']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_ems_ref: #{@vm_ems_ref}")
+
+  @vm_type = vm.attributes['type']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_type: #{@vm_type}")
+
+  @vm_storage_name = vm.storage['name']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_storage_name: #{@vm_storage_name}")
+
+  @vm_storage_ems_ref = vm.storage['ems_ref']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_storage_ems_ref: #{@vm_storage_ems_ref}")
+
+  @vm_v_ems_cluster_name = vm.ems_cluster_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_ems_cluster_name: #{@vm_v_ems_cluster_name}")
+
+  @vm_v_parent_blue_folder_1_name = vm.parent_blue_folder_1_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_1_name: #{@vm_v_parent_blue_folder_1_name}")
+
+  @vm_v_parent_blue_folder_2_name = vm.parent_blue_folder_2_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_2_name: #{@vm_v_parent_blue_folder_2_name}")
+
+  @vm_v_parent_blue_folder_3_name = vm.parent_blue_folder_3_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_3_name: #{@vm_v_parent_blue_folder_3_name}")
+
+  @vm_v_parent_blue_folder_4_name = vm.parent_blue_folder_4_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_4_name: #{@vm_v_parent_blue_folder_4_name}")
+
+  @vm_v_parent_blue_folder_5_name = vm.parent_blue_folder_5_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_5_name: #{@vm_v_parent_blue_folder_5_name}")
+
+  @vm_v_parent_blue_folder_6_name = vm.parent_blue_folder_6_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_6_name: #{@vm_v_parent_blue_folder_6_name}")
+
+  @vm_v_parent_blue_folder_7_name = vm.parent_blue_folder_7_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_7_name: #{@vm_v_parent_blue_folder_7_name}")
+
+
+  @vm_v_parent_blue_folder_8_name = vm.parent_blue_folder_8_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_8_name: #{@vm_v_parent_blue_folder_8_name}")
+
+
+  @vm_v_parent_blue_folder_9_name = vm.parent_blue_folder_9_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_9_name: #{@vm_v_parent_blue_folder_9_name}")
+
+  @vm_v_storage_name = vm.storage_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
+
+  def getObjectRef(netapp_url, servername, username, password, arg_name, arg_type)
+    Savon.configure do |config|
+      config.log = false
+      config.log_level = :info
+      config.pretty_print_xml = true
+    end
+    client = Savon::Client.new do |wsdl, http, wsse|
+      wsdl.document = "#{netapp_url}"
+      wsdl.endpoint = "#{netapp_url}"
+      http.auth.ssl.verify_mode = :none
+    end
+    response = client.request "ser:getMoref" do
+      soap.namespaces.merge!({
+                                 "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                                 "xmlns:ser" => "http://server.kamino.netapp.com/"
+                             })
+      soap.header = {}
+      soap.body = { 'arg0' => "#{arg_name}", 'arg1' => "#{arg_type}", 'arg2' => { 'serviceUrl' => "https://#{servername.to_s}/sdk", 'vcPassword' => "#{password.to_s}", 'vcUser' => "#{username.to_s}" } }
+    end
+    response_hash = response.to_hash[:get_moref_response]
+    ref_obj = "#{response_hash[:return]}"
+    return ref_obj
   end
 
-  # call_infoblox
-  def call_infoblox(action, ref='network' )
-    require 'rest_client'
-    require 'xmlsimple'
-    require 'json'
+#  @vm_object = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_name}", "VirtualMachine")
+#  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_object: #{@vm_object.inspect}")
 
-    servername = nil || $evm.object['servername']
-    username = nil || $evm.object['username']
-    password = nil || $evm.object.decrypt('password')
-    url = "https://#{servername}/wapi/v1.0/"+"#{ref}"
+  @dialog_datastore_selection = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_storage_name}", "Datastore")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_datastore_selection: #{@dialog_datastore_selection}")
 
-    params = {
-        :method=>action,
-        :url=>url,
-        :user=>username,
-        :password=>password,
-        :headers=>{ :content_type=>:xml, :accept=>:xml }
+#  @dialog_clone_destination = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_v_ems_cluster_name}", "Cluster")
+#  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_destination: #{@dialog_clone_destination.inspect}")
+
+  vm_location = $evm.root
+  controller_ip = nil
+  controller_ip ||= $evm.root.attributes['dialog_controller_ip'] || $evm.object['controller_ip']
+
+  controller_username = nil
+  controller_username ||= $evm.object['controller_username']
+
+  controller_password = nil
+  controller_password ||= $evm.object.decrypt('controller_password')
+
+  dialog_clone_name = $evm.root.attributes['dialog_clone_name']
+
+  if $evm.root.attributes['dialog_clone_name'] == 1
+    dialog_power_on = 'true'
+  else
+    dialog_power_on = 'false'
+  end
+
+  dialog_clone_destination = 'Cluster:domain-c121'
+  dialog_datastore_selection = "Datastore:#{@vm_storage_ems_ref}"
+  dialog_clone_source_path = $evm.root.attributes['dialog_clone_source_path']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source_path: #{dialog_clone_source_path}")
+  dialog_clone_source = $evm.root.attributes['dialog_clone_source']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source: #{dialog_clone_source}")
+  dialog_vm_cpu = $evm.root.attributes['dialog_vm_cpu']
+  dialog_memory_size = $evm.root.attributes['dialog_memory_size']
+
+  namespaces = {
+      "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+      "xmlns:ser" => "http://server.kamino.netapp.com/"
+  }
+
+  builder = Nokogiri::XML::Builder.new do |xml|
+    xml.arg0 {
+      xml.cloneSpec {
+        xml.clones {
+          xml.entry {
+            xml.key "#{dialog_clone_name.to_s}"
+            xml.value {
+              xml.powerOn "#{dialog_power_on.to_s}"
+            }
+          }
+        }
+        xml.containerMoref "#{dialog_clone_destination.to_s}"
+        xml.files {
+          xml.destDatastoreSpec {
+            xml.controller {
+              xml.ipAddress "#{controller_ip.to_s}"
+              xml.password "#{controller_password.to_s}"
+              xml.ssl "false"
+              xml.username "#{controller_username.to_s}"
+            }
+            xml.mor "#{dialog_datastore_selection.to_s}"
+            xml.numDatastores "0"
+            xml.thinProvision "false"
+            xml.volAutoGrow "false"
+          }
+          xml.sourcePath "#{dialog_clone_source_path.to_s}"
+        }
+        xml.memMB "#{dialog_memory_size}"
+        xml.numberCPU "#{dialog_vm_cpu.to_i}"
+        xml.templateMoref "#{dialog_clone_source.to_s}"
+      }
+      xml.serviceUrl "https://#{@servername.to_s}/sdk"
+      xml.vcPassword "#{@password.to_s}"
+      xml.vcUser "#{@username.to_s}"
     }
-    log(:info, "Calling -> Infoblox:<#{url}> action:<#{action}> payload:<#{params[:payload]}>")
-
-    response = RestClient::Request.new(params).execute
-    raise "Failure <- Infoblox Response:<#{response.code}>" unless response.code == 200 || response.code == 201
-
-    log(:info, "Success <- Infoblox Response:<#{response.code}>")
-    # use XmlSimple to convert xml to ruby hash
-    response_hash = XmlSimple.xml_in(response)
-    log(:info, "Inspecting response_hash: #{response_hash.inspect}")
-    return response_hash
   end
 
-  # build_dialog
-  def build_dialog(hash)
-    dialog_field = $evm.object
+  puts builder.to_xml
 
-    # set the values to the dialog_hash
-    dialog_field['values'] = hash.keys
-    # sort_by: value / description / none
-    $evm.object["sort_by"] = "description"
-    # sort_order: ascending / descending
-    $evm.object["sort_order"] = "ascending"
-    # data_type: string / integer
-    $evm.object["data_type"] = "string"
-    # required: true / false
-    $evm.object["required"] = "true"
-
-    log(:info, "Dynamic drop down values: #{$evm.object['values']}")
-    return $evm.object['values']
+  connectapi = Savon::Client.new do |wsdl, http, wsse|
+    wsdl.document = "#{@netapp_url}"
+    wsdl.endpoint = "#{@netapp_url}"
+    http.auth.ssl.verify_mode = :none
   end
 
-  log(:info, "CFME Automate Method Started")
+  response = connectapi.request "ser:createClones" do
+    soap.namespaces.merge!({
+         "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+         "xmlns:ser" => "http://server.kamino.netapp.com/"
+     })
+    soap.header = {}
+    soap.body = builder.doc.root.to_xml
+  end
 
-  # dump all root attributes to the log
-  dump_root
+  response_hash = response.to_hash
 
-  # call infoblox to get a list of networks
-  networks = call_infoblox(:get)
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> #{response_hash.inspect}")
 
-  # # only pull out the network and the _ref values
-  networks_hash = Hash[*networks['value'].collect { |x| [x['network'], x['_ref'][0]] }.flatten]
-  raise "networks_hash returned nil" if networks_hash.nil?
-  log(:info, "Inspecting networks_hash:<#{networks_hash}>")
-
-  build_dialog(networks_hash)
-
+  #
   # Exit method
-  log(:info, "CFME Automate Method Ended")
+  #
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> Ended")
   exit MIQ_OK
 
+    #
     # Set Ruby rescue behavior
+    #
 rescue => err
-  log(:error, "[#{err}]\n#{err.backtrace.join("\n")}")
+  $evm.log("error", "<#{@method}>: [#{err}]\n#{err.backtrace.join("\n")}")
   exit MIQ_STOP
 end]]>    </MiqAeMethod>
-    <MiqAeMethod name="Infoblox_Host_Record" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+    <MiqAeMethod name="GetVMinfo" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
-# EVM Automate Method: Infoblox_Host_Record
+# EVM Automate Method: GetVMinfo
 #
-# Notes: EVM Automate method to add Host entry to Infoblox
+# Notes: Dump the objects in storage to the automation.log
 #
 ###################################
 begin
-  @method = 'Infoblox_Host_Record'
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> Started")
+  @method = 'GetVMinfo'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
 
   # Turn of verbose logging
   @debug = true
 
-  require 'rest_client'
-  require 'json'
-  require 'nokogiri'
-  require 'ipaddr'
+  vm = $evm.root['vm']
 
-  ##################################
-  # Dump Root Vars                 #
-  ##################################
-  def dump_root()
-    $evm.log("info", "Root:<$evm.root> Begin $evm.root.attributes")
-    $evm.root.attributes.sort.each { |k, v| $evm.log("info", "Root:<$evm.root> Attribute - #{k}: #{v}")}
-    $evm.log("info", "Root:<$evm.root> End $evm.root.attributes")
+  @vm_name = vm.attributes['name']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_name: #{@vm_name}")
+
+
+  @vm_location = vm.attributes['location']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_location: #{@vm_location}")
+
+
+  @vm_vendor = vm.attributes['vendor']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_vendor: #{@vm_vendor}")
+
+
+  @vm_host_id = vm.attributes['host_id']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_host_id: #{@vm_host_id}")
+
+
+  @vm_ems_ref = vm.attributes['ems_ref']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_ems_ref: #{@vm_ems_ref}")
+
+
+  @vm_type = vm.attributes['type']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_type: #{@vm_type}")
+
+
+  @vm_memory_cpu = vm.hardware['memory_cpu']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_memory_cpu: #{@vm_memory_cpu}")
+
+
+  @vm_numvcpus = vm.hardware['numvcpus']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_numvcpus: #{@vm_numvcpus}")
+
+
+  @vm_storage_name = vm.storage['name']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_storage_name: #{@vm_storage_name}")
+
+
+  @vm_storage_ems_ref = vm.storage['ems_ref']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_storage_ems_ref: #{@vm_storage_ems_ref}")
+
+
+  @vm_v_ems_cluster_name = vm.ems_cluster_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_ems_cluster_name: #{@vm_v_ems_cluster_name}")
+
+
+  @vm_v_parent_blue_folder_1_name = vm.parent_blue_folder_1_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_1_name: #{@vm_v_parent_blue_folder_1_name}")
+
+
+  @vm_v_parent_blue_folder_2_name = vm.parent_blue_folder_2_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_2_name: #{@vm_v_parent_blue_folder_2_name}")
+
+
+  @vm_v_parent_blue_folder_3_name = vm.parent_blue_folder_3_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_3_name: #{@vm_v_parent_blue_folder_3_name}")
+
+
+  @vm_v_parent_blue_folder_4_name = vm.parent_blue_folder_4_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_4_name: #{@vm_v_parent_blue_folder_4_name}")
+
+
+  @vm_v_parent_blue_folder_5_name = vm.parent_blue_folder_5_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_5_name: #{@vm_v_parent_blue_folder_5_name}")
+
+
+  @vm_v_parent_blue_folder_6_name = vm.parent_blue_folder_6_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_6_name: #{@vm_v_parent_blue_folder_6_name}")
+
+
+  @vm_v_parent_blue_folder_7_name = vm.parent_blue_folder_7_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_7_name: #{@vm_v_parent_blue_folder_7_name}")
+
+
+  @vm_v_parent_blue_folder_8_name = vm.parent_blue_folder_8_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_8_name: #{@vm_v_parent_blue_folder_8_name}")
+
+
+  @vm_v_parent_blue_folder_9_name = vm.parent_blue_folder_9_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_9_name: #{@vm_v_parent_blue_folder_9_name}")
+
+
+  @vm_v_storage_name = vm.storage_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
+
+  storages = storages.find_all do |s|
+    storage_id = s.attributes['id'].to_i
+    $evm.log("info","Storage ID: #{s.id}")
+  end
+
+  dialog_vm_snapshots = {}
+  if vm.v_total_snapshots > 0
+    vm.snapshots.each do |ss|
+      dialog_vm_snapshots[ss.ems_ref] = "#{ss.name}"
+    end
+    $evm.log("info","========= VM Snapshot Name: #{dialog_vm_snapshots.inspect}")
+  end
+
+
+  #
+  # Exit method
+  #
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
+  exit MIQ_OK
+
+    #
+    # Set Ruby rescue behavior
+    #
+rescue => err
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
+  exit MIQ_ABORT
+end]]>    </MiqAeMethod>
+    <MiqAeMethod name="Retrieve_Clone_Source" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+#
+# EVM Automate Method: Retrieve_Clone_Source
+#
+# Notes: Populate Clone Source
+#
+###################################
+begin
+  @method = 'Retrieve_Clone_Source'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
+
+  # Turn of verbose logging
+  @debug = true
+
+  @action = nil
+  @action ||= $evm.object['action']
+
+  vm = $evm.root['vm']
+
+  @vm_name = vm.attributes['name']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_name: #{@vm_name}")
+
+  @vm_ems_ref = vm.attributes['ems_ref']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_ems_ref: #{@vm_ems_ref}")
+
+  @vm_location = vm.attributes['location']
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_location: #{@vm_location}")
+
+  @vm_v_storage_name = vm.storage_name
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
+
+  dialog_clone_source = "VirtualMachine:#{@vm_ems_ref}"
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source: #{dialog_clone_source}")
+
+  dialog_clone_source_path = "[#{@vm_v_storage_name}]#{@vm_location}"
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source_path: #{dialog_clone_source_path}")
+
+  case @action
+    when "clone_source"
+      list_values = {
+          'sort_by' => :none,
+          'data_type' => :string,
+          'required' => :true,
+          'values' => [[nil,nil],["#{@vm_name}", "#{dialog_clone_source}"]],
+      }
+
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+      list_values.each {|k,v| $evm.object[k] = v }
+
+    when "clone_source_path"
+      list_values = {
+          'sort_by' => :none,
+          'data_type' => :string,
+          'required' => :true,
+          'values' => [[nil,nil],["#{dialog_clone_source_path}", "#{dialog_clone_source_path}"]],
+      }
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+      list_values.each {|k,v| $evm.object[k] = v }
+
+  end
+
+  #
+  # Exit method
+  #
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
+  exit MIQ_OK
+
+    #
+    # Set Ruby rescue behavior
+    #
+rescue => err
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
+  exit MIQ_ABORT
+end]]>    </MiqAeMethod>
+    <MiqAeMethod name="Retrieve_Object" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+#
+# EVM Automate Method: Execute_Rapid_Clone
+#
+#
+#
+###################################
+begin
+  @method = 'Execute_Rapid_Clone'
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> Started")
+
+  #########################
+  #
+  # Method: dumpRoot
+  # Description: Dump Root information
+  #
+  ##########################
+  def dumpRoot
+    $evm.log("info", "#{@method} - Root:<$evm.root> Begin Attributes")
+    $evm.root.attributes.sort.each { |k, v| $evm.log("info", "#{@method} - Root:<$evm.root> Attributes - #{k}: #{v}")}
+    $evm.log("info", "#{@method} - Root:<$evm.root> End Attributes")
     $evm.log("info", "")
   end
 
-  ##################################
-  # Fetch Host                     #
-  ##################################
-  def fetchHost(host)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/record:host?' + "name=#{host}"
-      $evm.log("info", "============== #{url.inspect}")
-      dooie = RestClient.get url
-      $evm.log("info", "============== #{dooie.inspect}")
-      doc = Nokogiri::XML(dooie)
-      root = doc.root
-      hosts = root.xpath("value/_ref/text()")
-      hosts.each do | a |
-        a = a.to_s
-        unless a.index(host).nil?
-          puts "Host Found - #{a}"
-          return a
-        end
-      end
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
+  # dump root object attributes
+  dumpRoot
 
-  ##################################
-  # Delete Host                    #
-  ##################################
-  def deleteHost(item)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/' + item
-      dooie = RestClient.delete url
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
+  require 'savon'
+  require 'httpclient'
+  HTTPI.adapter = :httpclient
+  HTTPI.log = false
 
-  ##################################
-  # Get IP Address                 #
-  ##################################
-  def getIP(hostname, ipaddress)
-    begin
-      url = 'https://' + @connection + '/wapi/v1.0/record:host'
-      content = "\{\"ipv4addrs\":\[\{\"ipv4addr\":\"#{ipaddress}\"\}\],\"name\":\"#{hostname}\"\}"
-      dooie = RestClient.post url, content, :content_type => :json, :accept => :json
-      return true
-    rescue Exception => e
-      puts e.inspect
-      return false
-    end
-  end
+  @servername = 'mcimgmt1.mcis.usmc.mil'
+  @username = 'MCIS\jose'
+  @password = 'Password1234!@#$'
 
-  ##################################
-  # Fetch Network Ref              #
-  ##################################
-  def fetchNetworkRef(cdir)
-    begin
-      $evm.log("info","GetIP --> Network Search - #{cdir}")
-      url = 'https://' + @connection + '/wapi/v1.0/network'
-      dooie = RestClient.get url
-      doc = Nokogiri::XML(dooie)
-      root = doc.root
-      networks = root.xpath("value/_ref/text()")
-      networks.each do | a |
-        a = a.to_s
-        unless a.index(cdir).nil?
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> GetIP --> Network Found - #{a}")
-          return a
-        end
-      end
-      return nil
-    rescue Exception => e
-      $evm.log("info", "===== EVM Automate Method: <#{@method}> #{e.inspect}")
-      return false
-    end
-  end
-
-  ##################################
-  # Next Available IP Address      #
-  ##################################
-    def nextIP(network)
-      begin
-        $evm.log("info","NextIP on - #{network}")
-        url = 'https://' + @connection + '/wapi/v1.0/' + network
-        dooie = RestClient.post url, :_function => 'next_available_ip', :num => '1'
-        doc = Nokogiri::XML(dooie)
-        root = doc.root
-        nextip = root.xpath("ips/list/value/text()")
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> NextIP is - #{nextip}")
-        return nextip
-      rescue Exception => e
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> #{e.inspect}")
-        return false
-      end
+  def getObjectRef(servername, username, password, arg_name, arg_type)
+    Savon.configure do |config|
+      config.log = false
+      config.log_level = :info
+      config.pretty_print_xml = true
     end
 
-  ############################
-  #
-  # Method: validate_ipaddr
-  # Notes: This method uses a regular expression to validate the ipaddr and gateway
-  # Returns: Returns string: true/false
-  #
-  ############################
-  def validate_ipaddr(ip)
-    ip_regex = /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/
-    if ip_regex =~ ip
-      $evm.log("info","IP Address:<#{ip}> passed validation") if @debug
-      return true
-    else
-      $evm.log("error","IP Address:<#{ip}> failed validation") if @debug
-      return false
+    client = Savon::Client.new do |wsdl, http, wsse|
+      wsdl.document = "https://#{@servername.to_s}:8143/kamino/public/api?wsdl"
+      wsdl.endpoint = "https://#{@servername.to_s}:8143/kamino/public/api?wsdl"
+      http.auth.ssl.verify_mode = :none
     end
-  end
 
-  ##################################
-  # Set Options in prov                                       #
-  ##################################
-  def set_prov(prov, hostname, ipaddr, netmask, gateway)
-    $evm.log("info", "GetIP --> Hostname = #{hostname}")
-    $evm.log("info", "GetIP --> IP Address =  #{ipaddr}")
-    $evm.log("info", "GetIP -->  Netmask = #{netmask}")
-    $evm.log("info", "GetIP -->  Gateway = #{gateway}")
-    prov.set_option(:sysprep_spec_override, 'true')
-    prov.set_option(:addr_mode, ["static", "Static"])
-    prov.set_option(:ip_addr, "#{ipaddr}")
-    prov.set_option(:subnet_mask, "#{netmask}")
-    prov.set_option(:gateway, "#{gateway}")
-    prov.set_option(:vm_target_name, "#{hostname}")
-    prov.set_option(:linux_host_name, "#{hostname}")
-    prov.set_option(:vm_target_hostname, "#{hostname}")
-    prov.set_option(:host_name, "#{hostname}")
-    $evm.log("info", "GetIP --> #{prov.inspect}")
-    $evm.log("info", "GetIP --> #{prov.get_option(:ip_addr)}")
-
-  end
-
-  ##################################
-  # Set netmask                        #
-  ##################################
-  def netmask(cdir)
-    netblock = IPAddr.new(cdir)
-    netins =  netblock.inspect
-    netmask = netins.match(/(?<=\/)(.*?)(?=\>)/)
-    $evm.log("info", "GetIP --> Netmask = #{netmask}")
-    return netmask
-  end
-
-  ###########################################
-  # Testing                                 #
-  ###########################################
-
-
-  # dump all root attributes to the log
-  dump_root
-
-  action = nil
-  action ||= $evm.object['action'] || $evm.root['action']
-  $evm.log("info","GetIP --> Action= #{action}")
-
-  username = nil
-  username ||= $evm.object['username']
-
-  password = nil
-  password ||= $evm.object.decrypt('password')
-
-  servername = nil
-  servername ||= $evm.object['servername']
-
-  subnet = nil
-  subnet ||= $evm.object['subnet']
-
-  gateway = nil
-  gateway ||= $evm.object['gateway']
-
-  dnsdomain = nil
-  dnsdomain ||= $evm.object['domain']
-
-  #  Get vm from miq_provision object
-  prov = $evm.root["miq_provision"]
-  $evm.log("info","#{prov.inspect}")
-
-  vm_name = prov.options[:vm_target_name]
-  $evm.log("info","GetIP --> VM Name = #{vm_name}")
-
-  vm_dest_id = prov['destination_id'].to_i
-  $evm.log("info","GetIP --> vm_dest_id = #{vm_dest_id.inspect}")
-
-  vm_data = $evm.vmdb('vm', vm_dest_id) unless vm_dest_id == 0
-  $evm.log("info","GetIP --> vm_data = #{vm_data.inspect}")
-
-  ipaddress = vm_data.ipaddresses[0]
-  $evm.log("info","GetIP --> IP Address = #{ipaddress}")
-
-  @name =  "#{vm_name}.#{dnsdomain}"
-  raise "VM Name was not passed" if @name.empty?
-
-  @connection = "#{username}:#{password}@#{servername}"
-
-  if vm_data['vendor'] == 'openstack'
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> Vendor Type: #{vm_data['vendor']} Running Infoblox Integration")
-    case action
-
-      when "verifyhost"
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> Verifying Host: #{@name}.#{dnsdomain}")
-        sooie = fetchHost("#{@name}.#{dnsdomain}")
-        if sooie ==  true
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> Host: #{@name}.#{dnsdomain} does NOT exist")
-        else
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> Host: #{@name}.#{dnsdomain} does exist")
-        end
-
-      when "createhost"
-        ipadd = '10.32.18.55'
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> IPADD: #{ipadd.inspect} #{ipadd.class} -> IPADDRESS #{ipaddress.inspect} #{ipaddress.class}")
-        uooie = getIP("#{@name}.#{dnsdomain}","#{ipaddress}")
-        if uooie ==  true
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> #{@name}.#{dnsdomain} with IP Address #{ipaddress} created successfully")
-        elsif uooie == false
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> #{@name}.#{dnsdomain} with IP Address #{ipaddress} FAILED")
-          exit MIQ_ABORT
-        else
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> unknown error")
-          exit MIQ_ABORT
-        end
-
-      when "getipnext"
-        netRef = fetchNetworkRef(subnet)
-        nextIPADDR = nextIP(netRef)
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> GetIPNext-before --> #{prov.options[:vm_target_name]}.#{dnsdomain} with IP Address #{nextIPADDR} created successfully")
-        result = getIP("#{prov.options[:vm_target_name]}.#{dnsdomain}", nextIPADDR)
-        $evm.log("info", "===== EVM Automate Method: <#{@method}> GetIPNext-after --> #{prov.options[:vm_target_name]}.#{dnsdomain} with IP Address #{nextIPADDR} created successfully")
-        if result ==  true
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> GetIP --> #{prov.options[:vm_target_name]}.#{dnsdomain} with IP Address #{nextIPADDR} created successfully")
-          netmask = netmask(subnet)
-          set_prov(prov, prov.options[:vm_target_name], nextIPADDR, netmask, gateway)
-        elsif result == false
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> GetIP --> #{prov.options[:vm_target_name]}.#{dnsdomain} with IP Address #{nextIPADDR} FAILED")
-          exit MIQ_ABORT
-        else
-          $evm.log("info", "===== EVM Automate Method: <#{@method}> GetIP --> unknown error")
-        end
-
+    response = client.request "ser:getMoref" do
+      soap.namespaces.merge!({
+         "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+         "xmlns:ser" => "http://server.kamino.netapp.com/"
+      })
+      soap.header = {}
+      soap.body = { 'arg0' => "#{arg_name}", 'arg1' => "#{arg_type}", 'arg2' => { 'serviceUrl' => "https://#{servername.to_s}/sdk", 'vcPassword' => "#{password.to_s}", 'vcUser' => "#{username.to_s}" } }
     end
-  else
-    $evm.log("info", "===== EVM Automate Method: <#{@method}> Vendor Type: #{vm_data['vendor']} skipping Infoblox Integration")
+
+    response_hash = response.to_hash[:get_moref_response]
+
+    ref_obj = "#{response_hash[:return]}"
+
+    return ref_obj
   end
 
+  vm_object = getObjectRef(@servername, @username, @password, "w2k8r2-jump-template-20140506", "VirtualMachine")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_object: #{vm_object.inspect}")
 
   #
   # Exit method
@@ -18107,35 +18084,29 @@ begin
     #
 rescue => err
   $evm.log("error", "<#{@method}>: [#{err}]\n#{err.backtrace.join("\n")}")
-  exit MIQ_ABORT
+  exit MIQ_STOP
 end]]>    </MiqAeMethod>
     <MiqAeSchema>
       <MiqAeField name="servername" substitute="true" aetype="attribute" datatype="string" priority="1" message="create">
-10.32.2.200      </MiqAeField>
+mcimgmt1.mcis.usmc.mil      </MiqAeField>
       <MiqAeField name="username" substitute="true" aetype="attribute" datatype="string" priority="2" message="create">
-cloudforms      </MiqAeField>
+MCIS\jose      </MiqAeField>
       <MiqAeField name="password" substitute="true" aetype="attribute" datatype="password" priority="3" message="create">
-v1:{ax0hEkT5S7cKfKI5JEo3uw==}      </MiqAeField>
-      <MiqAeField name="to_email_address" substitute="true" aetype="attribute" datatype="string" priority="4" message="create">
-      </MiqAeField>
-      <MiqAeField name="from_email_address" substitute="true" aetype="attribute" datatype="string" priority="5" message="create">
-      </MiqAeField>
-      <MiqAeField name="signature" substitute="true" aetype="attribute" datatype="string" priority="6" message="create">
-      </MiqAeField>
+v1:{+YT9r2mlxaPyr4RY+dWrlN3HuBkVZ3ePnvGDT48NTsE=}      </MiqAeField>
+      <MiqAeField name="controller_ip" substitute="true" aetype="attribute" datatype="string" priority="4" message="create">
+10.2.100.19      </MiqAeField>
+      <MiqAeField name="controller_username" substitute="true" aetype="attribute" datatype="string" priority="5" message="create">
+vsc.netapp.svc      </MiqAeField>
+      <MiqAeField name="controller_password" substitute="true" aetype="attribute" datatype="password" priority="6" message="create">
+v1:{dbXYedjKxZEGfxtiGNbFgciiC1YEyCca1wR3X8FkC0c=}      </MiqAeField>
       <MiqAeField name="action" substitute="true" aetype="attribute" datatype="string" priority="7" message="create">
       </MiqAeField>
-      <MiqAeField name="gateway" substitute="true" aetype="attribute" datatype="string" priority="8" message="create">
-10.32.18.1      </MiqAeField>
-      <MiqAeField name="subnet" substitute="true" aetype="attribute" datatype="string" priority="9" message="create">
-10.32.18.0/23      </MiqAeField>
-      <MiqAeField name="domain" substitute="true" aetype="attribute" datatype="string" priority="10" message="create">
-premierinc.com      </MiqAeField>
-      <MiqAeField name="method1" substitute="true" aetype="method" datatype="string" priority="11" message="create">
+      <MiqAeField name="method1" substitute="true" aetype="method" datatype="string" priority="8" message="create">
       </MiqAeField>
-      <MiqAeField name="method2" substitute="true" aetype="method" datatype="string" priority="12" message="create">
+      <MiqAeField name="method2" substitute="true" aetype="method" datatype="string" priority="9" message="create">
       </MiqAeField>
     </MiqAeSchema>
-    <MiqAeInstance name="Infoblox_DNS_Alias">
+    <MiqAeInstance name="Dialog_Storage_Controller">
       <MiqAeField name="servername">
         <![CDATA[]]>
       </MiqAeField>
@@ -18145,34 +18116,25 @@ premierinc.com      </MiqAeField>
       <MiqAeField name="password">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="to_email_address">
+      <MiqAeField name="controller_ip">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="from_email_address">
+      <MiqAeField name="controller_username">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="signature">
+      <MiqAeField name="controller_password">
         <![CDATA[]]>
       </MiqAeField>
       <MiqAeField name="action">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="gateway">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="subnet">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="domain">
-        <![CDATA[]]>
-      </MiqAeField>
       <MiqAeField name="method1">
-Infoblox_DNS_Alias      </MiqAeField>
+Dialog_Storage_Controller      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_Dialog_List_Networks">
+    <MiqAeInstance name="Dialog_VM_Sizing_CPU">
       <MiqAeField name="servername">
         <![CDATA[]]>
       </MiqAeField>
@@ -18182,34 +18144,24 @@ Infoblox_DNS_Alias      </MiqAeField>
       <MiqAeField name="password">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="to_email_address">
+      <MiqAeField name="controller_ip">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="from_email_address">
+      <MiqAeField name="controller_username">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="signature">
+      <MiqAeField name="controller_password">
         <![CDATA[]]>
       </MiqAeField>
       <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="gateway">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="subnet">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="domain">
-        <![CDATA[]]>
-      </MiqAeField>
+cpu      </MiqAeField>
       <MiqAeField name="method1">
-Infoblox_Dialog_List_Networks      </MiqAeField>
+Dialog_VM_Sizing      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_Host_Record">
+    <MiqAeInstance name="Dialog_VM_Sizing_Memory">
       <MiqAeField name="servername">
         <![CDATA[]]>
       </MiqAeField>
@@ -18219,25 +18171,24 @@ Infoblox_Dialog_List_Networks      </MiqAeField>
       <MiqAeField name="password">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="to_email_address">
+      <MiqAeField name="controller_ip">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="from_email_address">
+      <MiqAeField name="controller_username">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="signature">
+      <MiqAeField name="controller_password">
         <![CDATA[]]>
       </MiqAeField>
       <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
+memory      </MiqAeField>
       <MiqAeField name="method1">
-Infoblox_Host_Record      </MiqAeField>
+Dialog_VM_Sizing      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_Instance_Provision">
+    <MiqAeInstance name="Execute_Rapid_Clone">
       <MiqAeField name="servername">
         <![CDATA[]]>
       </MiqAeField>
@@ -18247,33 +18198,16 @@ Infoblox_Host_Record      </MiqAeField>
       <MiqAeField name="password">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="to_email_address">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="from_email_address">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="signature">
-        <![CDATA[]]>
-      </MiqAeField>
       <MiqAeField name="action">
-createhost      </MiqAeField>
-      <MiqAeField name="gateway">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="subnet">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="domain">
         <![CDATA[]]>
       </MiqAeField>
       <MiqAeField name="method1">
-Infoblox_Host_Record      </MiqAeField>
+Execute_Rapid_Clone      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_Instance_Retire">
+    <MiqAeInstance name="GetVMinfo">
       <MiqAeField name="servername">
         <![CDATA[]]>
       </MiqAeField>
@@ -18283,34 +18217,25 @@ Infoblox_Host_Record      </MiqAeField>
       <MiqAeField name="password">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="to_email_address">
+      <MiqAeField name="controller_ip">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="from_email_address">
+      <MiqAeField name="controller_username">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="signature">
+      <MiqAeField name="controller_password">
         <![CDATA[]]>
       </MiqAeField>
       <MiqAeField name="action">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="gateway">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="subnet">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="domain">
-        <![CDATA[]]>
-      </MiqAeField>
       <MiqAeField name="method1">
-Infoblox_Delete_Record      </MiqAeField>
+GetVMinfo      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_Instance_Verify">
+    <MiqAeInstance name="Rapid_Clone_Email_Complete">
       <MiqAeField name="servername">
         <![CDATA[]]>
       </MiqAeField>
@@ -18320,23 +18245,209 @@ Infoblox_Delete_Record      </MiqAeField>
       <MiqAeField name="password">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="to_email_address">
+      <MiqAeField name="controller_ip">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="from_email_address">
+      <MiqAeField name="controller_username">
         <![CDATA[]]>
       </MiqAeField>
-      <MiqAeField name="signature">
+      <MiqAeField name="controller_password">
         <![CDATA[]]>
       </MiqAeField>
       <MiqAeField name="action">
-verifyhost      </MiqAeField>
+        <![CDATA[]]>
+      </MiqAeField>
       <MiqAeField name="method1">
-Infoblox_Host_Record      </MiqAeField>
+Rapid_Clone_Email_Complete      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Clone_Source">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_ip">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+clone_source      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Clone_Source      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Clone_Source_Path">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_ip">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+clone_source_path      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Clone_Source      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Customization_Specification">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Customization_Specification      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Datastore_List">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Datastore_List      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Destination_Folder">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Destination_Folder      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Destination_Host">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Destination_Host      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Object">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_ip">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Object      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="Retrieve_Storage_Controller">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Retrieve_Storage_Controller      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+  </MiqAeClass>
+  <MiqAeClass name="Rapid_Clone" namespace="MCICOM/StateMachines">
+    <MiqAeSchema>
+      <MiqAeField name="Execute_Rapid_Clone" substitute="true" aetype="state" datatype="string" priority="1" message="create">
+/MCICOM/Integration/RapidClone/Execute_Rapid_Clone      </MiqAeField>
+      <MiqAeField name="Email_Owner" substitute="true" aetype="state" datatype="string" priority="2" message="create">
+/MCICOM/Integration/RapidClone/Rapid_Clone_Email_Complete      </MiqAeField>
+    </MiqAeSchema>
   </MiqAeClass>
   <MiqAeClass name="Methods" namespace="Sample" description="Sample Methods">
     <MiqAeMethod name="CheckMulticast" language="ruby" scope="instance" location="inline"><![CDATA[#
@@ -24089,67 +24200,6 @@ parse_automation_request      </MiqAeField>
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="CloudInstanceActions">
-      <MiqAeField name="guard">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="on_entry">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel1">
-/PremierHealthcare/Methods/InstanceActions/InstanceActions      </MiqAeField>
-      <MiqAeField name="meth1">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel2">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth2">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel3">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth3">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel4">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth4">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel5">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth5">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel6">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth6">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel7">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth7">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel8">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth8">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel9">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="on_exit">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
     <MiqAeInstance name="Cluster_Workload_Management">
       <MiqAeField name="guard">
         <![CDATA[]]>
@@ -24183,6 +24233,67 @@ parse_automation_request      </MiqAeField>
       </MiqAeField>
       <MiqAeField name="rel5">
 /System/Event/Alert_Cluster_Workload_Management      </MiqAeField>
+      <MiqAeField name="meth5">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel9">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_exit">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="GetVMinfo">
+      <MiqAeField name="guard">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_entry">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel1">
+/MCICOM/Integration/RapidClone/GetVMinfo      </MiqAeField>
+      <MiqAeField name="meth1">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel5">
+        <![CDATA[]]>
+      </MiqAeField>
       <MiqAeField name="meth5">
         <![CDATA[]]>
       </MiqAeField>
@@ -24333,128 +24444,6 @@ parse_automation_request      </MiqAeField>
         <![CDATA[]]>
       </MiqAeField>
     </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_DNS">
-      <MiqAeField name="guard">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="on_entry">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel1">
-/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_Host_Record      </MiqAeField>
-      <MiqAeField name="meth1">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel2">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth2">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel3">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth3">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel4">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth4">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel5">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth5">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel6">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth6">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel7">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth7">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel8">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth8">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel9">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="on_exit">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Infoblox_DNS_Alias">
-      <MiqAeField name="guard">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="on_entry">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel1">
-/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_DNS_Alias      </MiqAeField>
-      <MiqAeField name="meth1">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel2">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth2">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel3">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth3">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel4">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth4">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel5">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth5">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel6">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth6">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel7">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth7">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel8">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="meth8">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="rel9">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="on_exit">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
     <MiqAeInstance name="InspectME">
       <MiqAeField name="guard">
         <![CDATA[]]>
@@ -24488,6 +24477,67 @@ parse_automation_request      </MiqAeField>
       </MiqAeField>
       <MiqAeField name="rel5">
 /Sample/Methods/InspectME      </MiqAeField>
+      <MiqAeField name="meth5">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel9">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_exit">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="RapidClone">
+      <MiqAeField name="guard">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_entry">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel1">
+/MCICOM/Integration/RapidClone/Execute_Rapid_Clone      </MiqAeField>
+      <MiqAeField name="meth1">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel5">
+        <![CDATA[]]>
+      </MiqAeField>
       <MiqAeField name="meth5">
         <![CDATA[]]>
       </MiqAeField>
@@ -24653,6 +24703,128 @@ parse_automation_request      </MiqAeField>
       </MiqAeField>
       <MiqAeField name="rel2">
 /Integration/VCLI/Reconfigure_RAM      </MiqAeField>
+      <MiqAeField name="meth2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel5">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth5">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel9">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_exit">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="TestVMmem">
+      <MiqAeField name="guard">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_entry">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel1">
+/MCICOM/Integration/RapidClone/Execute_Rapid_Clone      </MiqAeField>
+      <MiqAeField name="meth1">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth2">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth3">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth4">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel5">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth5">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth6">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth7">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="meth8">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel9">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_exit">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
+    <MiqAeInstance name="TestVMobject">
+      <MiqAeField name="guard">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="on_entry">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel1">
+/MCICOM/Integration/RapidClone/Retrieve_Object      </MiqAeField>
+      <MiqAeField name="meth1">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="rel2">
+        <![CDATA[]]>
+      </MiqAeField>
       <MiqAeField name="meth2">
         <![CDATA[]]>
       </MiqAeField>
