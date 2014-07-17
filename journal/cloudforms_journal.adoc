@@ -71,7 +71,7 @@ NOTE: The database uses LVM and storage can be extended at a later time
 |======================
 | Region Name  |   Region #  | Notes
 | Region | 10     | POC to Production
-| DBRegion | 10     | Optional: When Premier decides to scale to have DB Replication
+| DBRegion | 99     | Optional: When MCICOM decides to scale to have DB Replication
 |======================
 
 === Setup POC Cloudforms Appliance Roles
@@ -110,7 +110,7 @@ image:images/screenshots/db_backup_schedule.png[] // placeholder
 |======================
 | Region Name  |   Region #  | Notes
 | Region | 10     | POC to Production
-| DBRegion | 10     | Optional: When Premier decides to scale to have DB Replication
+| DBRegion | 99     | Optional: When MCICOM decides to scale to have DB Replication
 |======================
 
 === VMware Service Account
@@ -199,8 +199,8 @@ image:../cloudforms/EVMrelationship/image2.png[]
 [width="80%",options="header"]
 |======
 | Label |  value
-| Servers | 10..1.100.130
-| Servers | 10..1.100.131
+| Servers | 10.1.100.130
+| Servers | 10.1.100.131
 |======
 
 * Click on Save
@@ -291,7 +291,7 @@ image:../cloudforms/LDAP/ldap_2.png[]
 | Follow Referrals | <Checked>
 | Base DN: | DC=mcip,DC=usmc,DC=mil
 | Bind DN: | cf.cloud.svc@mcip.usmc.mil
-| Bind Password: | <See Premier's Password for this user>
+| Bind Password: | <See MCICOM's Password list for this user>
 |======
 image:../cloudforms/LDAP/ldap_3.png[]
 
@@ -323,89 +323,93 @@ After initial installation and creation of a CloudForms Management Engine enviro
 * Click Validate to confirm that the user and password connects.
 * Click Save.
 
-=== DNS Integration with Infoblox
+=== NetApp Rapid Clone
 
 ==== Login Information
-* URL: https://10.32.2.200/ui/
-* Username: *cloudforms*
-* Password: <See Password Sheet with Customer>
+[width="100%", options="headers"]
+|======
+| Hostname | IP Address | Username | Password
+| netapp02a | 10.2.100.19 | vsc.netapp.svc | <See MCICOM's Password List>
+| netapp02b | 10.2.100.20 | vsc.netapp.svc | <See MCICOM's Password List>
+| netapp03a | ??????????? | vsc.netapp.svc | <See MCICOM's Password List>
+|======
 
-==== Infoblox Access Information
+==== NetApp Rapid Clone: Dialog_Storage_Controller Workflow
 
-==== Infoblox Provisioning Workflow
+TODO: Will provide workflow when coding is complete
 
-image:../cloudforms/infoblox_integration/infoblox_integration_workflow_provisioning.png[]
+==== NetApp Rapid Clone: Dialog_VM_Sizing Workflow
 
-NOTE: Source: link:../cloudforms/infoblox_integration/infoblox_integration_workflow.vsd[VSD]
+TODO: Will provide workflow when coding is complete
 
-==== Infoblox Retirement Workflow
+==== NetApp Rapid Clone: Dialog_VM_Folder Workflow
 
-image:../cloudforms/infoblox_integration/infoblox_integration_workflow_retirement.png[]
+TODO: Will provide workflow when coding is complete
 
-NOTE: Source: link:../cloudforms/infoblox_integration/infoblox_integration_workflow.vsd[VSD]
+==== NetApp Rapid Clone: Dialog_Clone_Source Workflow
 
+TODO: Will provide workflow when coding is complete
+
+==== NetApp Rapid Clone: Execute_Rapid_Clone Workflow
+
+TODO: Will provide workflow when coding is complete
 
 ==== Infoblox Automate Overview
 
-/PremierHealthcare::
+/MCICOM::
 /Integration:::
 
 +
-/Infoblox_DNS_Entry::::
+/RapidClone::::
 
 * Instances:
-** Infoblox_DNS_Alias
-** Infoblox_Dialog_List_Networks
-** Infoblox_Host_Record
-** Infoblox_Delete_Record
-** Infoblox_Instance_Provision
-** Infoblox_Instance_Retire
-** Infoblox_Instance_Verify
-
+** Dialog_Storage_Controller
+** Dialog_VM_Sizing_CPU
+** Dialog_VM_Sizing_Memory
+** Execute_Rapid_Clone
+** Rapid_Clone_Email_Complete
+** Retrieve_Clone_Source
+** Retrieve_Clone_Source_Path
+** Retrieve_Customization_Specification
+** Retrieve_Datastore_List
+** Retrieve_Destination_Folder
+** Retrieve_Destination_Host
+** Retrieve_Storage_Controller
 
 * Class Schema:
 
 [width="100%",options="header"]
 |======
 | Name | Type | Data Type | Default Value | Display Name | Description | Sub | Collect | Message | On Entry | On Exit | On Error | Collect | Max Retries | Max Time
-| servername | Attribute |  String | infoblox.example.com | | | [x] | | create | | | | | |
-| username | Attribute |  String | cloudforms | | | [x] | | create | | | | | |
+| servername | Attribute |  String | mcimgmt1.mcis.usmc.mil | | | [x] | | create | | | | | |
+| username | Attribute |  String | MCIS\jose | | | [x] | | create | | | | | |
 | password | Attribute |  Password | | | | [x] | | create | | | | | |
-| to_email_address | Attribute |  String | | | | [x] | | create | | | | | |
-| from_email_address | Attribute |  String | | | | [x] | | create | | | | | |
-| signature | Attribute |  String | | | | [x] | | create | | | | | |
+| controller_ip | Attribute |  String | 10.2.100.19 | | | [x] | | create | | | | | |
+| controller_username | Attribute |  String | vsc.netapp.svc | | | [x] | | create | | | | | |
+| controller_password | Attribute |  Password | | | | [x] | | create | | | | | |
 | action | Attribute |  String | | | | [x] | | create | | | | | |
-| gateway | Attribute |  String | | | | [x] | | create | | | | | |
-| subnet | Attribute |  String | | | | [x] | | create | | | | | |
-| domain | Attribute |  String | | | | [x] | | create | | | | | |
 | method1 | Method |  String | | | | [x] | | create | | | | | |
 | method2 | Method |  String | | | | [x] | | create | | | | | |
 |======
 
 ==== Methods:
 
-===== Infoblox_DNS_Alias
+===== Dialog_Storage_Controller
 [source,ruby]
 ----
-include::../cloudforms/Datastore/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_DNS_Alias.rb[Infoblox_DNS_Alias]
+include::../cloudforms/Datastore/MCICOM/Integration/RapidClone/Dialog_Storage_Controller.rb[Dialog_Storage_Controller]
 ----
 
-===== Infoblox_Delete_Record
+===== Dialog_VM_Sizing
 [source,ruby]
 ----
-include::../cloudforms/Datastore/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_Delete_Record.rb[Infoblox_Delete_Record]
+include::../cloudforms/Datastore/MCICOM/Integration/RapidClone/Dialog_VM_Sizing.rb[Dialog_VM_Sizing]
 ----
 
-===== Infoblox_Dialog_List_Networks
+===== Execute_Rapid_Clone
 [source,ruby]
 ----
-include::../cloudforms/Datastore/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_Dialog_List_Networks.rb[Infoblox_Dialog_List_Networks]
-----
-
-===== Infoblox_Host_Record
-[source,ruby]
-----
-include::../cloudforms/Datastore/PremierHealthcare/Integration/Infoblox_DNS_Entry/Infoblox_Host_Record.rb[Infoblox_Host_Record]
+include::../cloudforms/Datastore/MCICOM/Integration/RapidClone/Execute_Rapid_Clone.rb[Execute_Rapid_Clone]
 ----
 
 === Import Control Policies, Profiles, Alerts
@@ -681,9 +685,9 @@ image:../cloudforms/Catalogs/catalog_item16.png[]
 * Click Add
 
 === Cloudforms: Appendix
-==== Datastore Import File: link:../cloudforms/infoblox_integration/infoblox_integration.xml[infoblox_integration.xml]
+==== Datastore Import File: link:../cloudforms/automate_backups/namespace_MCICOM.xml[namespace_MCICOM.xml]
 [source,xml]
 ----
-include::../cloudforms/automate_datastore/infoblox_integration.xml[XML]
+include::../cloudforms/automate_backups/namespace_MCICOM.xml[XML]
 ----
 
