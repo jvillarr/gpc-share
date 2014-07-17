@@ -17,12 +17,12 @@ NOTE: Reference link:https://access.redhat.com/documentation/en-US/CloudForms/3.
 === Cloudforms Appliance Allocations
 ==== CFME Appliance System Requirements
 * POC CFME Appliance:
-** 1x CFME Appliance:
-*** 2 vCPU
-*** 8 GB of RAM
+** 10x CFME Appliance:
+*** 4 vCPU
+*** 6 GB of RAM
 *** 1x 40 Root Vol Disk
-*** 1x 100GB DB Disk
-*** 1x Network Interface
+*** 1x 160GB DB Disk
+*** 2x Network Interface
 
 NOTE: link:../docs/Simplified-CFME-VMDB-Region-Zone-Global-Size-Estimator.ods[Simplified-CFME-VMDB-Region-Zone-Global-Size-Estimator]
 
@@ -40,7 +40,16 @@ NOTE: To increase performance, increase the default 4 vCPUs/6GB RAM appliance co
 [width="100%",options="header"]
 |======================
 | Host      |   IP Address | Netmask | Gateway | DNS Server | Notes
-| c3pucfme1 | 10.32.1.228 |  255.255.254.0 | 10.32.0.1 | 10.32.2.53, 10.75.200.141 | CFME POC Appliance
+| zp11000.mcip.usmc.mil | 10.1.101.10 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME UI Appliance
+| zp11001.mcip.usmc.mil | 10.1.101.11 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME UI Appliance
+| zp11002.mcip.usmc.mil | 10.1.101.12 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11003.mcip.usmc.mil | 10.1.101.13 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11004.mcip.usmc.mil | 10.1.101.14 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11005.mcip.usmc.mil | 10.1.101.15 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11006.mcip.usmc.mil | 10.1.101.16 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11007.mcip.usmc.mil | 10.1.101.17 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11008.mcip.usmc.mil | 10.1.101.18 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME Worker Appliance
+| zp11009.mcip.usmc.mil | 10.1.101.19 |  255.255.252.0 | 10.1.101.1 | 10.1.100.130, 10.1.100.131 | CFME DB Appliance
 |======================
 
 ==== Hostname Configuration
@@ -61,21 +70,35 @@ NOTE: The database uses LVM and storage can be extended at a later time
 [width="100%",options="header"]
 |======================
 | Region Name  |   Region #  | Notes
-| Charlotte | 10     | POC to Production
-| DBRegion | 99     | Optional: When Premier decides to scale to have DB Replication
+| Region | 10     | POC to Production
+| DBRegion | 10     | Optional: When Premier decides to scale to have DB Replication
 |======================
 
-=== Setup POC Cloudformas Appliance Roles
+=== Setup POC Cloudforms Appliance Roles
 * Log in to the Cloudforms Web interface and go to Configure > Configuration > Select EVM Appliance > Server Tab
 * Check the server roles using the following image as a guide
 
 image:../cloudforms/ServerRoles/poc_server_roles.png[]
 
+
+=== Database Backups
+
+Database backups are scheduled to occur daily at 2AM CST. Backups are saved to an NFS volume.
+
+|=========================================================
+| NFS Volume Location | nfs://10.1.130.3:/vol/cf_nfs_data1
+| Frequency | Daily
+| Time | 02:00 CST
+|=========================================================
+
+image:images/screenshots/db_backup_schedule.png[] // placeholder
+
+
 === Access URL
 [width="100%",options="header"]
 |======================
 | UI URL
-| https://c3pucfme1.premierinc.com
+| https://zp11000.mcip.usmc.mil
 |======================
 
 === Configure Zones
@@ -86,8 +109,8 @@ image:../cloudforms/ServerRoles/poc_server_roles.png[]
 [width="100%",options="header"]
 |======================
 | Region Name  |   Region #  | Notes
-| Charlotte | 10     | POC to Production
-| DBRegion | 99     | Optional: When Premier decides to scale to have DB Replication
+| Region | 10     | POC to Production
+| DBRegion | 10     | Optional: When Premier decides to scale to have DB Replication
 |======================
 
 === VMware Service Account
@@ -176,7 +199,8 @@ image:../cloudforms/EVMrelationship/image2.png[]
 [width="80%",options="header"]
 |======
 | Label |  value
-| Servers | 10.32.198.77
+| Servers | 10..1.100.130
+| Servers | 10..1.100.131
 |======
 
 * Click on Save
@@ -244,18 +268,18 @@ image:../cloudforms/LDAP/ldap_0.png[]
 [width="80%", cols="3,7"]
 |======
 | Session Timeout: |  [ 1 ]h [ 0 ]m
-| Mode: | LDAP
+| Mode: | LDAPS
 |======
 
-image:../cloudforms/LDAP/ldap_1.png[]
+image:../cloudforms/LDAP/ldap_2.png[]
 
 * Set the LDAP Settings
 [width="80%",cols="3,7"]
 |======
-| LDAP Host Names: |  c3picorpdc5.corp.premierinc.com
-| LDAP Port: | 389
-| User Type: | E-Mail Address
-| User Suffix: <user>@ | <leave blank>
+| LDAP Host Names: |  10.1.100.130 10.1.100.131
+| LDAP Port: | 636
+| User Type: | User Principle Name
+| User Suffix: <user>@ | mcip.usmc.mil
 |======
 image:../cloudforms/LDAP/ldap_2.png[]
 
@@ -265,8 +289,8 @@ image:../cloudforms/LDAP/ldap_2.png[]
 | Get User Groups from LDAP |  <Checked>
 | Get Roles from Home Forest | <Checked>
 | Follow Referrals | <Checked>
-| Base DN: | DC=corp,DC=premierinc,DC=com
-| Bind DN: | CN=cloudforms,OU=Privileged Accounts,OU=CITS,OU=Corporate Services,DC=corp,DC=premierinc,DC=com
+| Base DN: | DC=mcip,DC=usmc,DC=mil
+| Bind DN: | cf.cloud.svc@mcip.usmc.mil
 | Bind Password: | <See Premier's Password for this user>
 |======
 image:../cloudforms/LDAP/ldap_3.png[]
