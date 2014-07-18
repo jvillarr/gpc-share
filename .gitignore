@@ -17,6 +17,7 @@ test/version_tmp
 tmp
 journal/images/icons/*
 journal/MCICOM.xml
+cloudforms/database_backup/*
 
 # YARD artifacts
 .yardoc
