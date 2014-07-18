@@ -8,7 +8,81 @@
 /MCICOM/Integration/RapidClone/Rapid_Clone_Email_Complete      </MiqAeField>
     </MiqAeSchema>
   </MiqAeClass>
+  <MiqAeClass name="RailsRunner" namespace="MCICOM/Integration" display_name="RailsRunner">
+    <MiqAeMethod name="customspecprep" language="ruby" scope="instance" location="inline" display_name="CustomSpecPrep"><![CDATA[$evm.object['rails_ruby_code'] = <<EOX.chomp
+require 'json'
+
+STDOUT.puts JSON.dump(CustomSpec.all.collect do |cs|
+  details = cs.customspec_info_details.collect do |csd|
+    csd.attributes.select { |k| ['id', 'name', 'ems_id'].include?(k) }
+  end
+  cs.attributes.select { |k| ['id', 'name', 'ems_id'].include?(k) }.merge('customspec_info_details' => details)
+end)
+EOX
+
+$evm.log('info', "Prepaired Ruby: [#{evm.object['rails_ruby_code']}]")]]>    </MiqAeMethod>
+    <MiqAeSchema>
+      <MiqAeField name="PrepairRailsCode" substitute="true" aetype="method" datatype="string" priority="1" message="create">
+      </MiqAeField>
+    </MiqAeSchema>
+    <MiqAeInstance name="CustomSpec" display_name="CustomSpec">
+      <MiqAeField name="PrepairRailsCode">
+CustomSpecPrep      </MiqAeField>
+    </MiqAeInstance>
+  </MiqAeClass>
   <MiqAeClass name="RapidClone" namespace="MCICOM/Integration">
+    <MiqAeMethod name="Dialog_Destination_Folder" language="ruby" scope="instance" location="inline"><![CDATA[###################################
+    #
+    # EVM Automate Method: Dialog_Destination_Folder
+    #
+    # Notes: Dialog_Destination_Folder
+    #
+    ###################################
+begin
+  @method = 'Dialog_Destination_Folder'
+  $evm.log("info", "#{@method} - EVM Automate Method Started")
+
+  # Turn of verbose logging
+  @debug = true
+
+  vm = $evm.root['vm']
+  ems = vm.ext_management_system
+  folder_array = []
+  folder_array << [nil,nil]
+  folders = ems.ems_folders.each {|ef|
+    val = []
+   # $evm.log("info", "#{@method} - #{ef.inspect}")
+    if ef.is_datacenter == false && ef.name != "Datacenters" && ef.name != "host" && ef.name != "vm"
+      val << "#{ef.name}"
+      val << "#{ef.ems_ref}"
+      folder_array << val
+    end
+  }
+
+  list_values = {
+      'sort_by' => :none,
+      'data_type' => :string,
+      'required' => :false,
+      'values' => folder_array
+  }
+
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+  list_values.each {|k,v| $evm.object[k] = v }
+
+  #
+  # Exit method
+  #
+  $evm.log("info", "#{@method} - EVM Automate Method Ended")
+  exit MIQ_OK
+
+    #
+    # Set Ruby rescue behavior
+    #
+rescue => err
+  $evm.log("error", "#{@method} - [#{err}]\n#{err.backtrace.join("\n")}")
+  exit MIQ_ABORT
+end
+]]>    </MiqAeMethod>
     <MiqAeMethod name="Dialog_Storage_Controller" language="ruby" scope="instance" location="inline"><![CDATA[###################################
 #
 # EVM Automate Method: Dialog_Storage_Controller
@@ -144,10 +218,8 @@ begin
   $evm.log("info", "===== EVM Automate Method: <#{@method}> Started")
 
   #########################
-  #
   # Method: dumpRoot
   # Description: Dump Root information
-  #
   ##########################
   def dumpRoot
     $evm.log("info", "#{@method} - Root:<$evm.root> Begin Attributes")
@@ -159,11 +231,17 @@ begin
   # dump root object attributes
   dumpRoot
 
+  #########################
+  # add required gems
+  ##########################
   require 'savon'
   require 'nokogiri'
   require 'httpclient'
   HTTPI.adapter = :httpclient
 
+  #########################
+  # Gather up instance object variables
+  ##########################
   @servername = nil
   @servername ||= $evm.object['servername']
 
@@ -173,75 +251,62 @@ begin
   @password = nil
   @password ||= $evm.object.decrypt('password')
 
+  controller_ip = nil
+  controller_ip ||= $evm.object['controller_ip']
+
+  controller_username = nil
+  controller_username ||= $evm.object['controller_username']
+
+  controller_password = nil
+  controller_password ||= $evm.object.decrypt('controller_password')
+
   @netapp_url = "https://#{@servername.to_s}:8143/kamino/public/api?wsdl"
 
+  #########################
+  # Gather up VM object variables
+  ##########################
   vm = $evm.root['vm']
-
   @vm_name = vm.attributes['name']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_name: #{@vm_name}")
-
   @vm_location = vm.attributes['location']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_location: #{@vm_location}")
-
   @vm_vendor = vm.attributes['vendor']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_vendor: #{@vm_vendor}")
-
   @vm_host_id = vm.attributes['host_id']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_host_id: #{@vm_host_id}")
-
   @vm_ems_ref = vm.attributes['ems_ref']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_ems_ref: #{@vm_ems_ref}")
-
   @vm_type = vm.attributes['type']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_type: #{@vm_type}")
-
   @vm_storage_name = vm.storage['name']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_storage_name: #{@vm_storage_name}")
-
   @vm_storage_ems_ref = vm.storage['ems_ref']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_storage_ems_ref: #{@vm_storage_ems_ref}")
-
   @vm_v_ems_cluster_name = vm.ems_cluster_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_ems_cluster_name: #{@vm_v_ems_cluster_name}")
-
   @vm_v_parent_blue_folder_1_name = vm.parent_blue_folder_1_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_1_name: #{@vm_v_parent_blue_folder_1_name}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> @vm_v_parent_blue_folder_1_name.inspect: #{@vm_v_parent_blue_folder_1_name.inspect}")
 
   @vm_v_parent_blue_folder_2_name = vm.parent_blue_folder_2_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_2_name: #{@vm_v_parent_blue_folder_2_name}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> @vm_v_parent_blue_folder_2_name.inspect: #{@vm_v_parent_blue_folder_2_name.inspect}")
 
   @vm_v_parent_blue_folder_3_name = vm.parent_blue_folder_3_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_3_name: #{@vm_v_parent_blue_folder_3_name}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> @vm_v_parent_blue_folder_3_name.inspect: #{@vm_v_parent_blue_folder_3_name.inspect}")
 
   @vm_v_parent_blue_folder_4_name = vm.parent_blue_folder_4_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_4_name: #{@vm_v_parent_blue_folder_4_name}")
-
   @vm_v_parent_blue_folder_5_name = vm.parent_blue_folder_5_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_5_name: #{@vm_v_parent_blue_folder_5_name}")
-
   @vm_v_parent_blue_folder_6_name = vm.parent_blue_folder_6_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_6_name: #{@vm_v_parent_blue_folder_6_name}")
-
   @vm_v_parent_blue_folder_7_name = vm.parent_blue_folder_7_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_7_name: #{@vm_v_parent_blue_folder_7_name}")
-
-
   @vm_v_parent_blue_folder_8_name = vm.parent_blue_folder_8_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_8_name: #{@vm_v_parent_blue_folder_8_name}")
-
-
+  @vm_v_owning_datacenter = vm.v_owning_datacenter
   @vm_v_parent_blue_folder_9_name = vm.parent_blue_folder_9_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_parent_blue_folder_9_name: #{@vm_v_parent_blue_folder_9_name}")
-
   @vm_v_storage_name = vm.storage_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
 
+  #########################
+  # Method: getObjectRef
+  # Query the NetApp API with real object name to get VMware Object Reference Names
+  ##########################
   def getObjectRef(netapp_url, servername, username, password, arg_name, arg_type)
+    #########################
+    # Savon Configuration
+    ##########################
     Savon.configure do |config|
       config.log = false
-      config.log_level = :info
-      config.pretty_print_xml = true
+#      config.log_level = :info
+#      config.pretty_print_xml = true
     end
+
     client = Savon::Client.new do |wsdl, http, wsse|
       wsdl.document = "#{netapp_url}"
       wsdl.endpoint = "#{netapp_url}"
@@ -260,25 +325,80 @@ begin
     return ref_obj
   end
 
-#  @vm_object = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_name}", "VirtualMachine")
-#  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_object: #{@vm_object.inspect}")
+  #########################
+  # Method: getObjectRef
+  # Query the NetApp API with real object name to get VMware Object Reference Names
+  ##########################
+  def getVmFiles(netapp_url, servername, username, password, arg_name)
+    #########################
+    # Savon Configuration
+    ##########################
+    Savon.configure do |config|
+      config.log = false
+#      config.log_level = :info
+#      config.pretty_print_xml = true
+    end
 
-  @dialog_datastore_selection = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_storage_name}", "Datastore")
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_datastore_selection: #{@dialog_datastore_selection}")
+    client = Savon::Client.new do |wsdl, http, wsse|
+      wsdl.document = "#{netapp_url}"
+      wsdl.endpoint = "#{netapp_url}"
+      http.auth.ssl.verify_mode = :none
+    end
+    response = client.request "ser:getVmFiles" do
+      soap.namespaces.merge!({
+                                 "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                                 "xmlns:ser" => "http://server.kamino.netapp.com/"
+                             })
+      soap.header = {}
+      soap.body = { 'arg0' => "#{arg_name}", 'arg1' => { 'serviceUrl' => "https://#{servername.to_s}/sdk", 'vcPassword' => "#{password.to_s}", 'vcUser' => "#{username.to_s}" } }
+    end
 
-#  @dialog_clone_destination = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_v_ems_cluster_name}", "Cluster")
-#  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_destination: #{@dialog_clone_destination.inspect}")
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> response.to_hash.inspect: #{response.to_hash.inspect}")
 
-  vm_location = $evm.root
-  controller_ip = nil
-  controller_ip ||= $evm.root.attributes['dialog_controller_ip'] || $evm.object['controller_ip']
+    response_hash = response.to_hash[:get_vm_files_response]
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> response_hash.inspect: #{response_hash.inspect}")
 
-  controller_username = nil
-  controller_username ||= $evm.object['controller_username']
+    file_array = []
+    response_hash[:return].each { |v|
+      file_hash = {}
+      file_hash['source_path'] = v[:source_path].to_s
+      file_hash['mor'] =  v[:dest_datastore_spec][:mor].to_s
+      file_hash['num_datastores'] =  v[:dest_datastore_spec][:num_datastores].to_s
+      file_hash['storage_service'] =  v[:dest_datastore_spec][:storage_service].to_s
+      file_hash['thin_provision'] =  v[:dest_datastore_spec][:thin_provision].to_s
+      file_hash['vol_auto_grow'] =  v[:dest_datastore_spec][:vol_auto_grow].to_s
+      file_hash['wrapper_vol'] =  v[:dest_datastore_spec][:wrapper_vol].to_s
+      file_array.push(file_hash)
+    }
 
-  controller_password = nil
-  controller_password ||= $evm.object.decrypt('controller_password')
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> file_array.inspect: #{file_array.inspect}")
 
+    return file_array
+  end
+
+  #########################
+  # Get Source VM Files locations
+  ##########################
+  @vm_files = getVmFiles(@netapp_url, @servername, @username, @password, "VirtualMachine:#{@vm_ems_ref}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_files.inspect: #{@vm_files.inspect}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_files.class: #{@vm_files.class}")
+
+  #########################
+  # Get VMware object References
+  ##########################
+  @vm_object = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_name}", "VirtualMachine")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_object: #{@vm_object.inspect}")
+
+  dialog_clone_destination = getObjectRef(@netapp_url, @servername, @username, @password, "#{@vm_v_owning_datacenter}", "Datacenter")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_destination: #{dialog_clone_destination}")
+
+  dialog_clone_vm_folder = getObjectRef(@netapp_url, @servername, @username, @password, "templates", "Folder")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_destination: #{dialog_clone_destination}")
+
+
+  #########################
+  # Get vars from dialogs
+  ##########################
   dialog_clone_name = $evm.root.attributes['dialog_clone_name']
 
   if $evm.root.attributes['dialog_clone_name'] == 1
@@ -287,76 +407,134 @@ begin
     dialog_power_on = 'false'
   end
 
-  dialog_clone_destination = 'Cluster:domain-c121'
-  dialog_datastore_selection = "Datastore:#{@vm_storage_ems_ref}"
-  dialog_clone_source_path = $evm.root.attributes['dialog_clone_source_path']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source_path: #{dialog_clone_source_path}")
-  dialog_clone_source = $evm.root.attributes['dialog_clone_source']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source: #{dialog_clone_source}")
+  dialog_destination_folder = $evm.root.attributes['dialog_destination_folder']
   dialog_vm_cpu = $evm.root.attributes['dialog_vm_cpu']
   dialog_memory_size = $evm.root.attributes['dialog_memory_size']
 
-  namespaces = {
-      "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-      "xmlns:ser" => "http://server.kamino.netapp.com/"
-  }
+  dialog_number_of_clones = $evm.root.attributes['dialog_number_of_clones']
+  dialog_starting_clone_number = $evm.root.attributes['dialog_starting_clone_number']
+  dialog_clone_number_increment = $evm.root.attributes['dialog_clone_number_increment']
 
+  #########################
+  # Create XML Message for the API
+  ##########################
   builder = Nokogiri::XML::Builder.new do |xml|
     xml.arg0 {
       xml.cloneSpec {
-        xml.clones {
-          xml.entry {
-            xml.key "#{dialog_clone_name.to_s}"
-            xml.value {
-              xml.powerOn "#{dialog_power_on.to_s}"
-            }
-          }
-        }
         xml.containerMoref "#{dialog_clone_destination.to_s}"
-        xml.files {
-          xml.destDatastoreSpec {
-            xml.controller {
-              xml.ipAddress "#{controller_ip.to_s}"
-              xml.password "#{controller_password.to_s}"
-              xml.ssl "false"
-              xml.username "#{controller_username.to_s}"
-            }
-            xml.mor "#{dialog_datastore_selection.to_s}"
-            xml.numDatastores "0"
-            xml.thinProvision "false"
-            xml.volAutoGrow "false"
-          }
-          xml.sourcePath "#{dialog_clone_source_path.to_s}"
-        }
-        xml.memMB "#{dialog_memory_size}"
-        xml.numberCPU "#{dialog_vm_cpu.to_i}"
-        xml.templateMoref "#{dialog_clone_source.to_s}"
       }
       xml.serviceUrl "https://#{@servername.to_s}/sdk"
       xml.vcPassword "#{@password.to_s}"
       xml.vcUser "#{@username.to_s}"
     }
   end
+  puts builder.doc.root.to_xml
 
-  puts builder.to_xml
+  #########################
+  # Create Number of Clones entries
+  ##########################
+  count = 0
+  increment = dialog_starting_clone_number.to_i
+  while count < dialog_number_of_clones.to_i do
+    if dialog_number_of_clones == 1
+      clone_name = "#{dialog_clone_name.to_s}"
+    else
+      clone_name = "#{dialog_clone_name.to_s}#{increment.to_s}"
+    end
+    clones = Nokogiri::XML::Builder.new do |xml|
+      xml.clones {
+        xml.entry {
+          xml.key "#{clone_name.to_s}"
+          xml.value {
+            xml.powerOn "#{dialog_power_on.to_s}"
+          }
+        }
+      }
+    end
+    puts clones.doc.root.to_xml
+    builder.doc.root.at('cloneSpec').add_child(clones.doc.root)
+    count +=1
+    increment += dialog_clone_number_increment.to_i
+  end
 
-  connectapi = Savon::Client.new do |wsdl, http, wsse|
+  @vm_files.each { |k|
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> @vm_files.each: #{k.inspect}")
+
+    xml_files = Nokogiri::XML::Builder.new do |xml|
+      xml.files {
+        xml.destDatastoreSpec {
+          xml.controller {
+            xml.ipAddress "#{controller_ip.to_s}"
+            xml.password "#{controller_password.to_s}"
+            xml.ssl "false"
+            xml.username "#{controller_username.to_s}"
+          }
+          xml.mor "#{k['mor'].to_s}"
+          xml.numDatastores k['num_datastores'].to_s
+          xml.thinProvision k['thin_provision'].to_s
+          xml.volAutoGrow k['vol_auto_grow'].to_s
+          xml.wrapperVol k['wrapper_vol'].to_s
+        }
+        xml.sourcePath "#{k['source_path'].to_s}"
+      }
+    end
+    puts xml_files.doc.root.to_xml
+
+    # Add this files section to the the end of cloneSpec
+    builder.doc.root.at('cloneSpec').add_child(xml_files.doc.root)
+  }
+
+  unless dialog_destination_folder.nil?
+    # Add Destination Folder to the the end of cloneSpec
+    destVmFolderMoref = Nokogiri::XML::Builder.new do |xml|
+      xml.destVmFolderMoref "Folder:#{dialog_destination_folder.to_s}"
+    end
+    builder.doc.root.at('cloneSpec').add_child(destVmFolderMoref.doc.root)
+  end
+
+  # Add numberCPU to the the end of cloneSpec
+  numberCPU = Nokogiri::XML::Builder.new do |xml|
+    xml.numberCPU dialog_vm_cpu.to_s
+  end
+  builder.doc.root.at('cloneSpec').add_child(numberCPU.doc.root)
+
+  # Add Memory to the the end of cloneSpec
+  memMB = Nokogiri::XML::Builder.new do |xml|
+    xml.memMB dialog_memory_size.to_s
+  end
+  builder.doc.root.at('cloneSpec').add_child(memMB.doc.root)
+
+  # Add templateMoref to the the end of cloneSpec
+  templateMoref = Nokogiri::XML::Builder.new do |xml|
+    xml.templateMoref "#{@vm_object.to_s}"
+  end
+  builder.doc.root.at('cloneSpec').add_child(templateMoref.doc.root)
+
+  #########################
+  # Setup client connection to API
+  ##########################
+  client = Savon::Client.new do |wsdl, http, wsse|
     wsdl.document = "#{@netapp_url}"
     wsdl.endpoint = "#{@netapp_url}"
     http.auth.ssl.verify_mode = :none
   end
 
-  response = connectapi.request "ser:createClones" do
+  #########################
+  # Send message to API
+  ##########################
+  response = client.request "ser:createClones" do
     soap.namespaces.merge!({
-         "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
-         "xmlns:ser" => "http://server.kamino.netapp.com/"
-     })
+                               "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                               "xmlns:ser" => "http://server.kamino.netapp.com/"
+                           })
     soap.header = {}
     soap.body = builder.doc.root.to_xml
   end
 
+  #########################
+  # Convert response to hash
+  ##########################
   response_hash = response.to_hash
-
   $evm.log("info", "===== EVM Automate Method: <#{@method}> #{response_hash.inspect}")
 
   #
@@ -383,8 +561,36 @@ begin
   @method = 'GetVMinfo'
   $evm.log("info", "#{@method} - EVM Automate Method Started")
 
+  #########################
+  # add required gems
+  ##########################
+  require 'savon'
+  require 'nokogiri'
+  require 'httpclient'
+  HTTPI.adapter = :httpclient
+
   # Turn of verbose logging
   @debug = true
+
+  @servername = nil
+  @servername ||= $evm.object['servername']
+
+  @username = nil
+  @username ||= $evm.object['username']
+
+  @password = nil
+  @password ||= $evm.object.decrypt('password')
+
+  controller_ip = nil
+  controller_ip ||= $evm.object['controller_ip']
+
+  controller_username = nil
+  controller_username ||= $evm.object['controller_username']
+
+  controller_password = nil
+  controller_password ||= $evm.object.decrypt('controller_password')
+
+  @netapp_url = "https://#{@servername.to_s}:8143/kamino/public/api?wsdl"
 
   vm = $evm.root['vm']
 
@@ -471,10 +677,6 @@ begin
   @vm_v_storage_name = vm.storage_name
   $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
 
-  storages = storages.find_all do |s|
-    storage_id = s.attributes['id'].to_i
-    $evm.log("info","Storage ID: #{s.id}")
-  end
 
   dialog_vm_snapshots = {}
   if vm.v_total_snapshots > 0
@@ -484,6 +686,68 @@ begin
     $evm.log("info","========= VM Snapshot Name: #{dialog_vm_snapshots.inspect}")
   end
 
+
+  #########################
+  # Method: getObjectRef
+  # Query the NetApp API with real object name to get VMware Object Reference Names
+  ##########################
+  def getVmFiles(netapp_url, servername, username, password, arg_name)
+    #########################
+    # Savon Configuration
+    ##########################
+#    Savon.configure do |config|
+#      config.log = false
+#      config.log_level = :info
+#      config.pretty_print_xml = true
+#    end
+
+    client = Savon::Client.new do |wsdl, http, wsse|
+      wsdl.document = "#{netapp_url}"
+      wsdl.endpoint = "#{netapp_url}"
+      http.auth.ssl.verify_mode = :none
+    end
+    response = client.request "ser:getVmFiles" do
+      soap.namespaces.merge!({
+                                 "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                                 "xmlns:ser" => "http://server.kamino.netapp.com/"
+                             })
+      soap.header = {}
+      soap.body = { 'arg0' => "#{arg_name}", 'arg1' => { 'serviceUrl' => "https://#{servername.to_s}/sdk", 'vcPassword' => "#{password.to_s}", 'vcUser' => "#{username.to_s}" } }
+    end
+
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> response.to_hash.inspect: #{response.to_hash.inspect}")
+
+    response_hash = response.to_hash[:get_vm_files_response]
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> response_hash.inspect: #{response_hash.inspect}")
+
+    ret_obj = "#{response_hash[:return]}"
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> ret_obj.inspect: #{ret_obj.inspect}")
+
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> ret_obj.class: #{ret_obj.class}")
+
+    file_array = []
+    file_hash = {}
+    response_hash[:return].each { |k|
+      source_path = k[:source_path].to_s
+      file_hash['source_path'] = source_path
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> k[:source_path].inspect: #{k[:source_path].inspect}")
+
+      mor = k[:dest_datastore_spec][:mor].to_s
+      file_hash['mor'] = mor
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> k[:dest_datastore_spec][:mor].inspect: #{k[:dest_datastore_spec][:mor].inspect}")
+      file_array << file_hash
+    }
+
+    return file_array
+    #puts ref_obj
+    #return ref_obj
+  end
+
+  #########################
+  # Get VMware object References
+  ##########################
+  @vm_files = getVmFiles(@netapp_url, @servername, @username, @password, "VirtualMachine:#{@vm_ems_ref}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_files: #{@vm_files.inspect}")
 
   #
   # Exit method
@@ -506,34 +770,34 @@ end]]>    </MiqAeMethod>
 #
 ###################################
 begin
-  @method = 'Retrieve_Clone_Source'
-  $evm.log("info", "#{@method} - EVM Automate Method Started")
-
   # Turn of verbose logging
   @debug = true
 
   @action = nil
   @action ||= $evm.object['action']
 
+  @method = 'Retrieve_Clone_Source'
+  $evm.log("info", "#{@method}: #{@action} - EVM Automate Method Started")
+
   vm = $evm.root['vm']
 
   @vm_name = vm.attributes['name']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_name: #{@vm_name}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} vm_name: #{@vm_name}")
 
   @vm_ems_ref = vm.attributes['ems_ref']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_ems_ref: #{@vm_ems_ref}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} vm_ems_ref: #{@vm_ems_ref}")
 
   @vm_location = vm.attributes['location']
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_location: #{@vm_location}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} vm_location: #{@vm_location}")
 
   @vm_v_storage_name = vm.storage_name
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} vm_v_storage_name: #{@vm_v_storage_name}")
 
   dialog_clone_source = "VirtualMachine:#{@vm_ems_ref}"
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source: #{dialog_clone_source}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} dialog_clone_source: #{dialog_clone_source}")
 
   dialog_clone_source_path = "[#{@vm_v_storage_name}]#{@vm_location}"
-  $evm.log("info", "===== EVM Automate Method: <#{@method}> dialog_clone_source_path: #{dialog_clone_source_path}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} dialog_clone_source_path: #{dialog_clone_source_path}")
 
   case @action
     when "clone_source"
@@ -544,7 +808,7 @@ begin
           'values' => [[nil,nil],["#{@vm_name}", "#{dialog_clone_source}"]],
       }
 
-      $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+      $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} display drop-down: #{list_values}")
       list_values.each {|k,v| $evm.object[k] = v }
 
     when "clone_source_path"
@@ -554,7 +818,7 @@ begin
           'required' => :true,
           'values' => [[nil,nil],["#{dialog_clone_source_path}", "#{dialog_clone_source_path}"]],
       }
-      $evm.log("info", "===== EVM Automate Method: <#{@method}> display drop-down: #{list_values}")
+      $evm.log("info", "===== EVM Automate Method: <#{@method}>: #{@action} display drop-down: #{list_values}")
       list_values.each {|k,v| $evm.object[k] = v }
 
   end
@@ -673,6 +937,34 @@ v1:{dbXYedjKxZEGfxtiGNbFgciiC1YEyCca1wR3X8FkC0c=}      </MiqAeField>
       <MiqAeField name="method2" substitute="true" aetype="method" datatype="string" priority="9" message="create">
       </MiqAeField>
     </MiqAeSchema>
+    <MiqAeInstance name="Dialog_Destination_Folder">
+      <MiqAeField name="servername">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_ip">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_username">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="controller_password">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="action">
+        <![CDATA[]]>
+      </MiqAeField>
+      <MiqAeField name="method1">
+Dialog_Destination_Folder      </MiqAeField>
+      <MiqAeField name="method2">
+        <![CDATA[]]>
+      </MiqAeField>
+    </MiqAeInstance>
     <MiqAeInstance name="Dialog_Storage_Controller">
       <MiqAeField name="servername">
         <![CDATA[]]>
@@ -826,164 +1118,6 @@ GetVMinfo      </MiqAeField>
       </MiqAeField>
       <MiqAeField name="method1">
 Rapid_Clone_Email_Complete      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Clone_Source">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_ip">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-clone_source      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Clone_Source      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Clone_Source_Path">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_ip">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-clone_source_path      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Clone_Source      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Customization_Specification">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Customization_Specification      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Datastore_List">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Datastore_List      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Destination_Folder">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Destination_Folder      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Destination_Host">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Destination_Host      </MiqAeField>
-      <MiqAeField name="method2">
-        <![CDATA[]]>
-      </MiqAeField>
-    </MiqAeInstance>
-    <MiqAeInstance name="Retrieve_Object">
-      <MiqAeField name="servername">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_ip">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_username">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="controller_password">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="action">
-        <![CDATA[]]>
-      </MiqAeField>
-      <MiqAeField name="method1">
-Retrieve_Object      </MiqAeField>
       <MiqAeField name="method2">
         <![CDATA[]]>
       </MiqAeField>
