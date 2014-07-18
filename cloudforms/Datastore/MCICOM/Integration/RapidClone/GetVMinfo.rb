@@ -9,8 +9,36 @@ begin
   @method = 'GetVMinfo'
   $evm.log("info", "#{@method} - EVM Automate Method Started")
 
+  #########################
+  # add required gems
+  ##########################
+  require 'savon'
+  require 'nokogiri'
+  require 'httpclient'
+  HTTPI.adapter = :httpclient
+
   # Turn of verbose logging
   @debug = true
+
+  @servername = nil
+  @servername ||= $evm.object['servername']
+
+  @username = nil
+  @username ||= $evm.object['username']
+
+  @password = nil
+  @password ||= $evm.object.decrypt('password')
+
+  controller_ip = nil
+  controller_ip ||= $evm.object['controller_ip']
+
+  controller_username = nil
+  controller_username ||= $evm.object['controller_username']
+
+  controller_password = nil
+  controller_password ||= $evm.object.decrypt('controller_password')
+
+  @netapp_url = "https://#{@servername.to_s}:8143/kamino/public/api?wsdl"
 
   vm = $evm.root['vm']
 
@@ -97,6 +125,7 @@ begin
   @vm_v_storage_name = vm.storage_name
   $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_v_storage_name: #{@vm_v_storage_name}")
 
+
   dialog_vm_snapshots = {}
   if vm.v_total_snapshots > 0
     vm.snapshots.each do |ss|
@@ -105,6 +134,61 @@ begin
     $evm.log("info","========= VM Snapshot Name: #{dialog_vm_snapshots.inspect}")
   end
 
+
+  #########################
+  # Method: getObjectRef
+  # Query the NetApp API with real object name to get VMware Object Reference Names
+  ##########################
+  def getVmFiles(netapp_url, servername, username, password, arg_name)
+    #########################
+    # Savon Configuration
+    ##########################
+    Savon.configure do |config|
+      config.log = false
+      config.log_level = :info
+      config.pretty_print_xml = true
+    end
+
+    client = Savon::Client.new do |wsdl, http, wsse|
+      wsdl.document = "#{netapp_url}"
+      wsdl.endpoint = "#{netapp_url}"
+      http.auth.ssl.verify_mode = :none
+    end
+    response = client.request "ser:getVmFiles" do
+      soap.namespaces.merge!({
+                                 "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+                                 "xmlns:ser" => "http://server.kamino.netapp.com/"
+                             })
+      soap.header = {}
+      soap.body = { 'arg0' => "#{arg_name}", 'arg1' => { 'serviceUrl' => "https://#{servername.to_s}/sdk", 'vcPassword' => "#{password.to_s}", 'vcUser' => "#{username.to_s}" } }
+    end
+
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> response.to_hash.inspect: #{response.to_hash.inspect}")
+
+    response_hash = response.to_hash[:get_vm_files_response]
+    $evm.log("info", "===== EVM Automate Method: <#{@method}> response_hash.inspect: #{response_hash.inspect}")
+
+    file_array = []
+    file_hash = {}
+    response_hash[:return].each { |k|
+      source_path = k[:source_path].to_s
+      file_hash['source_path'] = source_path
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> k[:source_path].inspect: #{k[:source_path].inspect}")
+
+      mor = k[:dest_datastore_spec][:mor].to_s
+      file_hash['mor'] = mor
+      $evm.log("info", "===== EVM Automate Method: <#{@method}> k[:dest_datastore_spec][:mor].inspect: #{k[:dest_datastore_spec][:mor].inspect}")
+      file_array << file_hash
+    }
+
+    return file_array
+  end
+
+  #########################
+  # Get VMware object References
+  ##########################
+  @vm_files = getVmFiles(@netapp_url, @servername, @username, @password, "VirtualMachine:#{@vm_ems_ref}")
+  $evm.log("info", "===== EVM Automate Method: <#{@method}> vm_files: #{@vm_files.inspect}")
 
   #
   # Exit method
