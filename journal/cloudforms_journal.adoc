@@ -97,7 +97,6 @@ Non-DB appliances configure an external database, using the DB appliance.
 
 === SMTP Configuration
 
-// TODO
 |==================================
 | SMTP Server | 205.110.86.80
 | email | mcicomcloud@mcip.usmc.mil
@@ -118,9 +117,6 @@ Database backups are scheduled to occur daily at 2AM CST. Backups are saved to a
 | Frequency | Daily
 | Time | 02:00 CST
 |=========================================================
-
-image:images/screenshots/db_backup_schedule.png[] // placeholder
-
 
 === Access URL
 [width="100%",options="header"]
