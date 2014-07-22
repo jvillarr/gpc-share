@@ -1,499 +1,499 @@
-Access Type,Super Admin,Admin,Developer,Manager
-Everything,X,,,
-|- Cloud Intelligence,X,X,X,X
-..|- Dashboard,X,X,X,X
-....|- View,X,X,X,X
-....|- Modify,X,X,X,X
-.......|- Add and Remove a Widget,X,X,X,X
-.......|- Reset Dashboard Widgets,X,X,X,X
-..|- Reports,X,X,,X
-....|- Dashboard Widgets,X,X,,X
-.......|- Operate,X,X,,X
-..........|- Generate Content,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Add,X,X,,X
-..........|- Copy,X,X,,X
-..........|- Delete,X,X,,X
-..........|- Edit,X,X,,X
-....|- Dashboards,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Add,X,X,,X
-..........|- Copy,X,X,,X
-..........|- Delete,X,X,,X
-..........|- Edit,X,X,,X
-..........|- Edit Sequence,X,X,,X
-....|- Edit Report Menus,X,X,,
-....|- Import / Export,X,X,,X
-....|- Reports,X,X,,X
-.......|- View,X,X,,X
-.......|- Operate,X,X,,X
-..........|- Run a selected Report,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Add,X,X,,X
-..........|- Copy,X,X,,X
-..........|- Copy,X,X,,X
-..........|- Delete,X,X,,X
-..........|- Download CSV Format,X,X,,X
-..........|- Download PDF Format,X,X,,X
-..........|- Download Text Format,X,X,,X
-..........|- Edit,X,X,,X
-....|- Saved Reports,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Delete,X,X,,X
-....|- Schedules,X,X,,X
-.......|- Operate,X,X,,X
-..........|- Run Now,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Add,X,X,,X
-..........|- Copy,X,X,,X
-..........|- Delete,X,X,,X
-..........|- Disable,X,X,,X
-..........|- Edit,X,X,,X
-..........|- Enable,X,X,,X
-..|- Chargeback,X,X,,X
-....|- Assignments,X,X,,X
-....|- Rates,X,X,,X
-.......|- Add,X,X,,X
-..........|- Copy,X,X,,X
-.......|- Copy,X,X,,X
-.......|- Delete,X,X,,X
-.......|- Edit,X,X,,X
-....|- Reports,X,X,,X
-..|- Timelines,X,X,X,X
-..|- RSS,X,X,X,X
-|- Services,X,X,X,X
-..|- My Services,X,X,X,
-....|- All Services,X,X,X,
-.......|- View All Services,X,X,X,
-.......|- Operate,X,X,X,
-..........|- Edit Tags,X,X,,
-..........|- Retire Services,X,X,X,
-..........|- Set Retirement Date,X,X,X,
-.......|- Modify,X,X,X,
-..........|- Set Ownership,X,X,,
-..........|- Edit Services,X,X,X,
-..........|- Remove Services,X,X,X,
-..|- Catalogs Explorer,X,X,X,
-....|- Catalog Items,X,X,,
-.......|- View Catalog Items,X,X,,
-.......|- Operate,X,X,,
-..........|- Edit Tags,X,X,,
-.......|- Modify,X,X,,
-..........|- Add Atomic Catalog Item,X,X,,
-..........|- Add Composite Catalog Item,X,X,,
-..........|- Edit Atomic Catalog Item,X,X,,
-..........|- Edit Composite Catalog Item,X,X,,
-..........|- Remove Catalog Item,X,X,,
-....|- Catalogs,X,X,X,
-.......|- View Catalogs,X,X,X,
-.......|- Modify,X,X,,
-..........|- Add Catalog,X,X,,
-..........|- Edit Catalog,X,X,,
-..........|- Remove Catalog,X,X,,
-....|- Service Catalogs,X,X,X,
-.......|- Modify,X,X,X,
-..........|- Provision Services,X,X,X,
-..|- Requests,X,X,X,X
-....|- View,X,X,X,X
-.......|- List,X,X,X,X
-.......|- Show,X,X,X,
-....|- Operate,X,X,,X
-.......|- Approve and Deny,X,X,,X
-....|- Modify,X,X,X,
-.......|- Copy,X,X,X,
-.......|- Delete,X,X,X,
-.......|- Edit,X,X,X,
-..|- Workloads,X,X,X,X
-....|- Accordions,X,X,X,X
-.......|- Templates & Images,X,X,X,X
-.......|- VMs & Instances,X,X,X,X
-|- Clouds,X,X,X,X
-..|- Cloud Providers,X,X,X,
-....|- View,X,X,X,
-.......|- List,X,X,X,
-.......|- Show,X,X,X,
-.......|- Timeline,X,X,X,
-....|- Operate,X,X,,
-.......|- Discover,X,X,,
-.......|- Edit Tags,X,X,,
-.......|- Manage Policies,X,X,,
-.......|- Refresh,X,X,,
-....|- Modify,X,X,,
-.......|- Add,X,X,,
-.......|- Edit,X,X,,
-.......|- Remove,X,X,,
-..|- Availability Zones,X,X,,
-....|- View,X,X,,
-.......|- List,X,X,,
-.......|- Show,X,X,,
-.......|- Timeline,X,X,,
-.......|- Utilization,X,X,,
-....|- Operate,X,X,,
-.......|- Edit Tags,X,X,,
-..|- Flavors,X,X,,
-....|- View,X,X,,
-.......|- List,X,X,,
-.......|- Show,X,X,,
-....|- Operate,X,X,,
-.......|- Edit Tags,X,X,,
-..|- Security Groups,X,X,,
-....|- View,X,X,,
-.......|- List,X,X,,
-.......|- Show,X,X,,
-....|- Operate,X,X,,
-.......|- Edit Tags,X,X,,
-..|- Instances,X,X,X,X
-....|- Accordions,X,X,X,
-.......|- Images,X,X,X,
-.......|- Images by Provider,X,X,X,
-.......|- Instances,X,X,X,
-.......|- Instances by Provider,X,X,X,
-....|- Image Access Rules,X,X,X,
-.......|- View,X,X,X,X
-..........|- Compare,X,X,X,X
-..........|- Drift,X,X,X,X
-..........|- List,X,X,X,X
-..........|- Show,X,X,X,X
-..........|- Timelines,X,X,X,X
-..........|- Utilization,X,X,X,X
-.......|- Operate,X,X,,X
-..........|- Check Compliance,X,X,,X
-..........|- Edit Tags,X,X,,X
-..........|- Manage Policies,X,X,,X
-..........|- Policy Simulation,X,X,,X
-..........|- Refresh,X,X,,X
-..........|- Set Ownership,X,X,,X
-.......|- Modify,X,X,,
-..........|- Edit,X,X,,X
-..........|- Edit EVM Server Relationship,X,X,,
-..........|- Remove,X,X,,X
-....|- Instance Access Rules,X,X,X,
-.......|- View,X,X,X,X
-..........|- Compare,X,X,X,X
-..........|- Drift,X,X,X,X
-..........|- List,X,X,X,X
-..........|- Show,X,X,X,X
-..........|- Timelines,X,X,X,X
-..........|- Utilization,X,X,X,X
-.......|- Operate,X,X,,
-..........|- Check Compliance,X,X,,X
-..........|- Edit Tags,X,X,,X
-..........|- Manage Policies,X,X,,X
-..........|- Policy Simulation,X,X,,X
-..........|- Power Off,X,X,X,
-..........|- Power On,X,X,X,
-..........|- Refresh,X,X,X,
-..........|- Reset,X,X,X,
-..........|- Restart Guest,X,X,X,
-..........|- Retire Instances,X,X,X,X
-..........|- Set Ownership,X,X,,
-..........|- Set Retirement Date,X,X,X,X
-..........|- Shutdown Guest,X,X,X,
-..........|- Suspend,X,X,X,
-..........|- Terminate,X,X,,
-.......|- Modify,X,X,X,
-..........|- Edit,X,X,,
-..........|- Edit EVM Server Relationship,X,X,,
-..........|- Provision Instances,X,X,X,
-..........|- Remove,X,X,,
-|- Infrastructure,X,X,X,X
-..|- Infrastructure Providers,X,X,,X
-....|- View,X,X,,X
-.......|- List,X,X,,X
-.......|- Show,X,X,,X
-.......|- Timeline,X,X,,X
-....|- Operate,X,X,,
-.......|- Discover,X,X,,
-.......|- Edit Tags,X,X,,X
-.......|- Manage Policies,X,X,,
-.......|- Refresh,X,X,,
-....|- Modify,X,X,,
-.......|- Add,X,X,,
-.......|- Edit,X,X,,
-.......|- Remove,X,X,,
-..|- Clusters,X,X,,X
-....|- View,X,X,,X
-.......|- Compare,X,X,,X
-.......|- Drift,X,X,,X
-.......|- List,X,X,,X
-.......|- Show,X,X,,X
-.......|- Timelines,X,X,,X
-.......|- Utilization,X,X,,X
-....|- Operate,X,X,,
-.......|- Analysis,X,X,,
-.......|- Manage Policies,X,X,,
-.......|- Tag,X,X,,X
-....|- Modify,X,X,,
-.......|- Remove,X,X,,
-..|- Hosts,X,X,,X
-....|- View,X,X,,X
-.......|- Compare,X,X,,X
-.......|- Drift,X,X,,X
-.......|- List,X,X,,X
-.......|- Show,X,X,,X
-.......|- Timelines,X,X,,X
-.......|- Utilization,X,X,,X
-....|- Operate,X,X,,
-.......|- Analysis,X,X,,X
-.......|- Analyze then Check Compliance,X,X,,X
-.......|- Check Compliance,X,X,,X
-.......|- Discover,X,X,,
-.......|- Edit Tags,X,X,,X
-.......|- Enter Maintenance Mode,X,X,,
-.......|- Exit Maintenance Mode,X,X,,
-.......|- Manage Policies,X,X,,
-.......|- Power Off,X,X,,
-.......|- Power On,X,X,,
-.......|- Refresh,X,X,,
-.......|- Reset,X,X,,
-.......|- Restart Host,X,X,,
-.......|- Shutdown Host,X,X,,
-.......|- Shutdown Host to Standby,X,X,,
-....|- Modify,X,X,,
-.......|- Add,X,X,,
-.......|- Edit,X,X,,
-.......|- Provision Hosts,X,X,,
-.......|- Remove,X,X,,
-..|- Resource Pools,X,X,,X
-....|- View,X,X,,X
-.......|- List,X,X,,X
-.......|- Show,X,X,,X
-....|- Operate,X,X,,X
-.......|- Edit Tags,X,X,,X
-.......|- Manage Policies,X,X,,
-....|- Modify,X,X,,
-.......|- Remove,X,X,,
-..|- Datastores,X,X,,X
-....|- View,X,X,,X
-.......|- List,X,X,,X
-.......|- Show,X,X,,X
-.......|- Utilization,X,X,,X
-....|- Operate,X,X,,X
-.......|- Analysis,X,X,,
-.......|- Edit Tags,X,X,,X
-....|- Modify,X,X,,
-.......|- Remove,X,X,,
-..|- Repositories,X,X,,
-....|- View,X,X,,
-.......|- List,X,X,,
-.......|- Show,X,X,,
-....|- Operate,X,X,,
-.......|- Edit Tags,X,X,,
-.......|- Manage Policies,X,X,,
-.......|- Refresh,X,X,,
-....|- Modify,X,X,,
-.......|- Add,X,X,,
-.......|- Edit,X,X,,
-.......|- Remove,X,X,,
-..|- Virtual Machines,X,X,X,X
-....|- Accordions,X,X,X,X
-.......|- Templates,X,X,X,X
-.......|- VMs,X,X,X,X
-.......|- VMs & Templates,X,X,X,X
-....|- Template Access Rules,X,X,X,X
-.......|- View,X,X,X,X
-..........|- Compare,X,X,X,X
-..........|- Drift,X,X,X,X
-..........|- List,X,X,X,X
-..........|- Show,X,X,X,X
-..........|- Timelines,X,X,X,X
-..........|- Utilization,X,X,X,X
-.......|- Operate,X,X,,X
-..........|- Analysis,X,X,,X
-..........|- Check Compliance,X,X,,X
-..........|- Edit Tags,X,X,,X
-..........|- Manage Policies,X,X,,X
-..........|- Policy Simulation,X,X,,X
-..........|- Refresh,X,X,,X
-..........|- Set Ownership,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Clone Templates,X,X,,
-..........|- Edit,X,X,,X
-..........|- Edit EVM Server Relationship,X,X,,
-..........|- Remove,X,X,,X
-.......|- Snapshots,X,X,X,X
-..........|- View,X,X,X,X
-...........|- List,X,X,X,X
-..........|- Operate,X,X,X,
-...........|- Create new Snapshots,X,X,X,
-...........|- Delete All Existing Snapshots,X,X,,
-...........|- Delete Snapshots,X,X,,
-...........|- Revert to selected snapshot,X,X,X,
-....|- VM Access Rules,X,X,X,X
-.......|- View,X,X,X,X
-..........|- Compare,X,X,X,X
-..........|- Drift,X,X,X,X
-..........|- List,X,X,X,X
-..........|- Show,X,X,X,X
-..........|- Timelines,X,X,X,X
-..........|- Utilization,X,X,X,X
-.......|- Operate,X,X,X,X
-..........|- Analysis,X,X,,X
-..........|- Check Compliance,X,X,,X
-..........|- Console using MKS,X,X,X,
-..........|- Console using VMRC,X,X,X,
-..........|- Console using VNC,X,X,X,
-..........|- Edit Tags,X,X,,X
-..........|- Extract Running Processes,X,X,,
-..........|- Manage Policies,X,X,,X
-..........|- Policy Simulation,X,X,,X
-..........|- Power Off,X,X,X,
-..........|- Power On,X,X,X,
-..........|- Refresh,X,X,X,
-..........|- Reset,X,X,X,
-..........|- Restart Guest,X,X,X,
-..........|- Retire VMs,X,X,X,X
-..........|- Set Ownership,X,X,,X
-..........|- Set Retirement Date,X,X,,X
-..........|- Shutdown Guest,X,X,X,
-..........|- Suspend,X,X,X,
-.......|- Modify,X,X,X,X
-..........|- Mark as VDI Desktops,X,X,,
-..........|- Clone VMs,X,X,,
-..........|- Edit,X,X,,X
-..........|- Edit EVM Server Relationship,X,X,,
-..........|- Migrate VMs,X,X,,
-..........|- Provision VMs,X,X,X,
-..........|- Publish VMs to a Template,X,X,,
-..........|- Reconfigure VMs,X,X,,
-..........|- Remove,X,X,,X
-..........|- Right-Size VMs,X,X,X,X
-.......|- Snapshots,X,X,X,X
-..........|- View,X,X,X,X
-...........|- List,X,X,X,X
-..........|- Operate,X,X,X,
-...........|- Create new Snapshots,X,X,X,
-...........|- Delete All Existing Snapshots,X,X,,
-...........|- Delete Snapshots,X,X,,
-...........|- Revert to selected snapshot,X,X,X,
-..|- PXE,X,X,,X
-....|- Customization Templates,X,X,,X
-.......|- View,X,X,,X
-.......|- Modify,X,X,,X
-..........|- Add,X,X,,
-..........|- Copy,X,X,,
-..........|- Edit,X,X,,
-..........|- Remove,X,X,,
-....|- ISO Datastores,X,X,,
-.......|- View,X,X,,
-.......|- Operate,X,X,,
-..........|- Refresh,X,X,,
-.......|- Modify,X,X,,
-..........|- Add,X,X,,
-..........|- Edit ISO Images,X,X,,
-..........|- Remove,X,X,,
-....|- PXE Servers,X,X,,
-.......|- View,X,X,,
-.......|- Operate,X,X,,
-..........|- Refresh,X,X,,
-.......|- Modify,X,X,,
-..........|- Add,X,X,,
-..........|- Edit,X,X,,
-..........|- Edit PXE Image,X,X,,
-..........|- Edit Windows Image,X,X,,
-..........|- Remove,X,X,,
-....|- System Image Types,X,X,,
-.......|- View,X,X,,
-.......|- Modify,X,X,,
-..........|- Add,X,X,,
-..........|- Edit,X,X,,
-..........|- Remove,X,X,,
-|- Control,X,X,,X
-..|- Explorer,X,X,,X
-....|- View All Records,X,X,,X
-....|- Actions,X,X,,
-.......|- Modify,X,X,,
-..........|- Add,X,X,,
-..........|- Delete,X,X,,
-..........|- Edit,X,X,,
-....|- Alert Profiles,X,X,,
-.......|- Modify,X,X,,
-..........|- Add,X,X,,
-..........|- Delete,X,X,,
-..........|- Edit,X,X,,
-....|- Alerts,X,X,,
-.......|- Modify,X,X,,
-..........|- Add/Copy,X,X,,
-..........|- Delete,X,X,,
-..........|- Edit,X,X,,
-....|- Conditions,X,X,,
-.......|- Host Conditions,X,X,,
-..........|- Modify,X,X,,
-.............|- Add/Copy,X,X,,
-.............|- Delete,X,X,,
-.............|- Edit,X,X,,
-.......|- VM Conditions,X,X,,
-..........|- Modify,X,X,,
-.............|- Add/Copy,X,X,,
-.............|- Delete,X,X,,
-.............|- Edit,X,X,,
-....|- Events,X,X,,
-....|- Policies,X,X,,
-.......|- Compliance,X,X,,
-..........|- Host Compliance Policy,X,X,,
-...........|- Modify,X,X,,
-...............|- Add/Copy,X,X,,
-...............|- Delete,X,X,,
-...............|- Edit,X,X,,
-..........|- VM Compliance Policy,X,X,,
-...........|- Modify,X,X,,
-...............|- Add/Copy,X,X,,
-...............|- Delete,X,X,,
-...............|- Edit,X,X,,
-.......|- Control,X,X,,
-..........|- Host Control Policy,X,X,,
-...........|- Modify,X,X,,
-...............|- Add/Copy,X,X,,
-...............|- Delete,X,X,,
-...............|- Edit,X,X,,
-..........|- VM Control Policy,X,X,,
-...........|- Modify,X,X,,
-...............|- Add/Copy,X,X,,
-...............|- Delete,X,X,,
-...............|- Edit,X,X,,
-....|- Policy Profiles,X,X,,
-.......|- Modify,X,X,,
-..........|- Add,X,X,,
-..........|- Delete,X,X,,
-..........|- Edit,X,X,,
-..|- Simulation,X,X,,X
-..|- Import/Export,X,X,,
-..|- Log,X,X,,X
-|- Automate,X,,,
-..|- Explorer,X,,,
-..|- Simulation,X,,,
-..|- Buttons,X,,,
-..|- Import/Export,X,,,
-..|- Log,X,,,
-|- Optimize,X,X,,X
-..|- Utilization,X,X,,X
-..|- Planning,X,X,,X
-..|- Bottlenecks,X,X,,
-|- Settings & Operations,X,X,X,X
-..|- My Settings,X,X,X,X
-....|- Modify,X,X,X,X
-.......|- Default Filters,X,X,,
-.......|- Default Views,X,X,X,X
-.......|- Time Profiles,X,X,X,X
-.......|- Visual,X,X,X,X
-..|- Tasks,X,X,,X
-....|- View,X,X,,X
-.......|- All Other Tasks,X,X,,
-.......|- All VM Analysis Tasks,X,X,,
-.......|- Other UI Tasks,X,X,,X
-.......|- VM Analysis Tasks,X,X,,X
-..|- Configuration,X,X,,
-....|- Access Control,X,X,,
-....|- Database,X,,,
-....|- Diagnostics,X,X,,
-....|- Settings,X,,,
-..|- SmartProxies,X,X,,
-.....|- View,X,X,,
-.......|- List,X,X,,
-.......|- Show,X,X,,
-.....|- Operate,X,X,,
-.......|- Deploy,X,X,,
-.....|- Modify,X,X,,
-.......|- Add,X,X,,
-.......|- Edit,X,X,,
-..|- About,X,X,X,X
+Access Type,Super Admin,Admin,Engineer,Developer,Tester,Production Support
+Everything,X,,,,,
+|- Cloud Intelligence,X,X,X,X,X,X
+..|- Dashboard,X,X,X,X,X,X
+....|- View,X,X,X,X,X,X
+....|- Modify,X,X,X,X,X,X
+.......|- Add and Remove a Widget,X,X,X,X,X,X
+.......|- Reset Dashboard Widgets,X,X,X,X,X,X
+..|- Reports,X,X,,,,
+....|- Dashboard Widgets,X,X,,,,
+.......|- Operate,X,X,,,,
+..........|- Generate Content,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Copy,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Edit,X,X,,,,
+....|- Dashboards,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Copy,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Edit Sequence,X,X,,,,
+....|- Edit Report Menus,X,X,,,,
+....|- Import / Export,X,X,,,,
+....|- Reports,X,X,,,,
+.......|- View,X,X,,,,
+.......|- Operate,X,X,,,,
+..........|- Run a selected Report,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Copy,X,X,,,,
+..........|- Copy,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Download CSV Format,X,X,,,,
+..........|- Download PDF Format,X,X,,,,
+..........|- Download Text Format,X,X,,,,
+..........|- Edit,X,X,,,,
+....|- Saved Reports,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Delete,X,X,,,,
+....|- Schedules,X,X,,,,
+.......|- Operate,X,X,,,,
+..........|- Run Now,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Copy,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Disable,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Enable,X,X,,,,
+..|- Chargeback,X,X,,,,
+....|- Assignments,X,X,,,,
+....|- Rates,X,X,,,,
+.......|- Add,X,X,,,,
+..........|- Copy,X,X,,,,
+.......|- Copy,X,X,,,,
+.......|- Delete,X,X,,,,
+.......|- Edit,X,X,,,,
+....|- Reports,X,X,,,,
+..|- Timelines,X,X,X,X,X,X
+..|- RSS,X,X,X,X,X,X
+|- Services,X,X,X,X,X,X
+..|- My Services,X,X,X,X,X,X
+....|- All Services,X,X,X,X,X,X
+.......|- View All Services,X,X,X,X,X,X
+.......|- Operate,X,X,X,X,X,X
+..........|- Edit Tags,X,X,,,,
+..........|- Retire Services,X,X,X,X,X,X
+..........|- Set Retirement Date,X,X,X,X,X,X
+.......|- Modify,X,X,X,X,X,X
+..........|- Set Ownership,X,X,,,,
+..........|- Edit Services,X,X,X,X,X,X
+..........|- Remove Services,X,X,X,X,X,X
+..|- Catalogs Explorer,X,X,X,X,X,X
+....|- Catalog Items,X,X,,,,
+.......|- View Catalog Items,X,X,,,,
+.......|- Operate,X,X,,,,
+..........|- Edit Tags,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add Atomic Catalog Item,X,X,,,,
+..........|- Add Composite Catalog Item,X,X,,,,
+..........|- Edit Atomic Catalog Item,X,X,,,,
+..........|- Edit Composite Catalog Item,X,X,,,,
+..........|- Remove Catalog Item,X,X,,,,
+....|- Catalogs,X,X,X,X,X,X
+.......|- View Catalogs,X,X,X,X,X,X
+.......|- Modify,X,X,,,,
+..........|- Add Catalog,X,X,,,,
+..........|- Edit Catalog,X,X,,,,
+..........|- Remove Catalog,X,X,,,,
+....|- Service Catalogs,X,X,X,X,X,X
+.......|- Modify,X,X,X,X,X,X
+..........|- Provision Services,X,X,X,X,X,X
+..|- Requests,X,X,X,X,X,X
+....|- View,X,X,X,X,X,X
+.......|- List,X,X,X,X,X,X
+.......|- Show,X,X,X,X,X,X
+....|- Operate,X,X,,,,
+.......|- Approve and Deny,X,X,,,,
+....|- Modify,X,X,X,X,X,X
+.......|- Copy,X,X,X,X,X,X
+.......|- Delete,X,X,X,X,X,X
+.......|- Edit,X,X,X,X,X,X
+..|- Workloads,X,X,X,X,X,X
+....|- Accordions,X,X,X,X,X,X
+.......|- Templates & Images,X,X,X,X,X,X
+.......|- VMs & Instances,X,X,X,X,X,X
+|- Clouds,X,X,X,X,X,X
+..|- Cloud Providers,X,X,X,X,X,X
+....|- View,X,X,X,X,X,X
+.......|- List,X,X,X,X,X,X
+.......|- Show,X,X,X,X,X,X
+.......|- Timeline,X,X,X,X,X,X
+....|- Operate,X,X,,,,
+.......|- Discover,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+.......|- Manage Policies,X,X,,,,
+.......|- Refresh,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Add,X,X,,,,
+.......|- Edit,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Availability Zones,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+.......|- Timeline,X,X,,,,
+.......|- Utilization,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+..|- Flavors,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+..|- Security Groups,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+..|- Instances,X,X,X,X,X,X
+....|- Accordions,X,X,X,X,X,X
+.......|- Images,X,X,X,X,X,X
+.......|- Images by Provider,X,X,X,X,X,X
+.......|- Instances,X,X,X,X,X,X
+.......|- Instances by Provider,X,X,X,X,X,X
+....|- Image Access Rules,X,X,X,X,X,X
+.......|- View,X,X,X,X,X,X
+..........|- Compare,X,X,X,X,X,X
+..........|- Drift,X,X,X,X,X,X
+..........|- List,X,X,X,X,X,X
+..........|- Show,X,X,X,X,X,X
+..........|- Timelines,X,X,X,X,X,X
+..........|- Utilization,X,X,X,X,X,X
+.......|- Operate,X,X,,,,
+..........|- Check Compliance,X,X,,,,
+..........|- Edit Tags,X,X,,,,
+..........|- Manage Policies,X,X,,,,
+..........|- Policy Simulation,X,X,,,,
+..........|- Refresh,X,X,,,,
+..........|- Set Ownership,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Edit EVM Server Relationship,X,X,,,,
+..........|- Remove,X,X,,,,
+....|- Instance Access Rules,X,X,X,X,X,X
+.......|- View,X,X,X,X,X,X
+..........|- Compare,X,X,X,X,X,X
+..........|- Drift,X,X,X,X,X,X
+..........|- List,X,X,X,X,X,X
+..........|- Show,X,X,X,X,X,X
+..........|- Timelines,X,X,X,X,X,X
+..........|- Utilization,X,X,X,X,X,X
+.......|- Operate,X,X,,,,
+..........|- Check Compliance,X,X,,,,
+..........|- Edit Tags,X,X,,,,
+..........|- Manage Policies,X,X,,,,
+..........|- Policy Simulation,X,X,,,,
+..........|- Power Off,X,X,X,X,X,X
+..........|- Power On,X,X,X,X,X,X
+..........|- Refresh,X,X,X,X,X,X
+..........|- Reset,X,X,X,X,X,X
+..........|- Restart Guest,X,X,X,X,X,X
+..........|- Retire Instances,X,X,X,X,X,X
+..........|- Set Ownership,X,X,,,,
+..........|- Set Retirement Date,X,X,X,X,X,X
+..........|- Shutdown Guest,X,X,X,X,X,X
+..........|- Suspend,X,X,X,X,X,X
+..........|- Terminate,X,X,,,,
+.......|- Modify,X,X,X,X,X,X
+..........|- Edit,X,X,,,,
+..........|- Edit EVM Server Relationship,X,X,,,,
+..........|- Provision Instances,X,X,X,X,X,X
+..........|- Remove,X,X,,,,
+|- Infrastructure,X,X,X,X,X,X
+..|- Infrastructure Providers,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+.......|- Timeline,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Discover,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+.......|- Manage Policies,X,X,,,,
+.......|- Refresh,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Add,X,X,,,,
+.......|- Edit,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Clusters,X,X,,,,
+....|- View,X,X,,,,
+.......|- Compare,X,X,,,,
+.......|- Drift,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+.......|- Timelines,X,X,,,,
+.......|- Utilization,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Analysis,X,X,,,,
+.......|- Manage Policies,X,X,,,,
+.......|- Tag,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Hosts,X,X,,,,
+....|- View,X,X,,,,
+.......|- Compare,X,X,,,,
+.......|- Drift,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+.......|- Timelines,X,X,,,,
+.......|- Utilization,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Analysis,X,X,,,,
+.......|- Analyze then Check Compliance,X,X,,,,
+.......|- Check Compliance,X,X,,,,
+.......|- Discover,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+.......|- Enter Maintenance Mode,X,X,,,,
+.......|- Exit Maintenance Mode,X,X,,,,
+.......|- Manage Policies,X,X,,,,
+.......|- Power Off,X,X,,,,
+.......|- Power On,X,X,,,,
+.......|- Refresh,X,X,,,,
+.......|- Reset,X,X,,,,
+.......|- Restart Host,X,X,,,,
+.......|- Shutdown Host,X,X,,,,
+.......|- Shutdown Host to Standby,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Add,X,X,,,,
+.......|- Edit,X,X,,,,
+.......|- Provision Hosts,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Resource Pools,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+.......|- Manage Policies,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Datastores,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+.......|- Utilization,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Analysis,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Repositories,X,X,,,,
+....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+....|- Operate,X,X,,,,
+.......|- Edit Tags,X,X,,,,
+.......|- Manage Policies,X,X,,,,
+.......|- Refresh,X,X,,,,
+....|- Modify,X,X,,,,
+.......|- Add,X,X,,,,
+.......|- Edit,X,X,,,,
+.......|- Remove,X,X,,,,
+..|- Virtual Machines,X,X,X,X,X,X
+....|- Accordions,X,X,X,X,X,X
+.......|- Templates,X,X,X,X,X,X
+.......|- VMs,X,X,X,X,X,X
+.......|- VMs & Templates,X,X,X,X,X,X
+....|- Template Access Rules,X,X,X,X,X,X
+.......|- View,X,X,X,X,X,X
+..........|- Compare,X,X,X,X,X,X
+..........|- Drift,X,X,X,X,X,X
+..........|- List,X,X,X,X,X,X
+..........|- Show,X,X,X,X,X,X
+..........|- Timelines,X,X,X,X,X,X
+..........|- Utilization,X,X,X,X,X,X
+.......|- Operate,X,X,,,,
+..........|- Analysis,X,X,,,,
+..........|- Check Compliance,X,X,,,,
+..........|- Edit Tags,X,X,,,,
+..........|- Manage Policies,X,X,,,,
+..........|- Policy Simulation,X,X,,,,
+..........|- Refresh,X,X,,,,
+..........|- Set Ownership,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Clone Templates,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Edit EVM Server Relationship,X,X,,,,
+..........|- Remove,X,X,,,,
+.......|- Snapshots,X,X,X,X,X,X
+..........|- View,X,X,X,X,X,X
+...........|- List,X,X,X,X,X,X
+..........|- Operate,X,X,X,X,X,X
+...........|- Create new Snapshots,X,X,X,X,X,X
+...........|- Delete All Existing Snapshots,X,X,,,,
+...........|- Delete Snapshots,X,X,,,,
+...........|- Revert to selected snapshot,X,X,X,X,X,X
+....|- VM Access Rules,X,X,X,X,X,X
+.......|- View,X,X,X,X,X,X
+..........|- Compare,X,X,X,X,X,X
+..........|- Drift,X,X,X,X,X,X
+..........|- List,X,X,X,X,X,X
+..........|- Show,X,X,X,X,X,X
+..........|- Timelines,X,X,X,X,X,X
+..........|- Utilization,X,X,X,X,X,X
+.......|- Operate,X,X,X,X,X,X
+..........|- Analysis,X,X,,,,
+..........|- Check Compliance,X,X,,,,
+..........|- Console using MKS,X,X,X,X,X,X
+..........|- Console using VMRC,X,X,X,X,X,X
+..........|- Console using VNC,X,X,X,X,X,X
+..........|- Edit Tags,X,X,,,,
+..........|- Extract Running Processes,X,X,,,,
+..........|- Manage Policies,X,X,,,,
+..........|- Policy Simulation,X,X,,,,
+..........|- Power Off,X,X,X,X,X,X
+..........|- Power On,X,X,X,X,X,X
+..........|- Refresh,X,X,X,X,X,X
+..........|- Reset,X,X,X,X,X,X
+..........|- Restart Guest,X,X,X,X,X,X
+..........|- Retire VMs,X,X,X,X,X,X
+..........|- Set Ownership,X,X,,,,
+..........|- Set Retirement Date,X,X,,,,
+..........|- Shutdown Guest,X,X,X,X,X,X
+..........|- Suspend,X,X,X,X,X,X
+.......|- Modify,X,X,X,X,X,X
+..........|- Mark as VDI Desktops,X,X,,,,
+..........|- Clone VMs,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Edit EVM Server Relationship,X,X,,,,
+..........|- Migrate VMs,X,X,,,,
+..........|- Provision VMs,X,X,X,X,X,X
+..........|- Publish VMs to a Template,X,X,,,,
+..........|- Reconfigure VMs,X,X,,,,
+..........|- Remove,X,X,,,,
+..........|- Right-Size VMs,X,X,X,X,X,X
+.......|- Snapshots,X,X,X,X,X,X
+..........|- View,X,X,X,X,X,X
+...........|- List,X,X,X,X,X,X
+..........|- Operate,X,X,X,X,X,X
+...........|- Create new Snapshots,X,X,X,X,X,X
+...........|- Delete All Existing Snapshots,X,X,,,,
+...........|- Delete Snapshots,X,X,,,,
+...........|- Revert to selected snapshot,X,X,X,X,X,X
+..|- PXE,X,X,,,,
+....|- Customization Templates,X,X,,,,
+.......|- View,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Copy,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Remove,X,X,,,,
+....|- ISO Datastores,X,X,,,,
+.......|- View,X,X,,,,
+.......|- Operate,X,X,,,,
+..........|- Refresh,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Edit ISO Images,X,X,,,,
+..........|- Remove,X,X,,,,
+....|- PXE Servers,X,X,,,,
+.......|- View,X,X,,,,
+.......|- Operate,X,X,,,,
+..........|- Refresh,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Edit PXE Image,X,X,,,,
+..........|- Edit Windows Image,X,X,,,,
+..........|- Remove,X,X,,,,
+....|- System Image Types,X,X,,,,
+.......|- View,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Edit,X,X,,,,
+..........|- Remove,X,X,,,,
+|- Control,X,X,,,,
+..|- Explorer,X,X,,,,
+....|- View All Records,X,X,,,,
+....|- Actions,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Edit,X,X,,,,
+....|- Alert Profiles,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Edit,X,X,,,,
+....|- Alerts,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add/Copy,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Edit,X,X,,,,
+....|- Conditions,X,X,,,,
+.......|- Host Conditions,X,X,,,,
+..........|- Modify,X,X,,,,
+.............|- Add/Copy,X,X,,,,
+.............|- Delete,X,X,,,,
+.............|- Edit,X,X,,,,
+.......|- VM Conditions,X,X,,,,
+..........|- Modify,X,X,,,,
+.............|- Add/Copy,X,X,,,,
+.............|- Delete,X,X,,,,
+.............|- Edit,X,X,,,,
+....|- Events,X,X,,,,
+....|- Policies,X,X,,,,
+.......|- Compliance,X,X,,,,
+..........|- Host Compliance Policy,X,X,,,,
+...........|- Modify,X,X,,,,
+...............|- Add/Copy,X,X,,,,
+...............|- Delete,X,X,,,,
+...............|- Edit,X,X,,,,
+..........|- VM Compliance Policy,X,X,,,,
+...........|- Modify,X,X,,,,
+...............|- Add/Copy,X,X,,,,
+...............|- Delete,X,X,,,,
+...............|- Edit,X,X,,,,
+.......|- Control,X,X,,,,
+..........|- Host Control Policy,X,X,,,,
+...........|- Modify,X,X,,,,
+...............|- Add/Copy,X,X,,,,
+...............|- Delete,X,X,,,,
+...............|- Edit,X,X,,,,
+..........|- VM Control Policy,X,X,,,,
+...........|- Modify,X,X,,,,
+...............|- Add/Copy,X,X,,,,
+...............|- Delete,X,X,,,,
+...............|- Edit,X,X,,,,
+....|- Policy Profiles,X,X,,,,
+.......|- Modify,X,X,,,,
+..........|- Add,X,X,,,,
+..........|- Delete,X,X,,,,
+..........|- Edit,X,X,,,,
+..|- Simulation,X,X,,,,
+..|- Import/Export,X,X,,,,
+..|- Log,X,X,,,,
+|- Automate,X,,,,,
+..|- Explorer,X,,,,,
+..|- Simulation,X,,,,,
+..|- Buttons,X,,,,,
+..|- Import/Export,X,,,,,
+..|- Log,X,,,,,
+|- Optimize,X,X,,,,
+..|- Utilization,X,X,,,,
+..|- Planning,X,X,,,,
+..|- Bottlenecks,X,X,,,,
+|- Settings & Operations,X,X,X,X,X,X
+..|- My Settings,X,X,X,X,X,X
+....|- Modify,X,X,X,X,X,X
+.......|- Default Filters,X,X,,,,
+.......|- Default Views,X,X,X,X,X,X
+.......|- Time Profiles,X,X,X,X,X,X
+.......|- Visual,X,X,X,X,X,X
+..|- Tasks,X,X,,,,
+....|- View,X,X,,,,
+.......|- All Other Tasks,X,X,,,,
+.......|- All VM Analysis Tasks,X,X,,,,
+.......|- Other UI Tasks,X,X,,,,
+.......|- VM Analysis Tasks,X,X,,,,
+..|- Configuration,X,X,,,,
+....|- Access Control,X,X,,,,
+....|- Database,X,,,,,
+....|- Diagnostics,X,X,,,,
+....|- Settings,X,,,,,
+..|- SmartProxies,X,X,,,,
+.....|- View,X,X,,,,
+.......|- List,X,X,,,,
+.......|- Show,X,X,,,,
+.....|- Operate,X,X,,,,
+.......|- Deploy,X,X,,,,
+.....|- Modify,X,X,,,,
+.......|- Add,X,X,,,,
+.......|- Edit,X,X,,,,
+..|- About,X,X,X,X,X,X
