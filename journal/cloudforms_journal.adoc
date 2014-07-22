@@ -351,6 +351,18 @@ After initial installation and creation of a CloudForms Management Engine enviro
 * Click Validate to confirm that the user and password connects.
 * Click Save.
 
+.VMware Provider Details
+[width="100%",options="header"]
+|=
+| Name | MCICOM VMW
+| Type | VMware vCenter
+| Host Name | cougar.mcip.usmc.mil
+| IP Address | 10.1.100.146
+| Zone | WK-Zone
+| User | mcip\cf.cloud.svc
+| Password | <See MCICOM Password List>
+|=
+
 === NetApp Rapid Clone
 
 ==== Login Information
