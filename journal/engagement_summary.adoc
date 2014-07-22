@@ -4,6 +4,26 @@ ifdef::env-github[]
 ++++
 endif::env-github[]
 
+=== Objectives
+
+MCICOM seeks to provide on-demand Infrastructure-as-a-Service, Platform-as-a-Service, and Workstation-as-a-Service to support development and production needs, both for their own command as well as others.
+
+Zones are central to how MCICOM manages resources. MCICOM's concept of a zone is not to be confused with a zone in CloudForms. In this context, a zone is an enclave of instances which are logically separated such that they cannot interact with or have visibility of instances belonging to other zones.
+
+MCICOM has 3 basic zones: A, B, and B.2. Zone A doesn't normally interact with zones B and B.2. This rule may be broken under certain circumstances, but nothing for this is needed for the Aug 4 demo. MCICOM has a goal of providing multitenancy in zones B and B.2, such that different commands may have their own "sub-zones". The sub-zone for a tenant should still be a proper enclave and be logically separate from any other zone or sub-zone.
+
+Zone A is primarily used for testing changes that will be deployed to production. The typical workflow is that existing production installations will be cloned into the staging and testing areas (DEV, STG, SIT, and SAT). The exception to this rule is when an installation is new and does not yet exist in production, and in this case it will be cloned from DEV. From there, changes from repositories will be applied and those instances will then be tested with those changes. Upon successful completion of testing, the instance will then be re-cloned from production into the next test environment. The progression order for testing is DEV → STG → SIT → SAT → PROD. Engineers provision machines in STG. Testers provision machines in SIT. Production Support provisions machines in all environments.
+
+Zone B is the PaaS/IaaS enclave. For PaaS implementations, templates contain a full development stack. For IaaS, templates provide a bare OS. Tenants may have the ability to create their own templates.
+
+Zone B.2 is the WaaS enclave, where users are able to provision workstations. Workstations support roaming profiles to enable users to easily move between different workstations under their control. Workstations have a limited lifecycle (duration TBD), at the end of which they will be destroyed and re-created.
+
+Tenant zones may be identified by a pair of tags: one tag for the tenant (the command) and one tag for the enclave (eg., Zone B or B.2).
+
+==== Demo
+
+MCICOM will present a demonstration of their vision for WaaS and PaaS/IaaS provisioning (Zones B and B.2) on Aug 4th. The model for production lifecycle support (Zone A) will not be a part of this demo.
+
 === Scope
 ==== Project Scope:
 * [ ] Assist the Customer review and modification of the design and modification of the cloud management implementation, as applicable;
