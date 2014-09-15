@@ -47,22 +47,6 @@ NOTE: To increase performance, increase the default 4 vCPUs/6GB RAM appliance co
 | augpcpdrcfapp01.genpt.net | 10.5.128.217 |  255.255.254.0 | 10.5.128.1 | 10.5.152.5, 10.6.152.6 | CFME DB Appliance
 |======================
 
-.Storage Interface Configuration
-[width="100%",options="header"]
-|======================
-| Host | IP Address | Netmask | Gateway | DNS Server
-| zp11000.mcip.usmc.mil | 10.1.130.10 |  255.255.252.0 | none | none
-| zp11001.mcip.usmc.mil | 10.1.130.11 |  255.255.252.0 | none | none
-| zp11002.mcip.usmc.mil | 10.1.130.12 |  255.255.252.0 | none | none
-| zp11003.mcip.usmc.mil | 10.1.130.13 |  255.255.252.0 | none | none
-| zp11004.mcip.usmc.mil | 10.1.130.14 |  255.255.252.0 | none | none
-| zp11005.mcip.usmc.mil | 10.1.130.15 |  255.255.252.0 | none | none
-| zp11006.mcip.usmc.mil | 10.1.130.16 |  255.255.252.0 | none | none
-| zp11007.mcip.usmc.mil | 10.1.130.17 |  255.255.252.0 | none | none
-| zp11008.mcip.usmc.mil | 10.1.130.18 |  255.255.252.0 | none | none
-| zp11009.mcip.usmc.mil | 10.1.130.19 |  255.255.252.0 | none | none
-|======================
-
 ==== Hostname Configuration
 .. Select Option 4
 .. Set the hostname of the CFME appliance.  Refer to the table in Network Configuration section
@@ -74,7 +58,7 @@ NOTE: The database uses LVM and storage can be extended at a later time
 
 .. On the main console window select Option 10 (To Configure Database)
 .. Select 1) Internal
-.. Select 1) /dev/sdb
+.. Select 1) /dev/mapper/vg_data-lv_pg
 .. Input Region *10* for the Region Selection
 .. Press *Enter*
 
@@ -82,7 +66,7 @@ NOTE: The database uses LVM and storage can be extended at a later time
 |======================
 | Region Name  |   Region #  | Notes
 | Region | 10     | POC to Production
-| DBRegion | 99     | Optional: When MCICOM decides to scale to have DB Replication
+| DBRegion | 99     | Optional: When GPC decides to scale to have DB Replication
 |======================
 
 Non-DB appliances configure an external database, using the DB appliance.
@@ -92,15 +76,9 @@ Non-DB appliances configure an external database, using the DB appliance.
 === SMTP Configuration
 
 |==================================
-| SMTP Server | 205.110.86.80
-| email | mcicomcloud@mcip.usmc.mil
+| SMTP Server | smtp.genpt.com
+| email | vmadmin@genpt.com
 |==================================
-
-=== Setup POC Cloudforms Appliance Roles
-* Log in to the Cloudforms Web interface and go to Configure > Configuration > Select EVM Appliance > Server Tab
-* Check the server roles using the following image as a guide
-
-image:../cloudforms/ServerRoles/poc_server_roles.png[]
 
 === Database Backups
 
@@ -116,19 +94,7 @@ Database backups are scheduled to occur daily at 2AM CST. Backups are saved to a
 [width="100%",options="header"]
 |======================
 | UI URL
-| https://zp11000.mcip.usmc.mil
-|======================
-
-=== Configure Zones
-. Access the Web Interface and go to Configure > Configuration > Click on Zones
-. In the right frame use the Configuration Icon then select "Add a new zone"
-
-
-[width="100%",options="header"]
-|======================
-| Region Name  |   Region #  | Notes
-| Region | 10     | POC to Production
-| DBRegion | 99     | Optional: When MCICOM decides to scale to have DB Replication
+| https://10.5.50.98
 |======================
 
 === VMware Service Account
@@ -190,15 +156,6 @@ ldconfig
 
 NOTE: Reference: link:https://access.redhat.com/knowledge/articles/329683[https://access.redhat.com/knowledge/articles/329683]
 
-=== User Roles
-
-[format="csv",width="100%",cols="4,^2,^2,^2,^2",options="header"]
-|======
-include::../docs/CFME-rolematrix.csv[]
-|======
-
-NOTE: link:../docs/CFME-rolematrix.xls[CFME-rolematrix.xls] or link:../docs/CFME-rolematrix.xls[CFME-rolematrix.csv]
-
 === Associate Cloudforms Appliance as a VM within vCenter Provider
 In order for Cloudforms to know which appliance is which VM to execute certain jobs it needs to be associated
 * Go to Infrastructure > Virtual Machines > Search for <appliance name> (i.e. c3pucfme1)  > Click on VM
@@ -217,8 +174,7 @@ image:../cloudforms/EVMrelationship/image2.png[]
 [width="80%",options="header"]
 |======
 | Label |  value
-| Servers | 10.1.100.130
-| Servers | 10.1.100.131
+| Servers | ntp.genpt.net
 |======
 
 * Click on Save
@@ -234,15 +190,15 @@ image:../cloudforms/email/image1.png[]
 [width="50%", cols="4,6", options="header"]
 |======
 | Label |  value
-| Host | mailhost.premierinc.com
+| Host | smtp.genpt.com
 | Port | 25
-| Domain | premierinc.com
+| Domain | genpt.com
 | Start TLS Automatically | <NOT checked>
 | SSL Verify Mode | None
-| Authentication | none
-| User Name | <blank>
+| Authentication | login
+| User Name | vmadmin
 | Password |  <blank>
-| From E-mail Address | cloudforms@corp.premierinc.com
+| From E-mail Address | vmadmin@genpt.com
 | Test E-mail Address |
 |======
 
@@ -285,8 +241,8 @@ image:../cloudforms/LDAP/ldap_0.png[]
 * Set the Session Timeout and Mode
 [width="80%", cols="3,7"]
 |======
-| Session Timeout: |  [ 1 ]h [ 0 ]m
-| Mode: | LDAPS
+| Session Timeout: |  [ 3 ]h [ 0 ]m
+| Mode: | LDAP
 |======
 
 image:../cloudforms/LDAP/ldap_2.png[]
@@ -294,10 +250,10 @@ image:../cloudforms/LDAP/ldap_2.png[]
 * Set the LDAP Settings
 [width="80%",cols="3,7"]
 |======
-| LDAP Host Names: |  10.1.100.130 10.1.100.131
-| LDAP Port: | 636
+| LDAP Host Names: |  awgpcpdmadapp07.genpt.net
+| LDAP Port: | 389
 | User Type: | User Principle Name
-| User Suffix: <user>@ | mcip.usmc.mil
+| User Suffix: <user>@ | genpt.net
 |======
 image:../cloudforms/LDAP/ldap_2.png[]
 
@@ -306,10 +262,10 @@ image:../cloudforms/LDAP/ldap_2.png[]
 |======
 | Get User Groups from LDAP |  <Checked>
 | Get Roles from Home Forest | <Checked>
-| Follow Referrals | <Checked>
-| Base DN: | DC=mcip,DC=usmc,DC=mil
-| Bind DN: | cf.cloud.svc@mcip.usmc.mil
-| Bind Password: | <See MCICOM's Password list for this user>
+| Follow Referrals | <UnChecked>
+| Base DN: | DC=GENPT,DC=NET
+| Bind DN: | svc_vmadmin
+| Bind Password: | <See GPC's for Password>
 |======
 image:../cloudforms/LDAP/ldap_3.png[]
 
@@ -344,45 +300,14 @@ After initial installation and creation of a CloudForms Management Engine enviro
 .VMware Provider Details
 [width="100%",options="header"]
 |=
-| Name | MCICOM VMW
+| Name | Dallas vCenter 
 | Type | VMware vCenter
-| Host Name | cougar.mcip.usmc.mil
-| IP Address | 10.1.100.146
+| Host Name | ddpvc4.genpt.net 
+| IP Address | 10.6.128.49 
 | Zone | WK-Zone
 | User | mcip\cf.cloud.svc
-| Password | <See MCICOM Password List>
+| Password | <See GPC for Password>
 |=
-
-=== NetApp Rapid Clone
-
-==== Login Information
-[width="100%", options="headers"]
-|======
-| Hostname | IP Address | Username | Password
-| netapp02a | 10.2.100.19 | vsc.netapp.svc | <See MCICOM's Password List>
-| netapp02b | 10.2.100.20 | vsc.netapp.svc | <See MCICOM's Password List>
-| netapp03a | ??????????? | vsc.netapp.svc | <See MCICOM's Password List>
-|======
-
-==== NetApp Rapid Clone: Dialog_Storage_Controller Workflow
-
-TODO: Will provide workflow when coding is complete
-
-==== NetApp Rapid Clone: Dialog_VM_Sizing Workflow
-
-TODO: Will provide workflow when coding is complete
-
-==== NetApp Rapid Clone: Dialog_VM_Folder Workflow
-
-TODO: Will provide workflow when coding is complete
-
-==== NetApp Rapid Clone: Dialog_Clone_Source Workflow
-
-TODO: Will provide workflow when coding is complete
-
-==== NetApp Rapid Clone: Execute_Rapid_Clone Workflow
-
-TODO: Will provide workflow when coding is complete
 
 ==== Infoblox Automate Overview
 
