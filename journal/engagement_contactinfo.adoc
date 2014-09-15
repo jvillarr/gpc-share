@@ -2,7 +2,7 @@
 [width="100%", options="header"]
 |====
 | Name | title | Phone | E-mail
-| Massimo Perreca| Project Manager | 816.394.7588 | Massimo.Perreca.CTR@mcw.ismc.mil
+| Jonathan Junkins| Virtualization Architect | 770.850.2539 | jonathan_junkins@genpt.com 
 |====
 
 
@@ -10,9 +10,8 @@
 [width="100%", options="header"]
 |====
 | Name | title | Phone | E-mail
-| Chris Yates | Service Delivery Manager | 843-670-2513 | cyates@redhat.com
-| Russ Builta | Domain Architect | | rbuilta@redhat.com
-| Jose Simonelli | Domain Architect | | jose@redhat.com
-| James Villareal | On-site Consultant | | jvillarr@redhat.com
-| Alex Smith | On-Site Consultant | | alsmith@redhat.com
+| Mathew Bolling | Territory Services Manager | 804-399-8154 | mbolling@redhat.com
+| Maria Barba | Project Manager | 919-604-1602 | mbarilla@redhat.com
+| Vijay Checolu | Domain Architect | 732-666-2647 | vchebolu@redhat.com
+| James Villareal | On-site Consultant | 512-351-6842 | jvillarr@redhat.com
 |====
