@@ -1,4 +1,4 @@
-TARGET=MCICOM
+TARGET=GPC
 ASCIIDOC=asciidoc
 ASCIIDOC_DBLATEX_STY=asciidoc-dblatex-custom.sty
 ASCIIDOC_OPTS=-v
