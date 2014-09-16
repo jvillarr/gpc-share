@@ -1,4 +1,4 @@
-.MCICOM Information
+.GPC Information
 [width="100%", options="header"]
 |====
 | Name | title | Phone | E-mail

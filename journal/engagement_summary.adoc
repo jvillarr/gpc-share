@@ -5,67 +5,51 @@ ifdef::env-github[]
 endif::env-github[]
 
 === Objectives
-
-MCICOM seeks to provide on-demand Infrastructure-as-a-Service, Platform-as-a-Service, and Workstation-as-a-Service to support development and production needs, both for their own command as well as others.
-
-Zones are central to how MCICOM manages resources. MCICOM's concept of a zone is not to be confused with a zone in CloudForms. In this context, a zone is an enclave of instances which are logically separated such that they cannot interact with or have visibility of instances belonging to other zones.
-
-MCICOM has 3 basic zones: A, B, and B.2. Zone A doesn't normally interact with zones B and B.2. This rule may be broken under certain circumstances, but nothing for this is needed for the Aug 4 demo. MCICOM has a goal of providing multitenancy in zones B and B.2, such that different commands may have their own "sub-zones". The sub-zone for a tenant should still be a proper enclave and be logically separate from any other zone or sub-zone.
-
-Zone A is primarily used for testing changes that will be deployed to production. The typical workflow is that existing production installations will be cloned into the staging and testing areas (DEV, STG, SIT, and SAT). The exception to this rule is when an installation is new and does not yet exist in production, and in this case it will be cloned from DEV. From there, changes from repositories will be applied and those instances will then be tested with those changes. Upon successful completion of testing, the instance will then be re-cloned from production into the next test environment. The progression order for testing is DEV → STG → SIT → SAT → PROD. Engineers provision machines in STG. Testers provision machines in SIT. Production Support provisions machines in all environments.
-
-Zone B is the PaaS/IaaS enclave. For PaaS implementations, templates contain a full development stack. For IaaS, templates provide a bare OS. Tenants may have the ability to create their own templates.
-
-Zone B.2 is the WaaS enclave, where users are able to provision workstations. Workstations support roaming profiles to enable users to easily move between different workstations under their control. Workstations have a limited lifecycle (duration TBD), at the end of which they will be destroyed and re-created.
-
-Tenant zones may be identified by a pair of tags: one tag for the tenant (the command) and one tag for the enclave (eg., Zone B or B.2).
-
-==== Demo
-
-MCICOM will present a demonstration of their vision for WaaS and PaaS/IaaS provisioning (Zones B and B.2) on Aug 4th. The model for production lifecycle support (Zone A) will not be a part of this demo.
-
-=== Scope
 ==== Project Scope:
-* [ ] Assist the Customer review and modification of the design and modification of the cloud management implementation, as applicable;
-** [ ] Confirm appliance architecture & sizing
-** [ ] Make adjustments to database cache for optimal performance
-** [ ] General tuning and config (ie. excluding EMS event storm data)
-** [ ] Determine and define database backup strategy
-** [ ] Discuss and define load balancing plan for WebUI's (make appropriate changes to cache settings)
-** [ ] Define and Implement tagging taxonomy
-** [ ] Integrate with Active Directory
-** [ ] Define and configure RBAC
-** [ ] Identify additional point of integration
-* [ ] Assist the Customer with the configuration and updates to the current implementation of Red Hat CloudForms per the architectural review as well as the below:
-** [ ] 2 node with HA to serve the dashboard functions
-** [ ] 2 node with HA to serve the snapshot scanning portion
-** [ ] 2 node with HA to handle the provisioning, lifecycle, automation, etc.
-* [ ] Assist in the custom design, implementation, and integration of CloudForms with Netapp VSC plugin for enablement of rapid cloning;
-** [ ] Perform the customer implementation to have CloudForms automate and control the Netapp rapid cloning process;
-** [ ] Assist in defining and mentoring on best practices setting up dashboards
-* [ ] Assist in the design and setup of Reporting and Dashboards that support the ability to do disk and registry scans/reports;
-* [ ] Assist the Customer with the STIG of the CloudForms product
+* [ ] Installing up to three (3) CloudForms appliances for CloudForms provisioning and for remote calls from ServiceNow Service Catalog.
+* [ ] Creating two (2) dashboards in CloudForms consisting of up to fifteen (15) reports in total showcasing Virtual Machine (VM) performance and capacity.
+* [ ] Initializing CloudForms charge back rates with up to two (2) reports.
+* [ ] Creating CloudForms categories ("tags") where appropriate.
+* [ ] Integrating Active Directory for mapping groups to CloudForms user functions
+* [ ] Setting up up Windows and Linux VM provisioning for a VMWare vSphere environment via the provisioning dialog based on Windows and Linux templates
+* [ ] Creating a service catalog to provision Windows and Linux VMs including the following features:
+* [ ] pre-provisioning methods to provision VMs in a folder based on CloudForms tags
+* [ ] placement of VMs in specific VLANs using CloudForms tags
+* [ ] creation of VM names based on tags and/or a combination of user-input variables
+* [ ] acquisition of IP addresses from InfoBlox IP Address Management (IPAM)
+* [ ] registration of new VMs with Active Directory
+* [ ] leveraging VMWare VIX for post-execution steps for Windows and Linux
+* [ ] Creating a dialog button and methods to remove Virtual Machines from inventory including the following features:
+* [ ] powering off VMs
+* [ ] moving VMs to new Virtual Center folders
+* [ ] providing a dialog button to remove VMs from Virtual Center inventory, to remove VMs from Active Directory, and to
+* [ ] release IP addresses from Infoblox
+* [ ] Creating a ServiceNow Service Catalog interface to launch provisioning methods leveraging ServiceNow Service Catalog
+* [ ] access and the ManageIQ plugin provided by ServiceNow.
+* [ ] Integrating with one (1) VMWare vCenter Orchestrator (VCO) workflow leveraging REST APIs.
+* [ ] Providing documentation of the installation and configuration of CloudForms in the form of an Engagement Journal
+* [ ] Providing mentoring to client resources related to the CloudForms installation and configuration
 
 ==== Proposed Schedule
 
 * Duration
-** 6 weeks, Jul 14 – Aug 22
+** 3 weeks, Sept 8 – Sept 26
 * Start Date
-** July 14, 2014 @ noon
+** Sept 8th, 2014
 * Travel Schedule
-** Week 1 (7/14 - 7/18)
-*** On-site support with 2 consultants and 2 DAs
-** Week 2-6 (7/21 - 8/22)
-*** On-site support with 2 consultants (1 DA available as needed)
+** Week 1 (9/8 - 9/12)
+*** On-site support with 1 consultant and 1 DA
+** Week 2-3 (9/15 - 9/26)
+*** On-site support with 1 consultants (1 DA available as needed)
 
 
 === Logistics
 * Place of Performance
-** 2306 E. Bannister Road, Kansas City, MO 64131-3088
+** 3100 Windy Hill Road Atlanta GA 30339
 * On-Site Customer Contact
-** Massimo Perreca: 816.394.7588
+** Jonathan Junkins: 770-850-2359
 * Security Requirements
-** JPAS or background check
+** None
 * Parking
 ** [TBD]
 

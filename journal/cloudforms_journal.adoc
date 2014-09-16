@@ -41,10 +41,10 @@ NOTE: To increase performance, increase the default 4 vCPUs/6GB RAM appliance co
 [width="100%",options="header"]
 |======================
 | Host      |   IP Address | Netmask | Gateway | DNS Server | Notes
-| augpcpdrcfapp03.genpt.net | 10.5.50.98 |  255.255.255.0 | 10.5.50.1 | 10.5.152.5, 10.6.152.5 | CFME UI Appliance
-| augpcpdrcfapp03.genpt.net | 10.5.50.99 |  255.255.255.0 | 10.5.50.1 | 10.5.152.5, 10.6.152.5 | CFME Worker Appliance
-| augpcpdrcfapp02.genpt.net | 10.5.50.100 |  255.255.255.0 | 10.5.50.1 | 10.5.152.5, 10.6.152.5 | CFME Worker Appliance
-| augpcpdrcfapp01.genpt.net | 10.5.128.217 |  255.255.254.0 | 10.5.128.1 | 10.5.152.5, 10.6.152.6 | CFME DB Appliance
+|augpcpdrcfapp03 | 10.5.50.98 |  255.255.255.0 | 10.5.50.1 | 10.5.152.5, 10.6.152.5 | CFME UI Appliance
+|augpcpdrcfapp03 | 10.5.50.99 |  255.255.255.0 | 10.5.50.1 | 10.5.152.5, 10.6.152.5 | CFME Worker Appliance
+|augpcpdrcfapp02 | 10.5.50.100 |  255.255.255.0 | 10.5.50.1 | 10.5.152.5, 10.6.152.5 | CFME Worker Appliance
+|augpcpdrcfapp01 | 10.5.128.217 |  255.255.254.0 | 10.5.128.1 | 10.5.152.5, 10.6.152.6 | CFME DB Appliance
 |======================
 
 ==== Hostname Configuration
@@ -297,93 +297,53 @@ After initial installation and creation of a CloudForms Management Engine enviro
 * Click Validate to confirm that the user and password connects.
 * Click Save.
 
-.VMware Provider Details
+VMware Provider Details:
 [width="100%",options="header"]
+| Name | Atlanta vCenter 
+| Type | VMware vCenter
+| Host Name | atlesxucsvc.genpt.net 
+| IP Address | 10.5.156.49 
+| Zone | WK-Zone
+| User | vmadmin
+| Password | <See GPC for Password>
 |=
+
+[width="100%",options="header"]
 | Name | Dallas vCenter 
 | Type | VMware vCenter
 | Host Name | ddpvc4.genpt.net 
 | IP Address | 10.6.128.49 
 | Zone | WK-Zone
-| User | mcip\cf.cloud.svc
+| User | vmadmin
 | Password | <See GPC for Password>
-|=
 
 ==== Infoblox Automate Overview
 
-/MCICOM::
+/GPC::
 /Integration:::
 
 +
-/RapidClone::::
+/Infoblox::::
 
 * Instances:
-** Dialog_Storage_Controller
-** Dialog_VM_Sizing_CPU
-** Dialog_VM_Sizing_Memory
-** Execute_Rapid_Clone
-** Rapid_Clone_Email_Complete
-** Retrieve_Clone_Source
-** Retrieve_Clone_Source_Path
-** Retrieve_Customization_Specification
-** Retrieve_Datastore_List
-** Retrieve_Destination_Folder
-** Retrieve_Destination_Host
-** Retrieve_Storage_Controller
-
-* Class Schema:
-
-[width="100%",options="header"]
-|======
-| Name | Type | Data Type | Default Value | Display Name | Description | Sub | Collect | Message | On Entry | On Exit | On Error | Collect | Max Retries | Max Time
-| servername | Attribute |  String | mcimgmt1.mcis.usmc.mil | | | [x] | | create | | | | | |
-| username | Attribute |  String | MCIS\jose | | | [x] | | create | | | | | |
-| password | Attribute |  Password | | | | [x] | | create | | | | | |
-| controller_ip | Attribute |  String | 10.2.100.19 | | | [x] | | create | | | | | |
-| controller_username | Attribute |  String | vsc.netapp.svc | | | [x] | | create | | | | | |
-| controller_password | Attribute |  Password | | | | [x] | | create | | | | | |
-| action | Attribute |  String | | | | [x] | | create | | | | | |
-| method1 | Method |  String | | | | [x] | | create | | | | | |
-| method2 | Method |  String | | | | [x] | | create | | | | | |
-|======
+** Infoblox_Create_Host
+** Infoblox_DNS_Alias
+** Infoblox_Dialog_List_Networks	 
+** Infoblox_Host_Record
+** Infoblox_IPAM
+** Infoblox_Host_Record
+** Infoblox_Delete_Record	 
+** Infoblox_Host_Record
 
 ==== Methods:
-
-===== Dialog_Storage_Controller
-[source,ruby]
-----
-include::../cloudforms/Datastore/MCICOM/Integration/RapidClone/Dialog_Storage_Controller.rb[Dialog_Storage_Controller]
-----
-
-===== Dialog_VM_Sizing
-[source,ruby]
-----
-include::../cloudforms/Datastore/MCICOM/Integration/RapidClone/Dialog_VM_Sizing.rb[Dialog_VM_Sizing]
-----
-
-===== Execute_Rapid_Clone
-[source,ruby]
-----
-include::../cloudforms/Datastore/MCICOM/Integration/RapidClone/Execute_Rapid_Clone.rb[Execute_Rapid_Clone]
-----
-
-=== Import Control Policies, Profiles, Alerts
+Import Control Policies, Profiles, Alerts
 * Go to Control > Import/Export
 * Click on "Browse" and select the local file to upload
 * Click Upload
 * Next page will populate showing you all of the items that will be imported
 * Click on "Commit"
 
-Do the previous steps for each of the files in the next 3 sections.
-
-==== Policies.yaml
-Link: link:../cloudforms/Control_Import/Policies.yaml[Policies.yaml]
-
-Source:
-----
-include::../cloudforms/Control_Import/Policies.yaml[]
-----
-
+Do the previous steps for each of the files in the next section.
 
 ==== Profiles.yaml
 Link: link:../cloudforms/Control_Import/Profiles.yaml[Profiles.yaml]
@@ -392,17 +352,6 @@ Source:
 ----
 include::../cloudforms/Control_Import/Profiles.yaml[]
 ----
-
-
-==== Alerts.yaml
-Link: link:../cloudforms/Control_Import/Alerts.yaml[Alerts.yaml]
-
-Source:
-----
-include::../cloudforms/Control_Import/Alerts.yaml[]
-----
-
-
 === Database Backup Procedure
 There are two way to perform backups.
 
@@ -429,8 +378,6 @@ image:../cloudforms/database/image1.png[]
 ==== Web UI: Scheduled Database Backup
 
 * Go to Configure > Configuration > Settings > Select Schedules within the Left Hand Menu
-
-image:../cloudforms/database/menu.png[]
 
 * Fill out the settings as show in the image
 
@@ -495,18 +442,6 @@ Example:
 image:../cloudforms/LDAP/group_tags.png[]
 
 * Click Save
-
-==== Groups created during Engagement
-
-[width="100%", options="headers"]
-|======
-| Group Name | Role | Tag: Cost Center | Tag: Department | Filters | Notes
-| Unix Admins | Premier-Admin | Unix Team | Unix Team | None | No Tags or Filters are created in order to assure the admins can see ALL resources
-| ITS Unix Admins | Premier-Admin | Unix Team | Unix Team | None | No Tags or Filters are created in order to assure the admins can see ALL resources
-| ITS Server Team | Premier-Developer | Department A | Department A | Department A | This will only allow this group to view only objects/resources tagged with Department A
-|======
-
-* NOTE: The Smart Management Tags added to groups will make it so that when these users in these groups provision any Instances/VM's it will automatically tag the Instances/VM's with the provided tags
 
 === Tag Taxonomy
 include::cloudforms_tags.adoc[]
@@ -638,11 +573,3 @@ image:../cloudforms/Catalogs/catalog_item16.png[]
 ** In the above screenshot, "RHEL 6.4 - Small" will power on before "RHEL 6.4 - Medium"
 
 * Click Add
-
-=== Cloudforms: Appendix
-==== Datastore Import File: link:../cloudforms/automate_backups/namespace_MCICOM.xml[namespace_MCICOM.xml]
-[source,xml]
-----
-include::../cloudforms/automate_backups/namespace_MCICOM.xml[XML]
-----
-
