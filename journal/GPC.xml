@@ -1,0 +1,2989 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+
+<book lang="en">
+<bookinfo>
+    <title>GPC - Cloudforms</title>
+<revhistory>
+  <revision>
+    <revnumber>1.0</revnumber>
+    <date>September  2014</date>
+    <authorinitials>James Villarreal</authorinitials>
+    <revremark>
+      Adding formatting
+    </revremark>
+  </revision>
+
+</revhistory>
+</bookinfo>
+<chapter id="_document_information">
+<title>Document Information</title>
+<section id="_originator">
+<title>Originator</title>
+<simpara>Red Hat Consulting</simpara>
+<simpara>James Villarreal</simpara>
+</section>
+<section id="_owner">
+<title>Owner</title>
+<simpara>Red Hat Consulting – Confidential. Restricted distribution.</simpara>
+</section>
+<section id="_copyright">
+<title>Copyright</title>
+<simpara>This document contains proprietary information which is for exclusive use of Red Hat, Inc. and is not to be shared with personnel other than Red Hat, Inc.  This document, and any portion thereof, may not be copied, reproduced, photocopied, stored electronically on a retrieval system, or transmitted without the express written consent of the owner.</simpara>
+<simpara>Red Hat Professional Services does not warrant this document to be free of errors or omissions.  Red Hat Professional Services reserves the right to make corrections, updates, revisions, or changes to the information contained herein.  Red Hat Professional Services does not warrant the material described herein to be free of patent infringement.</simpara>
+<simpara>Unless provided otherwise in writing by RED HAT Professional Services, the information and programs described herein are provided “as is” without warranty of any kind, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. In no event will RED HAT Professional Services, its officers, directors, or employees or affiliates of RED HAT Professional Services, their respective officers, directors, or employees be liable to any entity for any special, collateral, incidental, or consequential damages, including without any limitation, for any lost profits or lost savings, related or arising in any way from or out of the use or inability to use the information or programs set forth herein, even if it has been notified of the possibility of such damage by the purchaser or any third party.</simpara>
+</section>
+<section id="_distribution">
+<title>Distribution</title>
+<simpara>Do not forward or copy without written permission.</simpara>
+<simpara>Copies of this document are restricted to the following:</simpara>
+<simpara>Red Hat, Inc.</simpara>
+<simpara>GPC</simpara>
+</section>
+<section id="_confidentiality">
+<title>Confidentiality</title>
+<simpara>All information supplied to GPC for the purpose of this project is to be considered Red Hat confidential.</simpara>
+</section>
+<section id="_additional_copies">
+<title>Additional copies</title>
+<simpara>Further copies of this document can be obtained from:</simpara>
+<simpara>James Villarreal</simpara>
+</section>
+</chapter>
+<chapter id="_project_approach">
+<title>Project Approach</title>
+<section id="_objectives">
+<title>Objectives</title>
+<section id="_project_scope">
+<title>Project Scope:</title>
+<itemizedlist>
+<listitem>
+<simpara>
+[ ] Installing up to three (3) CloudForms appliances for CloudForms provisioning and for remote calls from ServiceNow Service Catalog.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Creating two (2) dashboards in CloudForms consisting of up to fifteen (15) reports in total showcasing Virtual Machine (VM) performance and capacity.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Initializing CloudForms charge back rates with up to two (2) reports.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Creating CloudForms categories ("tags") where appropriate.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Integrating Active Directory for mapping groups to CloudForms user functions
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Setting up up Windows and Linux VM provisioning for a VMWare vSphere environment via the provisioning dialog based on Windows and Linux templates
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Creating a service catalog to provision Windows and Linux VMs including the following features:
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] pre-provisioning methods to provision VMs in a folder based on CloudForms tags
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] placement of VMs in specific VLANs using CloudForms tags
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] creation of VM names based on tags and/or a combination of user-input variables
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] acquisition of IP addresses from InfoBlox IP Address Management (IPAM)
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] registration of new VMs with Active Directory
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] leveraging VMWare VIX for post-execution steps for Windows and Linux
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Creating a dialog button and methods to remove Virtual Machines from inventory including the following features:
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] powering off VMs
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] moving VMs to new Virtual Center folders
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] providing a dialog button to remove VMs from Virtual Center inventory, to remove VMs from Active Directory, and to
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] release IP addresses from Infoblox
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Creating a ServiceNow Service Catalog interface to launch provisioning methods leveraging ServiceNow Service Catalog
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] access and the ManageIQ plugin provided by ServiceNow.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Integrating with one (1) VMWare vCenter Orchestrator (VCO) workflow leveraging REST APIs.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Providing documentation of the installation and configuration of CloudForms in the form of an Engagement Journal
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+[ ] Providing mentoring to client resources related to the CloudForms installation and configuration
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_proposed_schedule">
+<title>Proposed Schedule</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Duration
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+3 weeks, Sept 8 – Sept 26
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+Start Date
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Sept 8th, 2014
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+Travel Schedule
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Week 1 (9/8 - 9/12)
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+On-site support with 1 consultant and 1 DA
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+Week 2-3 (9/15 - 9/26)
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+On-site support with 1 consultants (1 DA available as needed)
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section id="_logistics">
+<title>Logistics</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Place of Performance
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+3100 Windy Hill Road Atlanta GA 30339
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+On-Site Customer Contact
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Jonathan Junkins: 770-850-2359
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+Security Requirements
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+None
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+Parking
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+[TBD]
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_contact_information">
+<title>Contact Information</title>
+<table
+frame="all"
+rowsep="1" colsep="1"
+>
+<title>GPC Information</title>
+<tgroup cols="4">
+<colspec colname="col_1" colwidth="106pt"/>
+<colspec colname="col_2" colwidth="106pt"/>
+<colspec colname="col_3" colwidth="106pt"/>
+<colspec colname="col_4" colwidth="106pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name </entry>
+<entry align="left" valign="top"> title </entry>
+<entry align="left" valign="top"> Phone </entry>
+<entry align="left" valign="top"> E-mail</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Jonathan Junkins</simpara></entry>
+<entry align="left" valign="top"><simpara>Virtualization Architect</simpara></entry>
+<entry align="left" valign="top"><simpara>770.850.2539</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:jonathan_junkins@genpt.com">jonathan_junkins@genpt.com</ulink></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<table
+frame="all"
+rowsep="1" colsep="1"
+>
+<title>Red Hat Contact Information</title>
+<tgroup cols="4">
+<colspec colname="col_1" colwidth="106pt"/>
+<colspec colname="col_2" colwidth="106pt"/>
+<colspec colname="col_3" colwidth="106pt"/>
+<colspec colname="col_4" colwidth="106pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name </entry>
+<entry align="left" valign="top"> title </entry>
+<entry align="left" valign="top"> Phone </entry>
+<entry align="left" valign="top"> E-mail</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Mathew Bolling</simpara></entry>
+<entry align="left" valign="top"><simpara>Territory Services Manager</simpara></entry>
+<entry align="left" valign="top"><simpara>804-399-8154</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:mbolling@redhat.com">mbolling@redhat.com</ulink></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Maria Barba</simpara></entry>
+<entry align="left" valign="top"><simpara>Project Manager</simpara></entry>
+<entry align="left" valign="top"><simpara>919-604-1602</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:mbarilla@redhat.com">mbarilla@redhat.com</ulink></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Vijay Checolu</simpara></entry>
+<entry align="left" valign="top"><simpara>Domain Architect</simpara></entry>
+<entry align="left" valign="top"><simpara>732-666-2647</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:vchebolu@redhat.com">vchebolu@redhat.com</ulink></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>James Villareal</simpara></entry>
+<entry align="left" valign="top"><simpara>On-site Consultant</simpara></entry>
+<entry align="left" valign="top"><simpara>512-351-6842</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:jvillarr@redhat.com">jvillarr@redhat.com</ulink></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</section>
+</chapter>
+<chapter id="_cloudforms_poc">
+<title>Cloudforms POC</title>
+<section id="_architecture">
+<title>Architecture</title>
+<simpara>*The diagram below describes the capabilities of Red Hat CloudForms Management Engine. Its features are designed to work together to provide robust management and maintenance of your virtual infrastructure.</simpara>
+<formalpara><title>Features</title><para><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/architecture/cloudforms_arch1.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/architecture/cloudforms_arch1.png</phrase></textobject>
+</inlinemediaobject></para></formalpara>
+<itemizedlist>
+<listitem>
+<simpara>
+The architecture comprises the following components:
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+The CloudForms Management Engine Appliance (Appliance) which is supplied as a secure, high-performance, preconfigured virtual machine. It provides support for Secure Socket Layer (SSL) communications.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The CloudForms Management Engine Server (Server) resides on the Appliance. It is the software layer that communicates between the SmartProxy and the Virtual Management Database. It includes support for Secure Socket Layer (SSL) communications.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The Virtual Management Database (VMDB) resides either on the Appliance or another computer accessible to the Appliance. It is the definitive source of intelligence collected about your Virtual Infrastructure. It also holds status information regarding Appliance tasks.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The CloudForms Management Engine Console (Console) is the Web interface used to view and control the Server and Appliance. It is consumed through Web 2.0 mash-ups and web services (WS Management) interfaces.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The SmartProxy can reside on the Appliance or on an ESX Server. If not embedded in the Server, the SmartProxy can be deployed from the Appliance. Each storage location must have a SmartProxy with visibility to it. The SmartProxy acts on behalf of the Appliance communicating with it over HTTPS (SSL) on standard port 443.
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<note><simpara>Reference <ulink url="https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Settings_And_Operations/Architecture2.html">https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Settings_And_Operations/Architecture2.html</ulink></simpara></note>
+</section>
+<section id="_cloudforms_appliance_allocations">
+<title>Cloudforms Appliance Allocations</title>
+<section id="_cfme_appliance_system_requirements">
+<title>CFME Appliance System Requirements</title>
+<itemizedlist>
+<listitem>
+<simpara>
+POC CFME Appliance:
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+3x CFME Appliance:
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+4 vCPU
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+6 GB of RAM
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+1x 40 Root Vol Disk
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+1x 107GB DB Disk
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+1x Network Interface
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<note><simpara><ulink url="../docs/Simplified-CFME-VMDB-Region-Zone-Global-Size-Estimator.ods">Simplified-CFME-VMDB-Region-Zone-Global-Size-Estimator</ulink></simpara></note>
+</section>
+</section>
+<section id="_cfme_appliance_setup">
+<title>CFME Appliance Setup</title>
+<section id="_initial_setup">
+<title>Initial Setup</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>
+Download the CFME appliance from the Red Hat Customer Portal (login required). The CFME appliance is available as an OVA (Open Virtualization Format) file from: Download Software &gt; Red Hat Enterprise Linux (v. 6 for 64-bit x86_64) &gt; Red Hat CloudForms Management Engine (v5.2) &gt; VMware Virtual Appliance.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Upload the OVA file to the VMware Datastore and create the appliances virtual machines using this file. Convert the virtual machine into a template and use it to create all the appliances.
+</simpara>
+</listitem>
+</orderedlist>
+<note><simpara>To increase performance, increase the default 4 vCPUs/6GB RAM appliance configuration to 4 vCPUs/8GB RAM for the Web UI appliance and 4 vCPUs/8GB RAM for the DB and the Worker appliances.</simpara></note>
+</section>
+<section id="_network_configuration">
+<title>Network Configuration</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Once started, the appliances need to be configured with basic network settings using the virtual serial console in the VMware client. Login as <emphasis role="strong">admin / smartvm</emphasis> and press Enter to go to the Advanced Settings menu.  Set Static Network Configuration, Set Hostname, Set Timezone, Date, and Time. When done entering the settings, select Summary Information to review.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Host &amp; IP Allocations
+</simpara>
+</listitem>
+</itemizedlist>
+<table
+frame="all"
+rowsep="1" colsep="1"
+>
+<title>Primary Interface Configuration</title>
+<tgroup cols="6">
+<colspec colname="col_1" colwidth="70pt"/>
+<colspec colname="col_2" colwidth="70pt"/>
+<colspec colname="col_3" colwidth="70pt"/>
+<colspec colname="col_4" colwidth="70pt"/>
+<colspec colname="col_5" colwidth="70pt"/>
+<colspec colname="col_6" colwidth="70pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Host      </entry>
+<entry align="left" valign="top">   IP Address </entry>
+<entry align="left" valign="top"> Netmask </entry>
+<entry align="left" valign="top"> Gateway </entry>
+<entry align="left" valign="top"> DNS Server </entry>
+<entry align="left" valign="top"> Notes</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>augpcpdrcfapp03</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.50.98</simpara></entry>
+<entry align="left" valign="top"><simpara>255.255.255.0</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.50.1</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.152.5, 10.6.152.5</simpara></entry>
+<entry align="left" valign="top"><simpara>CFME UI Appliance</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>augpcpdrcfapp03</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.50.99</simpara></entry>
+<entry align="left" valign="top"><simpara>255.255.255.0</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.50.1</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.152.5, 10.6.152.5</simpara></entry>
+<entry align="left" valign="top"><simpara>CFME Worker Appliance</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>augpcpdrcfapp02</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.50.100</simpara></entry>
+<entry align="left" valign="top"><simpara>255.255.255.0</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.50.1</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.152.5, 10.6.152.5</simpara></entry>
+<entry align="left" valign="top"><simpara>CFME Worker Appliance</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>augpcpdrcfapp01</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.128.217</simpara></entry>
+<entry align="left" valign="top"><simpara>255.255.254.0</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.128.1</simpara></entry>
+<entry align="left" valign="top"><simpara>10.5.152.5, 10.6.152.6</simpara></entry>
+<entry align="left" valign="top"><simpara>CFME DB Appliance</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section id="_hostname_configuration">
+<title>Hostname Configuration</title>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>
+Select Option 4
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Set the hostname of the CFME appliance.  Refer to the table in Network Configuration section
+</simpara>
+</listitem>
+</orderedlist>
+</section>
+<section id="_database_configuration">
+<title>Database Configuration</title>
+<itemizedlist>
+<listitem>
+<simpara>
+With the new appliance the Database is not shipped configured by default. There will need to be a separate Database disk created outside of the appliance and then connected once the appliance has been started. In this case, after looking at where the current VM count and number of VM&#8217;s that will be coming over the next few years the Database has been sized to 100GB. This will allow for growth over the next few years.
+</simpara>
+</listitem>
+</itemizedlist>
+<note><simpara>The database uses LVM and storage can be extended at a later time</simpara></note>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>
+On the main console window select Option 10 (To Configure Database)
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select 1) Internal
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select 1) /dev/mapper/vg_data-lv_pg
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Input Region <emphasis role="strong">10</emphasis> for the Region Selection
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Press <emphasis role="strong">Enter</emphasis>
+</simpara>
+</listitem>
+</orderedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="3">
+<colspec colname="col_1" colwidth="141pt"/>
+<colspec colname="col_2" colwidth="141pt"/>
+<colspec colname="col_3" colwidth="141pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Region Name  </entry>
+<entry align="left" valign="top">   Region #  </entry>
+<entry align="left" valign="top"> Notes</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Region</simpara></entry>
+<entry align="left" valign="top"><simpara>10</simpara></entry>
+<entry align="left" valign="top"><simpara>POC to Production</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>DBRegion</simpara></entry>
+<entry align="left" valign="top"><simpara>99</simpara></entry>
+<entry align="left" valign="top"><simpara>Optional: When GPC decides to scale to have DB Replication</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara>Non-DB appliances configure an external database, using the DB appliance.</simpara>
+</section>
+</section>
+<section id="_smtp_configuration">
+<title>SMTP Configuration</title>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="50*"/>
+<colspec colname="col_2" colwidth="50*"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>SMTP Server</simpara></entry>
+<entry align="left" valign="top"><simpara>smtp.genpt.com</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>email</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:vmadmin@genpt.com">vmadmin@genpt.com</ulink></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_database_backups">
+<title>Database Backups</title>
+<simpara>Database backups are scheduled to occur daily at 2AM CST. Backups are saved to an NFS volume.</simpara>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="50*"/>
+<colspec colname="col_2" colwidth="50*"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>NFS Volume Location</simpara></entry>
+<entry align="left" valign="top"><simpara>nfs://10.1.130.3:/vol/cf_nfs_data1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Frequency</simpara></entry>
+<entry align="left" valign="top"><simpara>Daily</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Time</simpara></entry>
+<entry align="left" valign="top"><simpara>02:00 CST</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_access_url">
+<title>Access URL</title>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="1">
+<colspec colname="col_1" colwidth="425pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> UI URL</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara><ulink url="https://10.5.50.98">https://10.5.50.98</ulink></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_vmware_service_account">
+<title>VMware Service Account</title>
+<important><simpara>Need a CFME Service Account in order to access VMware vCenter and be able to provision and manage the vCenter environment from Cloudforms</simpara></important>
+<note><simpara>See the VMware documentation for instructions on how to create a role. This role will need to be associated with whatever credentials you enter for the Management System’s instance.</simpara></note>
+<itemizedlist>
+<listitem>
+<simpara>
+From the Global group, check:
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Cancel task
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Diagnostics
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Log Event
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Set custom attribute
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Settings
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+The entire set of privileges for the following groups should be checked.
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Alarms
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Datastores
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+dvPort Group
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Host
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Network
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Resource
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Scheduled Task
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Tasks
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Virtual Machine
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+vSphere Distributed Switch
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara>In addition, you must also have the following objects and new role in place:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Datacenter: At the Datacenter the CloudForms Management Engine (CFME) (formerly EVM) user/group must have at least the read-only role at the Datacenter level (Not Propagated) to be able to see the datacenter. Without this access, relationships cannot be made. Specifically, the datastores will not show up.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Cluster: Each Cluster that the CFME needs access to must have the new role assigned and propagated.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Folders: Each Folder that CFME needs access to must have the new role assigned and propagated.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Datastores: Each Datastore that CFME needs access to must have the new role assigned and propagated.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Networking: Each vLAN or Port Group that CFME needs access to must have the new role assigned and propagated.
+</simpara>
+</listitem>
+</itemizedlist>
+<note><simpara>For latest update on this section refer to <ulink url="https://access.redhat.com/site/articles/320543">Creating Role for CFME in VMware</ulink> article in Customer Portal</simpara></note>
+</section>
+<section id="_install_vmware_vddk">
+<title>Install VMware VDDK</title>
+<simpara>The integration of the VMware VDDK (Virtual Disk Development Kit) optimizes the execution of SmartState Analysis on Virtual Machines and is required for CFME Appliances to successfully collect insight information within VMware vCenter. The VDDK can be downloaded from the VMware website with a valid customer account.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>
+Download the VDDK 1.2.2 from VMware&#8217;s website at <ulink url="https://my.vmware.com">https://my.vmware.com</ulink>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Download the file VMware-vix-disklib-5.1.1-1042608.x86_64.tar.gz
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Copy the file to the /root folder of the CFME Appliances
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Start an SSH session into the CFME Appliance
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Run the following commands to extract and install vmware vddk, accept defaults during the installation process:
+</simpara>
+</listitem>
+</orderedlist>
+<screen>cd /root
+tar xvzf VMware-vix-disklib-5.1.1-1042608.x86_64.tar.gz
+cd vmware-vix-disklib-distrib
+./vmware-install.pl</screen>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>
+Once the VDDK is installed, run the ldconfig command in order for EVM to find the newly installed vddk library.:
+</simpara>
+</listitem>
+</orderedlist>
+<screen>ldconfig</screen>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>
+Reboot the CloudForms Appliance. The VDDK is now installed on the CFME appliance.
+</simpara>
+</listitem>
+</orderedlist>
+<note><simpara>Reference: <ulink url="https://access.redhat.com/knowledge/articles/329683">https://access.redhat.com/knowledge/articles/329683</ulink></simpara></note>
+</section>
+<section id="_associate_cloudforms_appliance_as_a_vm_within_vcenter_provider">
+<title>Associate Cloudforms Appliance as a VM within vCenter Provider</title>
+<simpara>In order for Cloudforms to know which appliance is which VM to execute certain jobs it needs to be associated
+* Go to Infrastructure &gt; Virtual Machines &gt; Search for &lt;appliance name&gt; (i.e. c3pucfme1)  &gt; Click on VM
+* In the VM object view Use the VM Configuration menu &gt; Select Edit Management Engine Relationship</simpara>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/EVMrelationship/image1.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/EVMrelationship/image1.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Use the drop down menu to associate the EVM appliance that matches up with this VM.  (i.e. EVM10000000000001)
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/EVMrelationship/image2.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/EVMrelationship/image2.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click on Save
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_configure_ntp_server">
+<title>Configure NTP Server</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Configure &gt; Configuration &gt; Select EVM Server &gt; Click on Server Tab &gt; Enter NTP Information
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="170pt"/>
+<colspec colname="col_2" colwidth="170pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Label </entry>
+<entry align="left" valign="top">  value</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Servers</simpara></entry>
+<entry align="left" valign="top"><simpara>ntp.genpt.net</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<itemizedlist>
+<listitem>
+<simpara>
+Click on Save
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_configure_outgoing_e_mail_settings">
+<title>Configure outgoing E-mail settings</title>
+<simpara>To use the email action in CloudForms Management Engine, you need to set an email address that you will have the emails sent from.</simpara>
+<note><simpara>To be able to send any emails from the server, you must have the Notifier Server role enabled. You can test the settings without the role enabled.</simpara></note>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/email/image1.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/email/image1.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Environment Specific Settings:
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="127pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Label </entry>
+<entry align="left" valign="top">  value</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Host</simpara></entry>
+<entry align="left" valign="top"><simpara>smtp.genpt.com</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Port</simpara></entry>
+<entry align="left" valign="top"><simpara>25</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Domain</simpara></entry>
+<entry align="left" valign="top"><simpara>genpt.com</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Start TLS Automatically</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;NOT checked&gt;</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>SSL Verify Mode</simpara></entry>
+<entry align="left" valign="top"><simpara>None</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Authentication</simpara></entry>
+<entry align="left" valign="top"><simpara>login</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>User Name</simpara></entry>
+<entry align="left" valign="top"><simpara>vmadmin</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Password</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;blank&gt;</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>From E-mail Address</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:vmadmin@genpt.com">vmadmin@genpt.com</ulink></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Test E-mail Address</simpara></entry>
+<entry align="left" valign="top"><simpara></simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<itemizedlist>
+<listitem>
+<simpara>
+Use Host to specify the host name of the mail server.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use Port to specify the port for the mail server.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use Domain to specify domain name for the mail server.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Check Start TLS Automatically if the mail server requires TLS.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the appropriate SSL Verify Mode.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use the Authentication drop down to specify if you want to use login or plain authentication.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use User Name to specify the user name required for login authentication.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use Password to specify the password for login authentication.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use From Email Address to set the address you want to send the email from.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Use To Email Address if you want to test your email settings.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on Save
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_register_appliance">
+<title>Register Appliance</title>
+<section id="_editing_customer_information">
+<title>Editing Customer Information</title>
+<simpara>The Red Hat Updates page allows the user to edit customer information.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+To edit customer information
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Navigate to Configure → Configuration.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on the Settings accordion, then Region, then click on the Red Hat Updates tab.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click Edit Registration in the Customer Information area
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The Customer Information area will display options to edit registration, User ID and Password.
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Register to field provides options for the Customer Portal, RHN Satellite v5 for Red Hat Satellite 5.x servers, and RHN Satellite v6 for Red Hat Satellite 6.x servers. If switching to RHN Satellite v5 or v6, the page will refresh and a prompt for a Server URL will be included in the Customer Information area.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The HTTP Proxy area displays options to enable usage of the HTTP Proxy.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+The User ID and Password are the customer account details for the Customer Portal or Satellite.
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<note><simpara>Reference <ulink url="https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Installation_Guide/chap-Registering_and_Updating_CloudForms_Management_Engine.html">https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Installation_Guide/chap-Registering_and_Updating_CloudForms_Management_Engine.html</ulink></simpara></note>
+</section>
+</section>
+<section id="_ad_integration">
+<title>AD Integration</title>
+<section id="_go_to_the_ldap_configuration_page">
+<title>Go to the LDAP Configuration Page:</title>
+<section id="_configure_gt_settings_gt_select_evm_server_gt_select_authentication_tab">
+<title>Configure &gt; Settings &gt; Select EVM Server &gt; Select Authentication Tab</title>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/LDAP/ldap_0.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/LDAP/ldap_0.png</phrase></textobject>
+</inlinemediaobject></simpara>
+</section>
+</section>
+<section id="_fill_out_the_ldap_settings">
+<title>Fill out the LDAP Settings</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Set the Session Timeout and Mode
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="102pt"/>
+<colspec colname="col_2" colwidth="237pt"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Session Timeout:</simpara></entry>
+<entry align="left" valign="top"><simpara>[ 3 ]h [ 0 ]m</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Mode:</simpara></entry>
+<entry align="left" valign="top"><simpara>LDAP</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/LDAP/ldap_2.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/LDAP/ldap_2.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Set the LDAP Settings
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="102pt"/>
+<colspec colname="col_2" colwidth="237pt"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>LDAP Host Names:</simpara></entry>
+<entry align="left" valign="top"><simpara>awgpcpdmadapp07.genpt.net</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>LDAP Port:</simpara></entry>
+<entry align="left" valign="top"><simpara>389</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>User Type:</simpara></entry>
+<entry align="left" valign="top"><simpara>User Principle Name</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>User Suffix: &lt;user&gt;@</simpara></entry>
+<entry align="left" valign="top"><simpara>genpt.net</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/LDAP/ldap_2.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/LDAP/ldap_2.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Set the Role Settings
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="102pt"/>
+<colspec colname="col_2" colwidth="237pt"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Get User Groups from LDAP</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;Checked&gt;</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Get Roles from Home Forest</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;Checked&gt;</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Follow Referrals</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;UnChecked&gt;</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Base DN:</simpara></entry>
+<entry align="left" valign="top"><simpara>DC=GENPT,DC=NET</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Bind DN:</simpara></entry>
+<entry align="left" valign="top"><simpara>svc_vmadmin</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Bind Password:</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;See GPC&#8217;s for Password&gt;</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/LDAP/ldap_3.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/LDAP/ldap_3.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click [ Validate ]
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on Save button at the bottom right of the page
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section id="_add_openstack_provider">
+<title>Add Openstack Provider</title>
+<simpara>After initial installation and creation of a CloudForms Management Engine environment, add cloud providers with the following procedure.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Navigate to Clouds → Providers.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click (Configuration), then click (Add a New Cloud Provider).
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Enter a Name for the provider.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the OpenStack in the Provider field
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Fill out the Credentials by typing in a User ID, Password, and a verification of this password (Verify Password).
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+If editing an OpenStack provider, use the AMQP subtab to provide credentials required for the Advanced Message Queuing Protocol service on your OpenStack Nova component.
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>
+Click Validate to validate the credentials.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click Add.
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_add_vmware_provider">
+<title>Add VMware Provider</title>
+<simpara>After initial installation and creation of a CloudForms Management Engine environment, add providers to the appliance with the following procedure.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Navigate to Infrastructure → Providers.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click (Configuration), then click (Add a New Infrastructure Provider).
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Type in the Name of the provider to add. The Name is how the device is labeled in the console.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the Type of provider: VMware vCenter.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Type in the Host Name, and IP Address of the provider to add.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Type in a User ID and Password with administrator privileges to the provider. To refresh a provider, these credentials are required.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click Validate to confirm that the user and password connects.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click Save.
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>VMware Provider Details:</simpara>
+<simpara>| Name | Atlanta vCenter
+| Type | VMware vCenter
+| Host Name | atlesxucsvc.genpt.net
+| IP Address | 10.5.156.49
+| Zone | WK-Zone
+| User | vmadmin
+| Password | &lt;See GPC for Password&gt;
+|=</simpara>
+<simpara>| Name | Dallas vCenter
+| Type | VMware vCenter
+| Host Name | ddpvc4.genpt.net
+| IP Address | 10.6.128.49
+| Zone | WK-Zone
+| User | vmadmin
+| Password | &lt;See GPC for Password&gt;</simpara>
+<section id="_infoblox_automate_overview">
+<title>Infoblox Automate Overview</title>
+<variablelist>
+<varlistentry>
+<term>
+/GPC
+</term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term>
+/Integration
+</term>
+<listitem>
+<variablelist>
+<varlistentry>
+<term>
+/Infoblox
+</term>
+<listitem>
+<itemizedlist>
+<listitem>
+<simpara>
+Instances:
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Infoblox_Create_Host
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_DNS_Alias
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_Dialog_List_Networks
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_Host_Record
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_IPAM
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_Host_Record
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_Delete_Record
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Infoblox_Host_Record
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+</listitem>
+</varlistentry>
+</variablelist>
+</section>
+<section id="_methods">
+<title>Methods:</title>
+<simpara>Import Control Policies, Profiles, Alerts
+* Go to Control &gt; Import/Export
+* Click on "Browse" and select the local file to upload
+* Click Upload
+* Next page will populate showing you all of the items that will be imported
+* Click on "Commit"</simpara>
+<simpara>Do the previous steps for each of the files in the next section.</simpara>
+</section>
+<section id="_profiles_yaml">
+<title>Profiles.yaml</title>
+<simpara>Link: <ulink url="../cloudforms/Control_Import/Profiles.yaml">Profiles.yaml</ulink></simpara>
+<simpara>Source:</simpara>
+<screen>---
+- MiqPolicySet:
+    name: 3be240d8-2866-11de-af2a-0050568026c2
+    description: ! 'Mandatory: Provisioning and Retirement'
+    set_type: MiqPolicySet
+    guid: 3be240d8-2866-11de-af2a-0050568026c2
+    read_only:
+    set_data:
+      :notes: ! 'This policy profile is REQUIRED if EVM is being used to Provision
+        or Retire vms. It must be entitled to the desired management systems. Note:
+        this policy profile will potentially result in the removal of a vm from the
+        management system upon retirement if the associated VM Retirement statemachine
+        [/Factory/StateMachine/VMRetirement] in the the Automate model is configured
+        to delete vms. It is not configured for vm deletion out-of-the-box.'
+    mode: control
+    owner_type:
+    owner_id:
+    MiqPolicy:
+    - name: Automation Policy - Scope VM Retirement Warning,  ResponseExecute Automation
+        Model
+      description: ! 'Operational: Retirement Warning'
+      expression:
+      towhat: Vm
+      guid: 39621392-2866-11de-af2a-0050568026c2
+      created_by:
+      updated_by: admin
+      notes: This policy raises an automation event when a retirement warning event
+        is raised
+      active: true
+      mode: control
+      MiqPolicyContent:
+      - qualifier: success
+        success_sequence: 1
+        failure_synchronous: true
+        MiqEvent:
+          name: vm_retire_warn
+          description: VM Retirement Warning
+          guid: 97c85330-fe93-11dd-b5e1-005056903dbc
+          event_type: Default
+          definition:
+          default:
+          enabled:
+        MiqAction:
+          name: raise_automation_event
+          description: Raise Automation Event
+          guid: e7da3b7a-1139-11e1-9333-005056af009e
+          action_type: default
+          options: {}
+      Condition: []
+    - name: Automation Policy - Scope VM Retired Response Execute Automation Model
+      description: ! 'Operational: Vm Retired'
+      expression:
+      towhat: Vm
+      guid: 397700ae-2866-11de-af2a-0050568026c2
+      created_by:
+      updated_by: admin
+      notes: This policy raises an automation event when a vm retirement event is
+        raised
+      active: true
+      mode: control
+      MiqPolicyContent:
+      - qualifier: success
+        success_sequence: 1
+        failure_synchronous: true
+        MiqEvent:
+          name: vm_retired
+          description: VM Retired
+          guid: e363d8aa-1e1e-11de-8918-0050568005db
+          event_type: Default
+          definition:
+          default:
+          enabled:
+        MiqAction:
+          name: raise_automation_event
+          description: Raise Automation Event
+          guid: e7da3b7a-1139-11e1-9333-005056af009e
+          action_type: default
+          options: {}
+      Condition: []
+    - name: 427a4378-6519-11df-b637-005056a435be
+      description: ! 'Analysis: Post Provisioning'
+      expression:
+      towhat: Vm
+      guid: 427a4378-6519-11df-b637-005056a435be
+      created_by: admin
+      updated_by: admin
+      notes: This policy triggers a vm analysis of any newly provisioned VM
+      active: true
+      mode: control
+      MiqPolicyContent:
+      - qualifier: success
+        success_sequence: 1
+        MiqEvent:
+          name: vm_provisioned
+          description: VM Provision Complete
+          guid: 2a17a20a-3e8e-11df-9fe2-005056a435be
+          event_type: Default
+          definition:
+          default:
+          enabled:
+        MiqAction:
+          name: vm_analyze
+          description: Initiate SmartState Analysis for VM
+          guid: 5cbe1082-ce35-11de-a117-005056b0503e
+          action_type: default
+          options: {}
+      Condition: []</screen>
+</section>
+</section>
+<section id="_database_backup_procedure">
+<title>Database Backup Procedure</title>
+<simpara>There are two way to perform backups.</simpara>
+<simpara>1) RECOMMENDED: This method is done through the Web UI and allows you to set up schedules and to have the backups be on an NFS or Samba share.</simpara>
+<simpara>2) Manually through the DB Appliance SSH session</simpara>
+<section id="_web_ui_single_run_database_backup">
+<title>Web UI: Single Run Database Backup</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Configure &gt; Configuration &gt; Diagnostics (Left hand navigation menu) &gt; Select Region (i.e. Region 10) &gt; Click on Database Tab
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+in the Database Backup Settings enter the following:
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="212pt"/>
+<colspec colname="col_2" colwidth="212pt"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Type:</simpara></entry>
+<entry align="left" valign="top"><simpara>Network File System</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>URI: nfs://</simpara></entry>
+<entry align="left" valign="top"><simpara>c3pudrnas1:/drnas/cloudforms</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<itemizedlist>
+<listitem>
+<simpara>
+Click on Submit
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click OK in the pop-up "Are you sure you want to Run a Database Backup Now?"
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/database/image1.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/database/image1.png</phrase></textobject>
+</inlinemediaobject></simpara>
+</section>
+<section id="_web_ui_scheduled_database_backup">
+<title>Web UI: Scheduled Database Backup</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Configure &gt; Configuration &gt; Settings &gt; Select Schedules within the Left Hand Menu
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Fill out the settings as show in the image
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/database/image2.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/database/image2.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Add
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_ssh_manual_database_backup">
+<title>SSH: Manual Database Backup</title>
+<itemizedlist>
+<listitem>
+<simpara>
+SSH into the appliance
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+switch to postgres user
+</simpara>
+</listitem>
+</itemizedlist>
+<screen>su - postgres</screen>
+<itemizedlist>
+<listitem>
+<simpara>
+Run backup command
+</simpara>
+</listitem>
+</itemizedlist>
+<screen>pg_dump vmdb_production | gzip &gt; /tmp/postgres_db_backup.gz</screen>
+<itemizedlist>
+<listitem>
+<simpara>
+To restore
+</simpara>
+</listitem>
+</itemizedlist>
+<screen>cat /tmp/postgres_db_backup.gz | gunzip | psql vmdb_production</screen>
+</section>
+</section>
+<section id="_member_groups">
+<title>Member Groups</title>
+<section id="_creating_importing_group_from_ldap_active_directory">
+<title>Creating/Importing Group from LDAP/Active Directory</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Configure &gt; Configuration &gt; Access Control &gt; Click on Groups
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on the Configuration Button &gt; Select Add New Group
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+In the Group Information enter the following:
+</simpara>
+</listitem>
+</itemizedlist>
+<informaltable
+frame="all"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="212pt"/>
+<colspec colname="col_2" colwidth="212pt"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Description:</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;Name of LDAP Group&gt;</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Role:</simpara></entry>
+<entry align="left" valign="top"><simpara>&lt;Select appropiate Role that was created&gt;</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<itemizedlist>
+<listitem>
+<simpara>
+Select Filters for this group on the right.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on Save
+</simpara>
+</listitem>
+</itemizedlist>
+<important><simpara>The filters selected is what will determine what objects the user in this group will be able to see.  Example:  If the user is part of Department A, and you select "Department &gt; Department A" this user will only EVER see any objects that are tagged with the "Department A" tag.</simpara></important>
+<simpara>Example:</simpara>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/LDAP/user_groups.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/LDAP/user_groups.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<note><simpara>You may also leave the Description Blank and then check the "(Look Up LDAP Groups)" check-box and in the "LDAP Group Look Up" section enter a User to Look up and use your LDAP user / password to retrieve all of the groups this member is a part of.  Then select from the Drop Down in "Group Information" with the according LDAP/AD Group that you want to create.   Once the group is select it will automatically replace the contents of the "Description" Field.  After this is done, select the according Filters on the right side.</simpara></note>
+</section>
+<section id="_adding_smart_management_tag_to_group">
+<title>Adding Smart Management Tag to Group</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Select the Group that was previously created
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on Policy
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on "Edit Premier, Inc&#8217;s Tags for this Group"
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+in the "Select a customer tag to assign" select Department, then select the appropiate Department
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+in the "Select a customer tag to assign" select Cost Center, then select the appropiate Cost Center
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Example:</simpara>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/LDAP/group_tags.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/LDAP/group_tags.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Save
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section id="_tag_taxonomy">
+<title>Tag Taxonomy</title>
+<section id="_environment">
+<title>Environment</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>dev</simpara></entry>
+<entry align="left" valign="top"><simpara>Development</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>preprod</simpara></entry>
+<entry align="left" valign="top"><simpara>PreProd</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>prod</simpara></entry>
+<entry align="left" valign="top"><simpara>Production</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>qa</simpara></entry>
+<entry align="left" valign="top"><simpara>QA</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>test</simpara></entry>
+<entry align="left" valign="top"><simpara>Test</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_locations">
+<title>Locations</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Atlanta</simpara></entry>
+<entry align="left" valign="top"><simpara>Atlanta</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_owners">
+<title>Owners</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>developers</simpara></entry>
+<entry align="left" valign="top"><simpara>Developers</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>engineer</simpara></entry>
+<entry align="left" valign="top"><simpara>Engineer</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>unixteam</simpara></entry>
+<entry align="left" valign="top"><simpara>Unix Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>windowsteam</simpara></entry>
+<entry align="left" valign="top"><simpara>Windows Team</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_provisioning_scope">
+<title>Provisioning Scope</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>all</simpara></entry>
+<entry align="left" valign="top"><simpara>All</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<note><simpara>Additional Provisioning Scopes to be added at a later time</simpara></note>
+</section>
+<section id="_storage_types">
+<title>Storage Types</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>tier1</simpara></entry>
+<entry align="left" valign="top"><simpara>Tier 1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>tier2</simpara></entry>
+<entry align="left" valign="top"><simpara>Tier 2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>tier3</simpara></entry>
+<entry align="left" valign="top"><simpara>Tier 3</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_cost_center">
+<title>Cost Center</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>database_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Database Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>department_a</simpara></entry>
+<entry align="left" valign="top"><simpara>Department A</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>department_b</simpara></entry>
+<entry align="left" valign="top"><simpara>Department B</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>department_c</simpara></entry>
+<entry align="left" valign="top"><simpara>Department C</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>engineering</simpara></entry>
+<entry align="left" valign="top"><simpara>Engineering</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>finance</simpara></entry>
+<entry align="left" valign="top"><simpara>Financial Services</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>hr</simpara></entry>
+<entry align="left" valign="top"><simpara>Human Resources</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>infrastructure</simpara></entry>
+<entry align="left" valign="top"><simpara>Infrastructure</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>marketing</simpara></entry>
+<entry align="left" valign="top"><simpara>Marketing</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>network_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Network Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>unix_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Unix Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>windows_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Windows Team</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<note><simpara>Additional Cost Center to be added at a later time</simpara></note>
+</section>
+<section id="_department">
+<title>Department</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>database_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Database Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>department_a</simpara></entry>
+<entry align="left" valign="top"><simpara>Department A</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>department_b</simpara></entry>
+<entry align="left" valign="top"><simpara>Department B</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>department_c</simpara></entry>
+<entry align="left" valign="top"><simpara>Department C</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>engineering</simpara></entry>
+<entry align="left" valign="top"><simpara>Engineering</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>finance</simpara></entry>
+<entry align="left" valign="top"><simpara>Financial Services</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>hr</simpara></entry>
+<entry align="left" valign="top"><simpara>Human Resources</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>infrastructure</simpara></entry>
+<entry align="left" valign="top"><simpara>Infrastructure</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>marketing</simpara></entry>
+<entry align="left" valign="top"><simpara>Marketing</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>network_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Network Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>unix_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Unix Team</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>windows_team</simpara></entry>
+<entry align="left" valign="top"><simpara>Windows Team</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<note><simpara>Additional Departments to be added at a later time</simpara></note>
+</section>
+<section id="_workload">
+<title>Workload</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>active_directory</simpara></entry>
+<entry align="left" valign="top"><simpara>Active Directory Server</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>application_servers</simpara></entry>
+<entry align="left" valign="top"><simpara>Application Servers</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>cognos</simpara></entry>
+<entry align="left" valign="top"><simpara>Cognos</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>database</simpara></entry>
+<entry align="left" valign="top"><simpara>Database</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>db2_server</simpara></entry>
+<entry align="left" valign="top"><simpara>IBM DB2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>desktop</simpara></entry>
+<entry align="left" valign="top"><simpara>Desktop</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>dhcp</simpara></entry>
+<entry align="left" valign="top"><simpara>DHCP Server</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>evm_appliance</simpara></entry>
+<entry align="left" valign="top"><simpara>EVM Appliance</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>hadoop</simpara></entry>
+<entry align="left" valign="top"><simpara>Hadoop</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>infrastructure</simpara></entry>
+<entry align="left" valign="top"><simpara>Virtual Infrastructure Management</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>jboss_server</simpara></entry>
+<entry align="left" valign="top"><simpara>JBOSS Server</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>messaging</simpara></entry>
+<entry align="left" valign="top"><simpara>Messaging</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>oracle_server</simpara></entry>
+<entry align="left" valign="top"><simpara>Oracle Database</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>proxy_server</simpara></entry>
+<entry align="left" valign="top"><simpara>Proxy Server</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>security</simpara></entry>
+<entry align="left" valign="top"><simpara>Security</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>web_server</simpara></entry>
+<entry align="left" valign="top"><simpara>Web Server</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>websphere_server</simpara></entry>
+<entry align="left" valign="top"><simpara>Websphere</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<note><simpara>Additional Cost Center to be added at a later time</simpara></note>
+</section>
+<section id="_service_level">
+<title>Service Level</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>gold</simpara></entry>
+<entry align="left" valign="top"><simpara>Gold</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>platinum</simpara></entry>
+<entry align="left" valign="top"><simpara>Platinum</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>silver</simpara></entry>
+<entry align="left" valign="top"><simpara>Silver</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_auto_approve_max_cpu">
+<title>Auto Approve - Max CPU</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>3</simpara></entry>
+<entry align="left" valign="top"><simpara>3</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>4</simpara></entry>
+<entry align="left" valign="top"><simpara>4</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>5</simpara></entry>
+<entry align="left" valign="top"><simpara>5</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_auto_approve_max_memory">
+<title>Auto Approve - Max Memory</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>1024</simpara></entry>
+<entry align="left" valign="top"><simpara>1GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>2048</simpara></entry>
+<entry align="left" valign="top"><simpara>2GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>4096</simpara></entry>
+<entry align="left" valign="top"><simpara>4GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>8192</simpara></entry>
+<entry align="left" valign="top"><simpara>8GB</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_auto_approve_retirement_days">
+<title>Auto Approve - Retirement Days</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>30</simpara></entry>
+<entry align="left" valign="top"><simpara>30</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>60</simpara></entry>
+<entry align="left" valign="top"><simpara>60</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>90</simpara></entry>
+<entry align="left" valign="top"><simpara>90</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>180</simpara></entry>
+<entry align="left" valign="top"><simpara>180</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_auto_approve_max_vm">
+<title>Auto Approve - Max VM</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>3</simpara></entry>
+<entry align="left" valign="top"><simpara>3</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>4</simpara></entry>
+<entry align="left" valign="top"><simpara>4</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>5</simpara></entry>
+<entry align="left" valign="top"><simpara>5</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_quota_max_memory">
+<title>Quota - Max Memory</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>1024</simpara></entry>
+<entry align="left" valign="top"><simpara>1GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>2048</simpara></entry>
+<entry align="left" valign="top"><simpara>2GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>4096</simpara></entry>
+<entry align="left" valign="top"><simpara>4GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>8192</simpara></entry>
+<entry align="left" valign="top"><simpara>8GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>10240</simpara></entry>
+<entry align="left" valign="top"><simpara>10GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>16384</simpara></entry>
+<entry align="left" valign="top"><simpara>16GB</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_quota_max_storage">
+<title>Quota - Max Storage</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>10</simpara></entry>
+<entry align="left" valign="top"><simpara>10GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>20</simpara></entry>
+<entry align="left" valign="top"><simpara>20GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>40</simpara></entry>
+<entry align="left" valign="top"><simpara>40GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>80</simpara></entry>
+<entry align="left" valign="top"><simpara>80GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>100</simpara></entry>
+<entry align="left" valign="top"><simpara>100GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>200</simpara></entry>
+<entry align="left" valign="top"><simpara>200GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>400</simpara></entry>
+<entry align="left" valign="top"><simpara>400GB</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>1000</simpara></entry>
+<entry align="left" valign="top"><simpara>1TB</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section id="_quota_max_cpu">
+<title>Quota - Max CPU</title>
+<informaltable
+frame="topbot"
+rowsep="1" colsep="1"
+>
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="85pt"/>
+<colspec colname="col_2" colwidth="85pt"/>
+<thead>
+<row>
+<entry align="left" valign="top"> Name                        </entry>
+<entry align="left" valign="top">   Display</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>3</simpara></entry>
+<entry align="left" valign="top"><simpara>3</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>4</simpara></entry>
+<entry align="left" valign="top"><simpara>4</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>5</simpara></entry>
+<entry align="left" valign="top"><simpara>5</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>10</simpara></entry>
+<entry align="left" valign="top"><simpara>10</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>20</simpara></entry>
+<entry align="left" valign="top"><simpara>20</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>30</simpara></entry>
+<entry align="left" valign="top"><simpara>30</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+</section>
+<section id="_service_catalog">
+<title>Service Catalog</title>
+<section id="_create_new_catalogs">
+<title>Create new Catalogs</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Services &gt; Catalog &gt; Click on "Catalogs" menu on the left hand side
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click the "Configuration" Button
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select "Add a New Catalog"
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Enter the Name of the Catalog
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Enter the Description of the Catalog
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_create_new_catalog_item">
+<title>Create New Catalog Item</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Services &gt; Catalog &gt; Click on "Catalog Items" menu on the left hand side
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the Catalog that was previously created
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click the "Configuration" Button
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select "Add a New Catalog Item"
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Should bring you to the "Basic Info" Tab
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Choose the Catalog Item Type, i.e. Openstack
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item1.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item1.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Enter the Name and Description and Check the "Display in Catalog"
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item2.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item2.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Once the rest of the view is expanded Select the Catalog. i.e. 001-Dev
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the Dialog i.e. Basic VM
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Provisioning Entry Point (NS/Cls/Inst): /Factory/StateMachines/ServiceProvision_Template/CatalogItemInitialization
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item3.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item3.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Apply
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Retirement Entry Point (NS/Cls/Inst): /Factory/StateMachines/ServiceRetirement/Default
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item4.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item4.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Apply
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click on the "Request Info" Tab
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item5.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item5.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Request Info: Catalog
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Select Name of the Template (i.e. rhel6)
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Enter Instance Name "changeme" (note: this will be changed later using the Service Dialog, just leave it as changeme
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item6.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item6.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Request Info: Click on the Environment Tab
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Placement Options: Availability Zones: <emphasis role="strong">nova</emphasis>
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Placement Options: Cloud Network: <emphasis role="strong">publicnet</emphasis>
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item7.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item7.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Request Info: Click on the Properties Tab
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Properties: Instance Type: i.e. m1.medium
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Properties: Guest Access Key Pair: devops
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item8.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item8.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Request Info: Click on the Schedule Tab
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Schedule: Time until Retirement: i.e. Indefinite
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item9.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item9.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Add
+</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section id="_change_the_catalog_item_custom_image">
+<title>Change the Catalog Item Custom Image</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Select the Catalog Item to upload a custom image to
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click on Browse and select Image to use
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item10.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item10.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Now you will see the custom image for the Catalog Item be updated
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item11.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item11.png</phrase></textobject>
+</inlinemediaobject></simpara>
+</section>
+<section id="_create_new_catalog_bundle">
+<title>Create New Catalog Bundle</title>
+<itemizedlist>
+<listitem>
+<simpara>
+Go to Services &gt; Catalog &gt; Click on "Catalog Items" menu on the left hand side
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the Catalog that was previously created
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Click the "Configuration" Button
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select "Add a New Catalog Bundle"
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Should bring you to the "Basic Info" Tab
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Enter the Name and Description and Check the "Display in Catalog"
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item12.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item12.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Once the rest of the view is expanded Select the Catalog. i.e. 001-Dev
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select the Dialog &lt;Blank&gt;
+</simpara>
+</listitem>
+</itemizedlist>
+<important><simpara>You can select another Dialog, but you have to make sure it is for a Bundle and not a single Item)</simpara></important>
+<itemizedlist>
+<listitem>
+<simpara>
+Provisioning Entry Point (NS/Cls/Inst): /Factory/StateMachines/ServiceProvision_Template/CatalogBundleInitialization
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item13.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item13.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Apply
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Retirement Entry Point (NS/Cls/Inst): /Factory/StateMachines/ServiceRetirement/Default
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item4.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item4.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Apply
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item14.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item14.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click on the "Resources" Tab
+</simpara>
+</listitem>
+</itemizedlist>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item15.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item15.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Select an existing Catalog Item Resource (i.e. RHEL 6.4 - Small)
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Select an additional Catalog Item Resource (i.e. RHEL 6.4 - Medium)
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+Repeat the previous 2 steps as many times as needed for all of the resources required for this bundle
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+If needed, modify the Action Order or Provision Order:
+</simpara>
+</listitem>
+</itemizedlist>
+<note><simpara>Provision Order will only worry about in which order it will actually provision the instance/vm.  The Action Order is done once the provisioning is completed it will then perform the action specified in that order.  Example:  You can have the same Provision Order, but only care about the order that things are powered on.</simpara></note>
+<simpara><inlinemediaobject>
+  <imageobject>
+  <imagedata fileref="../cloudforms/Catalogs/catalog_item16.png"/>
+  </imageobject>
+  <textobject><phrase>../cloudforms/Catalogs/catalog_item16.png</phrase></textobject>
+</inlinemediaobject></simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+In the above screenshot, "RHEL 6.4 - Small" will power on before "RHEL 6.4 - Medium"
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+Click Add
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+</chapter>
+</book>

@@ -1,0 +1,21 @@
+:data-uri:
+:icons: font
+:numbered:
+:toc:
+:customer: GPC
+:project_title: Cloudforms
+:consultant1: James Villarreal
+:consultant1_email: jvillarr@redhat.com
+:newline: \n
+:revisionhistory:
+
+= {customer} - {project_title}
+
+== Document Information
+include::engagement_header.adoc[]
+
+== Project Approach
+include::engagement_summary.adoc[]
+
+== Cloudforms POC
+include::cloudforms_journal.adoc[]
