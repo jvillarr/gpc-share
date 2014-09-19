@@ -660,7 +660,7 @@ rowsep="1" colsep="1"
 </section>
 <section id="_database_backups">
 <title>Database Backups</title>
-<simpara>Database backups are scheduled to occur daily at 2AM CST. Backups are saved to an NFS volume.</simpara>
+<simpara>Database backups are scheduled to occur daily at 10PM EST. Backups are saved to an NFS volume.</simpara>
 <informaltable
 frame="all"
 rowsep="1" colsep="1"
@@ -671,7 +671,7 @@ rowsep="1" colsep="1"
 <tbody>
 <row>
 <entry align="left" valign="top"><simpara>NFS Volume Location</simpara></entry>
-<entry align="left" valign="top"><simpara>nfs://10.1.130.3:/vol/cf_nfs_data1</simpara></entry>
+<entry align="left" valign="top"><simpara>nfs://ATLNetApp05data01:/vol/cloudforms_backups</simpara></entry>
 </row>
 <row>
 <entry align="left" valign="top"><simpara>Frequency</simpara></entry>
@@ -679,7 +679,7 @@ rowsep="1" colsep="1"
 </row>
 <row>
 <entry align="left" valign="top"><simpara>Time</simpara></entry>
-<entry align="left" valign="top"><simpara>02:00 CST</simpara></entry>
+<entry align="left" valign="top"><simpara>22:00 EST</simpara></entry>
 </row>
 </tbody>
 </tgroup>
@@ -1632,7 +1632,7 @@ rowsep="1" colsep="1"
 </row>
 <row>
 <entry align="left" valign="top"><simpara>URI: nfs://</simpara></entry>
-<entry align="left" valign="top"><simpara>c3pudrnas1:/drnas/cloudforms</simpara></entry>
+<entry align="left" valign="top"><simpara>ATLNetApp05data01:/vol/cloudforms_backups</simpara></entry>
 </row>
 </tbody>
 </tgroup>

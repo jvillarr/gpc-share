@@ -82,12 +82,12 @@ Non-DB appliances configure an external database, using the DB appliance.
 
 === Database Backups
 
-Database backups are scheduled to occur daily at 2AM CST. Backups are saved to an NFS volume.
+Database backups are scheduled to occur daily at 10PM EST. Backups are saved to an NFS volume.
 
 |=========================================================
-| NFS Volume Location | nfs://10.1.130.3:/vol/cf_nfs_data1
+| NFS Volume Location | nfs://ATLNetApp05data01:/vol/cloudforms_backups
 | Frequency | Daily
-| Time | 02:00 CST
+| Time | 22:00 EST
 |=========================================================
 
 === Access URL
@@ -366,7 +366,7 @@ There are two way to perform backups.
 [width="100%"]
 |======
 | Type: | Network File System
-| URI: nfs:// | c3pudrnas1:/drnas/cloudforms
+| URI: nfs:// | ATLNetApp05data01:/vol/cloudforms_backups
 |======
 
 * Click on Submit
