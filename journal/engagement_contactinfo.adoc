@@ -3,6 +3,9 @@
 |====
 | Name | title | Phone | E-mail
 | Jonathan Junkins| Virtualization Architect | 770.850.2539 | jonathan_junkins@genpt.com 
+| Justin Peterson | Virtualization Administrator | 770.850.2412 | justin_peterson@genpt.com 
+| Keith Hopkins | Enterprise Architect | 770.850.2539 | keith_hopkins@genpt.com
+| Patrick Price | Linux Administrator | 770.850.2539 | patrick_price@genpt.com
 |====
 
 

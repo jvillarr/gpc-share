@@ -315,6 +315,24 @@ rowsep="1" colsep="1"
 <entry align="left" valign="top"><simpara>770.850.2539</simpara></entry>
 <entry align="left" valign="top"><simpara><ulink url="mailto:jonathan_junkins@genpt.com">jonathan_junkins@genpt.com</ulink></simpara></entry>
 </row>
+<row>
+<entry align="left" valign="top"><simpara>Justin Peterson</simpara></entry>
+<entry align="left" valign="top"><simpara>Virtualization Administrator</simpara></entry>
+<entry align="left" valign="top"><simpara>770.850.2412</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:justin_peterson@genpt.com">justin_peterson@genpt.com</ulink></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Keith Hopkins</simpara></entry>
+<entry align="left" valign="top"><simpara>Enterprise Architect</simpara></entry>
+<entry align="left" valign="top"><simpara>770.850.2539</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:keith_hopkins@genpt.com">keith_hopkins@genpt.com</ulink></simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Patrick Price</simpara></entry>
+<entry align="left" valign="top"><simpara>Linux Administrator</simpara></entry>
+<entry align="left" valign="top"><simpara>770.850.2539</simpara></entry>
+<entry align="left" valign="top"><simpara><ulink url="mailto:patrick_price@genpt.com">patrick_price@genpt.com</ulink></simpara></entry>
+</row>
 </tbody>
 </tgroup>
 </table>
@@ -411,7 +429,7 @@ The SmartProxy can reside on the Appliance or on an ESX Server. If not embedded 
 </itemizedlist>
 </listitem>
 </itemizedlist>
-<note><simpara>Reference <ulink url="https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Settings_And_Operations/Architecture2.html">https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Settings_And_Operations/Architecture2.html</ulink></simpara></note>
+<note><simpara>Reference <ulink url="https://access.redhat.com/documentation/en-US/CloudForms/3.0/html/Management_Engine_5.2_Settings_And_Operations/chap-Introduction_to_Red_Hat_CloudForms.html#Architecture2">Architecture</ulink></simpara></note>
 </section>
 <section id="_cloudforms_appliance_allocations">
 <title>Cloudforms Appliance Allocations</title>
@@ -425,7 +443,7 @@ POC CFME Appliance:
 <itemizedlist>
 <listitem>
 <simpara>
-3x CFME Appliance:
+4x CFME Appliance:
 </simpara>
 <itemizedlist>
 <listitem>
@@ -435,7 +453,7 @@ POC CFME Appliance:
 </listitem>
 <listitem>
 <simpara>
-6 GB of RAM
+8 GB of RAM
 </simpara>
 </listitem>
 <listitem>
